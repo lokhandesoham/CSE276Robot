@@ -58,9 +58,10 @@ def main(args=None):
         print(f'GO: L={L:.3f}, R={R:.3f} for {duration:.2f}s')
 
         start = time.monotonic()
-        while time.monotonic() - start < duration:
+        end = start + duration
+        while time.monotonic() < end:
             node.send(L, R)
-            node.wait(PUBLISH_PERIOD_S)
+            node.wait(min(PUBLISH_PERIOD_S, end - time.monotonic()))
         actual_duration = time.monotonic() - start
 
         for _ in range(5):

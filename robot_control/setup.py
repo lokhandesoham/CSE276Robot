@@ -31,7 +31,6 @@ setup(
             'terminal_keyboard_control = robot_control.terminal_keyboard_control:main',
             'calibrate = robot_control.calibrate:main',
             'waypoint_follower = robot_control.waypoint_follower:main',
-            'velocity_control = robot_control.velocity_control:main',
         ],
     },
 )

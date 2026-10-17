@@ -4,6 +4,7 @@ Usage:
     ros2 run robot_control waypoint_follower
     ros2 run robot_control waypoint_follower --ros-args -p waypoints_file:=/path/to/waypoints.txt
     ros2 run robot_control waypoint_follower --ros-args -p dry_run:=true   # print the plan, don't move
+    ros2 run robot_control waypoint_follower --ros-args -p settle_time:=2.0   # longer pause between motions
 
 Algorithm (open loop, dead reckoning):
     For each waypoint, starting from the estimated pose (x, y, theta):
@@ -26,10 +27,12 @@ from robot_control.calibration import drive_command, turn_command
 
 
 PUBLISH_PERIOD_S = 0.05  # 20Hz, same as the other controllers
-SETTLE_S = 0.5           # stop between motions so each one starts from rest
+# Pause between motions so each one starts from rest, like in calibration. With 0.5s the turn
+# after a drive came up short (the robot was still settling); with a 3s pause it was correct.
+DEFAULT_SETTLE_S = 1.5
 MIN_DISTANCE = 0.01      # m, skip driving shorter than this
 MIN_ANGLE = 0.02         # rad (~1 deg), skip turning smaller than this
-DRIVE_CMD = 0.3          # forward command used for driving, calibrated range is 0.2-0.4
+DRIVE_CMD = 0.2          # forward command used for driving, drifts least; calibrated range is 0.2-0.4
 
 DEFAULT_WAYPOINTS = os.path.expanduser('~/ros2_ws/src/rubikpi_ros2/waypoints.txt')
 
@@ -86,6 +89,7 @@ class WaypointFollowerNode(Node):
         self.publisher = self.create_publisher(Float32MultiArray, 'motor_commands', 10)
         self.waypoints_file = self.declare_parameter('waypoints_file', DEFAULT_WAYPOINTS).value
         self.dry_run = self.declare_parameter('dry_run', False).value
+        self.settle_time = self.declare_parameter('settle_time', DEFAULT_SETTLE_S).value
 
     def send(self, L, R):
         msg = Float32MultiArray()
@@ -101,18 +105,20 @@ class WaypointFollowerNode(Node):
     def execute(self, command, duration):
         """Publish an [L, R] command at 20Hz for duration seconds, then stop and settle"""
         L, R = command
-        start = time.monotonic()
-        while time.monotonic() - start < duration:
+        end = time.monotonic() + duration
+        while time.monotonic() < end:
             self.send(L, R)
-            self.wait(PUBLISH_PERIOD_S)
+            # stop on time instead of up to one period late; turns are only ~0.3s long
+            self.wait(min(PUBLISH_PERIOD_S, end - time.monotonic()))
         self.send(0.0, 0.0)
-        self.wait(SETTLE_S)
+        self.wait(self.settle_time)
 
     def run(self):
         waypoints = load_waypoints(self.waypoints_file)
         motions = plan_motions(waypoints)
         self.get_logger().info(f'Loaded {len(waypoints)} waypoints from {self.waypoints_file}')
         self.get_logger().info(f'Start pose: {waypoints[0]}, place the robot there facing theta')
+        self.get_logger().info(f'Pause between motions: {self.settle_time:.1f}s')
 
         if not self.dry_run:
             self.get_logger().info('Waiting for motor_control to subscribe to motor_commands...')
@@ -130,7 +136,7 @@ class WaypointFollowerNode(Node):
             else:
                 command, duration = drive_command(value, DRIVE_CMD)
                 desc = f'drive {value * 100:.1f} cm'
-            total_time += duration + SETTLE_S
+            total_time += duration + self.settle_time
 
             self.get_logger().info(
                 f'-> waypoint {waypoint_index} {waypoints[waypoint_index]}: {desc} '
