@@ -1,11 +1,17 @@
-"""Calibration helper: drive the robot at a fixed [L, R] command for a fixed time, then stop.
+"""Calibration helper: hold one of the fixed commands for a fixed time, then stop.
 
 Usage:
-    ros2 run robot_control calibrate L R DURATION
-    e.g. ros2 run robot_control calibrate 0.3 0.3 3.0
+    ros2 run robot_control calibrate drive DURATION    # [DRIVE_CMD, DRIVE_CMD]
+    ros2 run robot_control calibrate left DURATION     # [-TURN_CMD, TURN_CMD], counter-clockwise
+    ros2 run robot_control calibrate right DURATION    # [TURN_CMD, -TURN_CMD], clockwise
+    ros2 run robot_control calibrate L R DURATION      # any [L, R], e.g. for deadband tests
+    e.g. ros2 run robot_control calibrate drive 2.0
 
+The commands come from calibration.py, so they are the same ones the waypoint follower uses.
 Measure the distance (or rotation) with a tape measure and floor marks afterwards.
+The current model's prediction is printed so validation runs can be compared directly.
 """
+import math
 import sys
 import time
 
@@ -13,6 +19,9 @@ import rclpy
 from rclpy.node import Node
 from rclpy.utilities import remove_ros_args
 from std_msgs.msg import Float32MultiArray
+
+from robot_control.calibration import (
+    DRIVE_CMD, TURN_CMD, expected_drive, expected_turn)
 
 
 COUNTDOWN_S = 3
@@ -38,10 +47,17 @@ class CalibrationNode(Node):
 
 def main(args=None):
     argv = remove_ros_args(sys.argv)[1:]
-    if len(argv) != 3:
+    if len(argv) == 2 and argv[0] in ('drive', 'left', 'right'):
+        mode, duration = argv[0], float(argv[1])
+        L, R = {'drive': (DRIVE_CMD, DRIVE_CMD),
+                'left': (-TURN_CMD, TURN_CMD),
+                'right': (TURN_CMD, -TURN_CMD)}[mode]
+    elif len(argv) == 3:
+        mode = None
+        L, R, duration = (float(a) for a in argv)
+    else:
         print(__doc__, file=sys.stderr)
         return 1
-    L, R, duration = (float(a) for a in argv)
 
     rclpy.init(args=args)
     node = CalibrationNode()
@@ -72,6 +88,10 @@ def main(args=None):
         print('========================================')
         print(f'Command : L={L:.3f}, R={R:.3f}')
         print(f'Duration: {actual_duration:.2f}s')
+        if mode == 'drive':
+            print(f'Model   : {expected_drive(duration) * 100:.1f} cm')
+        elif mode in ('left', 'right'):
+            print(f'Model   : {math.degrees(expected_turn(duration, mode == "left")):.1f} deg')
         print('========================================')
     except KeyboardInterrupt:
         pass
