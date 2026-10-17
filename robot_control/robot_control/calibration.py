@@ -50,10 +50,13 @@ DRIVE_R = DRIVE_CMD + DRIVE_TRIM
 #   1.2s    85 deg      86 deg    110 deg     104 deg
 #   1.8s   130 deg     132 deg    175 deg     164 deg
 #   2.4s   180 deg     179 deg    215 deg     225 deg
-#   check runs: left 1.26s -> 90 deg (target 90), right 1.07s -> 100 deg (target 90)
+#   check runs: left 1.26s -> 90, 95 deg (target 90), right 1.07s -> 100 deg (target 90),
+#               right 0.97s -> 90 deg (target 90, after the right refit below)
 #
 # Line fit per direction, angle = rate * (t - delay):
-#   left:  77.5 deg/s, 0.097s delay, within 2 deg of every run; the 90 deg check was exact.
+#   left:  77.5 deg/s from the line fit, within 2 deg of every run. The two 90 deg checks
+#          at 1.26s gave 90 and 95 deg (same command, so ~5 deg run-to-run spread). The
+#          delay is set so the line passes through their mean (1.26s -> 92.5 deg).
 #   right: the runs are not consistent (the rate between runs varies from 67 to 125 deg/s),
 #          so a plain fit is only within ~11 deg and over-turned the 90 deg check by 10 deg.
 #          The rate comes from the line fit over all five right runs (99.1 deg/s) and the
@@ -61,7 +64,7 @@ DRIVE_R = DRIVE_CMD + DRIVE_TRIM
 #          because 90 deg is the most common right turn on the route.
 # ---------------------------------------------------------------------------
 TURN_RATE_LEFT = 1.353    # rad/s, counter-clockwise (77.5 deg/s)
-TURN_DELAY_LEFT = 0.097   # s lost at the start of a left turn
+TURN_DELAY_LEFT = 0.066   # s lost at the start of a left turn
 TURN_RATE_RIGHT = 1.730   # rad/s, clockwise (99.1 deg/s)
 TURN_DELAY_RIGHT = 0.061  # s lost at the start of a right turn
 
