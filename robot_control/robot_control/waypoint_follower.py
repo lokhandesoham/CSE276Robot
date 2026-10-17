@@ -32,7 +32,6 @@ PUBLISH_PERIOD_S = 0.05  # 20Hz, same as the other controllers
 DEFAULT_SETTLE_S = 1.5
 MIN_DISTANCE = 0.01      # m, skip driving shorter than this
 MIN_ANGLE = 0.02         # rad (~1 deg), skip turning smaller than this
-DRIVE_CMD = 0.2          # forward command used for driving, drifts least; calibrated range is 0.2-0.4
 
 DEFAULT_WAYPOINTS = os.path.expanduser('~/ros2_ws/src/rubikpi_ros2/waypoints.txt')
 
@@ -134,7 +133,7 @@ class WaypointFollowerNode(Node):
                 command, duration = turn_command(value)
                 desc = f'turn {math.degrees(value):+.1f} deg'
             else:
-                command, duration = drive_command(value, DRIVE_CMD)
+                command, duration = drive_command(value)
                 desc = f'drive {value * 100:.1f} cm'
             total_time += duration + self.settle_time
 
