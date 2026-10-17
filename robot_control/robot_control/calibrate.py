@@ -1,7 +1,7 @@
 """Calibration helper: hold one of the fixed commands for a fixed time, then stop.
 
 Usage:
-    ros2 run robot_control calibrate drive DURATION    # [DRIVE_CMD, DRIVE_CMD]
+    ros2 run robot_control calibrate drive DURATION    # [DRIVE_L, DRIVE_R] (DRIVE_CMD with trim)
     ros2 run robot_control calibrate left DURATION     # [-TURN_CMD, TURN_CMD], counter-clockwise
     ros2 run robot_control calibrate right DURATION    # [TURN_CMD, -TURN_CMD], clockwise
     ros2 run robot_control calibrate L R DURATION      # any [L, R], e.g. for deadband tests
@@ -21,7 +21,7 @@ from rclpy.utilities import remove_ros_args
 from std_msgs.msg import Float32MultiArray
 
 from robot_control.calibration import (
-    DRIVE_CMD, TURN_CMD, expected_drive, expected_turn)
+    DRIVE_L, DRIVE_R, TURN_CMD, expected_drive, expected_turn)
 
 
 COUNTDOWN_S = 3
@@ -49,7 +49,7 @@ def main(args=None):
     argv = remove_ros_args(sys.argv)[1:]
     if len(argv) == 2 and argv[0] in ('drive', 'left', 'right'):
         mode, duration = argv[0], float(argv[1])
-        L, R = {'drive': (DRIVE_CMD, DRIVE_CMD),
+        L, R = {'drive': (DRIVE_L, DRIVE_R),
                 'left': (-TURN_CMD, TURN_CMD),
                 'right': (TURN_CMD, -TURN_CMD)}[mode]
     elif len(argv) == 3:

@@ -26,13 +26,21 @@ TURN_CMD = 0.3      # 0.5 turned ~280 deg/s and was not repeatable; 0.3 turns ~8
 #   2.5s    64 cm     3 cm R     65.7 cm
 #   3.5s    93 cm     6 cm R     92.0 cm
 #   4.5s   118 cm     8 cm R    118.3 cm
+#   3.80s  100 cm     8 cm R    100.0 cm   (check run)
 #
 # The line fit crosses zero at t = -0.04s, i.e. no measurable start-up loss, so the
 # speed is a least-squares fit through zero: 26.3 cm/s, within 1.6 cm of every run.
-# Drift grows to ~7% of the distance (to the right); not corrected yet.
+#
+# Drift: always to the right, growing faster than the distance (~8 cm per metre), so the
+# left side is slightly faster. DRIVE_TRIM slows the left and speeds up the right by the
+# same amount, which keeps the average command (and so DRIVE_SPEED) at DRIVE_CMD.
+# 0.004 is an estimate from the curve (radius ~6 m); confirm with trim test runs.
 # ---------------------------------------------------------------------------
 DRIVE_SPEED = 0.263       # m/s
 DRIVE_START_LOSS = 0.0    # s, time lost to starting up
+DRIVE_TRIM = 0.004        # [L, R] = [DRIVE_CMD - DRIVE_TRIM, DRIVE_CMD + DRIVE_TRIM]
+DRIVE_L = DRIVE_CMD - DRIVE_TRIM
+DRIVE_R = DRIVE_CMD + DRIVE_TRIM
 
 # ---------------------------------------------------------------------------
 # Turn in place at TURN_CMD (one run each), angle measured with floor marks
@@ -42,16 +50,20 @@ DRIVE_START_LOSS = 0.0    # s, time lost to starting up
 #   1.2s    85 deg      86 deg    110 deg     104 deg
 #   1.8s   130 deg     132 deg    175 deg     164 deg
 #   2.4s   180 deg     179 deg    215 deg     225 deg
+#   check runs: left 1.26s -> 90 deg (target 90), right 1.07s -> 100 deg (target 90)
 #
 # Line fit per direction, angle = rate * (t - delay):
-#   left:  77.5 deg/s, 0.097s delay, within 2 deg of every run
-#   right: 100.8 deg/s, 0.174s delay, only within 11 deg: the right turns were not
-#          consistent (the rate between runs varies from 67 to 125 deg/s)
+#   left:  77.5 deg/s, 0.097s delay, within 2 deg of every run; the 90 deg check was exact.
+#   right: the runs are not consistent (the rate between runs varies from 67 to 125 deg/s),
+#          so a plain fit is only within ~11 deg and over-turned the 90 deg check by 10 deg.
+#          The rate comes from the line fit over all five right runs (99.1 deg/s) and the
+#          delay is set so the line passes through the 90 deg check (1.07s -> 100 deg),
+#          because 90 deg is the most common right turn on the route.
 # ---------------------------------------------------------------------------
 TURN_RATE_LEFT = 1.353    # rad/s, counter-clockwise (77.5 deg/s)
 TURN_DELAY_LEFT = 0.097   # s lost at the start of a left turn
-TURN_RATE_RIGHT = 1.760   # rad/s, clockwise (100.8 deg/s)
-TURN_DELAY_RIGHT = 0.174  # s lost at the start of a right turn
+TURN_RATE_RIGHT = 1.730   # rad/s, clockwise (99.1 deg/s)
+TURN_DELAY_RIGHT = 0.061  # s lost at the start of a right turn
 
 # IMU is not used: its yaw readings disagreed with the floor measurements.
 
@@ -67,7 +79,7 @@ def drive_command(distance):
     """[L, R] and duration in seconds to drive straight by distance meters (negative = backwards)"""
     sign = 1.0 if distance >= 0.0 else -1.0
     duration = abs(distance) / DRIVE_SPEED + DRIVE_START_LOSS
-    return (sign * DRIVE_CMD, sign * DRIVE_CMD), duration
+    return (sign * DRIVE_L, sign * DRIVE_R), duration
 
 
 def expected_drive(duration):
