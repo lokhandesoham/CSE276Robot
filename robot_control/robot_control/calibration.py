@@ -13,6 +13,9 @@ distance not exactly proportional to time.
 
 Measured with tape on the wheels, on the waypoint floor, with a full battery; re-measure if
 any of these change.
+
+Final check (2026-10-17), all on target:
+    drive 3.80s -> 100 cm, 0 drift     left 1.23s -> 90 deg     right 0.97s -> 90 deg
 """
 
 DRIVE_CMD = 0.2     # [L, R] = [DRIVE_CMD, DRIVE_CMD]; drifted the least in earlier tests
