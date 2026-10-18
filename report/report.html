@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HW1 Waypoint Navigation Report</title>
+<style>
+  @page { size: Letter; margin: 0.8in 0.8in; }
+  body { font-family: Georgia, "Times New Roman", serif; font-size: 11pt; line-height: 1.45; color: #1a1a1a; max-width: 7in; margin: 0 auto; }
+  h1 { font-size: 19pt; margin: 0 0 2pt; }
+  h2 { font-size: 13.5pt; margin: 18pt 0 6pt; border-bottom: 1px solid #bbb; padding-bottom: 2pt; }
+  h3 { font-size: 11.5pt; margin: 12pt 0 4pt; }
+  .meta { color: #555; margin-bottom: 12pt; }
+  p { margin: 5pt 0; }
+  code, pre { font-family: Menlo, Consolas, monospace; font-size: 9pt; }
+  pre { background: #f4f4f4; border: 1px solid #ddd; padding: 6pt 8pt; margin: 6pt 0; white-space: pre-wrap; }
+  table { border-collapse: collapse; margin: 6pt 0; font-size: 9.5pt; }
+  th, td { border: 1px solid #bbb; padding: 3pt 7pt; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  .note { background: #f7f7f2; border-left: 3px solid #999; padding: 5pt 9pt; margin: 8pt 0; }
+  figure { margin: 8pt 0; text-align: center; }
+  figcaption { font-size: 9pt; color: #555; }
+  ul, ol { margin: 4pt 0 4pt 18pt; padding: 0; }
+  li { margin: 2pt 0; }
+  .avoid { break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>HW1: Waypoint Navigation on the Rover</h1>
+<div class="meta">CSE 276A, Introduction to Robotics, UC San Diego &middot; Soham Lokhande &middot; October 2026</div>
+
+<h2>1. The problem</h2>
+<p>The robot gets a list of poses from <code>waypoints.txt</code>, one per line as <code>x, y, θ</code> (meters, radians):</p>
+<pre>0,0,0   1,0,0   1,1,1.57   2,1,0   2,2,-1.57   1,1,-0.78   0,0,0</pre>
+<p>It has to visit each one in order and face the given heading when it gets there. The only thing we can actually
+send the rover is a pair of unitless wheel commands <code>[L, R]</code> on the <code>motor_commands</code> topic,
+at 20 Hz. So the whole job is translating <em>"be at (1,1) facing 90°"</em> into <em>"send [-0.3, 0.3] for 1.23 s"</em>.
+Something has to do that translation, and that is the algorithm. To do it, it needs to know how the robot moves
+when you give it a command, and that is the kinematic model.</p>
+
+<p>The rover has no wheel encoders and no position sensor. We also decided not to use the IMU (more on that in
+Section 4). So the robot can't see where it is; it can only estimate its position from what it was told to do.
+This is called dead reckoning, and it shaped every decision below.</p>
+
+<h2>2. Kinematic model</h2>
+<p>The rover is a skid-steer (differential-drive) vehicle, so we model it as a <b>unicycle</b>: a point with a
+heading θ that can move forward at speed <i>v</i> and rotate at rate <i>ω</i>:</p>
+<pre>ẋ = v·cos θ        ẏ = v·sin θ        θ̇ = ω</pre>
+<p>Intuition: if you face along +x, all your speed goes into x; face 90° and it all goes into y; in between it splits
+by cos/sin. The wheels connect to (v, ω) through <code>v_L = v − ω·W/2</code>, <code>v_R = v + ω·W/2</code>, where W is
+the wheel base.</p>
+
+<p>We only ever use the two simplest cases of this model:</p>
+<ul>
+  <li><b>Drive straight</b> (ω = 0, L = R): the robot moves a distance <i>d</i> along its heading:
+      <code>x += d·cos θ</code>, <code>y += d·sin θ</code>.</li>
+  <li><b>Turn in place</b> (v = 0, L = −R): only the heading changes: <code>θ += Δθ</code>.</li>
+</ul>
+<p>Breaking every motion into one of these two keeps the model easy to calibrate and easy to reason about. A curved
+path mixes v and ω and you would need both to be accurate at the same time; with separate motions each one is calibrated
+on its own. We also learned that the textbook wheel-base relation does not hold well on this robot: the measured
+"effective" wheel base came out at 0.3–0.6 m depending on the command, much wider than the real wheel spacing,
+because skid-steer wheels slide sideways when turning in place. That is another reason to calibrate turning directly
+(angle vs time) rather than derive it from wheel speeds.</p>
+
+<h2>3. Algorithm: turn → drive → turn</h2>
+<p>Starting from the first waypoint as the known start pose, for each next waypoint (x<sub>g</sub>, y<sub>g</sub>, θ<sub>g</sub>):</p>
+<ol>
+  <li><b>Face the waypoint:</b> turn by <code>atan2(y<sub>g</sub>−y, x<sub>g</sub>−x) − θ</code>.</li>
+  <li><b>Drive to it:</b> drive straight by <code>hypot(x<sub>g</sub>−x, y<sub>g</sub>−y)</code>, updating the pose with the unicycle model.</li>
+  <li><b>Take the required heading:</b> turn by <code>θ<sub>g</sub> − θ</code>.</li>
+</ol>
+<p>Every turn angle is wrapped to [−π, π] so the robot always turns the short way. Turns under ~1° and drives under
+1 cm are skipped. The whole route is planned up front from the model; for our file it comes out to 14 motions:</p>
+
+<table class="avoid">
+<tr><th>Waypoint</th><th>Motions</th><th>Comment</th></tr>
+<tr><td>(1, 0, 0)</td><td>drive 100 cm</td><td>already facing it</td></tr>
+<tr><td>(1, 1, 1.57)</td><td>left 90°, drive 100 cm</td><td>arrives facing the required 90°</td></tr>
+<tr><td>(2, 1, 0)</td><td>right 90°, drive 100 cm</td><td></td></tr>
+<tr><td>(2, 2, −1.57)</td><td>left 90°, drive 100 cm, right 180°</td><td>arrives facing +y, must face −y</td></tr>
+<tr><td>(1, 1, −0.78)</td><td>right 45°, drive 141 cm, left 90°</td><td>travels at −135°, must face −45°</td></tr>
+<tr><td>(0, 0, 0)</td><td>right 90°, drive 141 cm, left 135°</td><td>travels at −135°, must face 0°</td></tr>
+</table>
+
+<p>Notice that at (2,2) and (1,1) the robot turns twice in a row: once to take the required heading, then again to
+face the next waypoint. That looks odd when you watch it, but it is exactly what the file asks for. The heading at a
+waypoint is not always the direction of the next leg.</p>
+
+<h2>4. Control algorithm</h2>
+<p>We use <b>open-loop (feedforward) control with a calibrated inverse model</b>. Each planned motion is turned into
+an <code>[L, R]</code> command and a duration:</p>
+<pre>drive d meters:    [0.196, 0.204]  for  t = d / DRIVE_SPEED + DRIVE_START_LOSS
+turn  Δθ left:     [-0.3,  0.3 ]   for  t = Δθ / TURN_RATE_LEFT  + TURN_DELAY_LEFT
+turn  Δθ right:    [ 0.3, -0.3 ]   for  t = Δθ / TURN_RATE_RIGHT + TURN_DELAY_RIGHT</pre>
+<p>The node publishes that command at 20 Hz for exactly that long (it stops on time rather than rounding up to
+the next 50 ms tick), sends stop, then <b>waits 1.5 s</b> before the next motion.</p>
+
+<h3>Why these choices</h3>
+<ul>
+  <li><b>Fixed commands, control by time.</b> Instead of modeling speed as a function of command, the robot only ever
+      uses one drive command and one turn command. Each one is calibrated as "how far does it go in t seconds". That
+      makes the behavior as repeatable as possible: same command, same physics, only the time changes.</li>
+  <li><b>A pause between motions.</b> All calibration runs started from rest (after a 3 s countdown). In our first
+      route test with a 0.5 s pause, the turn after a drive came up short because the robot was still settling.
+      A pause recreates the conditions the model was calibrated under.</li>
+  <li><b>Slow turn command (0.3, not 0.5).</b> At 0.5 the robot turns ~280°/s, so a 90° turn lasts 0.33 s and a single
+      50 ms tick of the motor loop is ~14°. At 0.3 it turns ~80°/s and one tick is ~4°.</li>
+  <li><b>No IMU.</b> In early tests the IMU's yaw disagreed with the floor measurements (wrong sign and size), so we
+      did not trust it for feedback. This is the main limitation, see Section 7.</li>
+</ul>
+
+<h2>5. Code</h2>
+<p>Everything is in the <code>robot_control</code> ROS 2 package. <code>motor_control</code> (from the template) is
+unchanged: it subscribes to <code>motor_commands</code> and forwards <code>{"T":1, "L":…, "R":…}</code> to the
+motor board over serial, with a 0.15 s safety stop if commands stop arriving. (<code>T</code> is just the message
+type in the board's protocol, 1 = set wheel speeds; it does not need calibrating.) Our waypoint node takes the
+keyboard node's place on the same topic.</p>
+<table class="avoid">
+<tr><th>File</th><th>What it does</th></tr>
+<tr><td><code>calibration.py</code></td><td>All measured constants, with the raw data and fits in comments. <code>drive_command(d)</code> and
+  <code>turn_command(Δθ)</code> convert a motion into <code>([L, R], seconds)</code>; <code>expected_drive</code>/<code>expected_turn</code> do the reverse.</td></tr>
+<tr><td><code>waypoint_follower.py</code></td><td>ROS 2 node. Reads the waypoint file, <code>plan_motions()</code> builds the turn/drive/turn list
+  with the unicycle model, then <code>execute()</code> plays each motion at 20 Hz and pauses. Parameters:
+  <code>waypoints_file</code>, <code>settle_time</code>, <code>dry_run</code> (prints the plan without moving).</td></tr>
+<tr><td><code>calibrate.py</code></td><td>Calibration tool: <code>calibrate drive T</code>, <code>calibrate left T</code>, <code>calibrate right T</code>
+  use the exact commands from <code>calibration.py</code>, so calibration and navigation can never use different commands.
+  Prints the model's prediction for comparison. <code>calibrate L R T</code> runs any raw command.</td></tr>
+</table>
+<pre style="font-size:8pt">ros2 run robot_control motor_control                                   # terminal 1
+ros2 run robot_control waypoint_follower --ros-args -p dry_run:=true   # terminal 2: plan only
+ros2 run robot_control waypoint_follower                               # run it</pre>
+
+<h2>6. Calibration</h2>
+<p>This took the most time and is where most of the learning happened. Method: place the robot on a taped start pose,
+run one command for a fixed time, measure distance and sideways drift with a tape measure, and measure turns with tape
+lines on the floor. Same floor as the route, full battery.</p>
+
+<h3>Round 1: model speed as a function of command (abandoned)</h3>
+<p>We first fit forward speed as a line in the command (0.2, 0.3, 0.4 for 3 s gave a clean linear fit) and measured
+turn rate at 0.5. This worked in isolation, but we then put tape on the wheels, which changed everything: 0.2 for 3 s went from 32 cm to 70 cm, turns became ~3× faster. Refitting the
+"speed vs command" model kept giving errors of 10+ cm, because a fit across commands mixes the speed with the fixed
+start/stop effects, and each command coasts differently. Turns at 0.5 also became unrepeatable
+(e.g. 0.38 s → 100°, 0.53 s → 175°).</p>
+
+<h3>Round 2: fixed commands, calibrated against time (final)</h3>
+<p>The key idea: <b>stop modeling the command, and only model time.</b> Fix one drive command and one turn command,
+then measure how far each goes at several durations and fit a line <code>distance = rate·(t − delay)</code>.
+Several durations are still needed even at fixed speed: the intercept captures the constant start-up/coast effect
+that makes distance not exactly proportional to time.</p>
+
+<div class="avoid">
+<table>
+<tr><th colspan="4">Drive [0.2, 0.2]</th></tr>
+<tr><th>time</th><th>distance</th><th>drift</th><th>model</th></tr>
+<tr><td>1.5 s</td><td>41 cm</td><td>0</td><td>39 cm</td></tr>
+<tr><td>2.5 s</td><td>64 cm</td><td>3 cm R</td><td>66 cm</td></tr>
+<tr><td>3.5 s</td><td>93 cm</td><td>6 cm R</td><td>92 cm</td></tr>
+<tr><td>4.5 s</td><td>118 cm</td><td>8 cm R</td><td>118 cm</td></tr>
+</table>
+<table>
+<tr><th colspan="5">Turn in place at 0.3 (degrees)</th></tr>
+<tr><th>time</th><th>left</th><th>model</th><th>right</th><th>model</th></tr>
+<tr><td>0.6 s</td><td>40</td><td>41</td><td>35</td><td>53</td></tr>
+<tr><td>1.2 s</td><td>85</td><td>88</td><td>110</td><td>113</td></tr>
+<tr><td>1.8 s</td><td>130</td><td>134</td><td>175</td><td>172</td></tr>
+<tr><td>2.4 s</td><td>180</td><td>181</td><td>215</td><td>232</td></tr>
+</table>
+</div>
+
+<ul>
+  <li><b>Drive:</b> the line fit had essentially no intercept, so the speed is a fit through zero: <b>26.3 cm/s</b>,
+      within 2 cm at every point.</li>
+  <li><b>Drift:</b> the robot curved right, about 8 cm per meter, so the left side was slightly faster. We added a trim
+      that slows the left and speeds up the right by the same amount, <code>[0.196, 0.204]</code>, which keeps the average
+      (and so the speed) the same. After the trim: 100 cm with 0 drift.</li>
+  <li><b>Left turn:</b> 77.5°/s with a ~0.07 s start-up delay, within ~2–4° of every run.</li>
+  <li><b>Right turn:</b> much noisier. Runs varied from 67 to 125°/s between points, so no single line fits well.
+      We took the rate from the fit over all runs (99.1°/s) and set the delay so the line passes through a measured
+      90° check, since 90° is the most common right turn on the route.</li>
+</ul>
+
+<p><b>Validation</b> (commands computed from the final model, not fit to): drive 3.80 s → 100 cm, 0 drift;
+left 1.23 s → 90°; right 0.97 s → 90°. One important observation: running the <i>identical</i> left command twice
+gave 90° and 95°. So the turns have about <b>±3–5° run-to-run spread</b>, which is a property of the robot and floor,
+not of the calibration. No amount of refitting removes it.</p>
+
+<h2>7. Performance</h2>
+<p>We ran the full route with the calibrated model. What happened:</p>
+<ul>
+  <li>(0,0) → (1,0): straight and on target.</li>
+  <li>Left 90° and drive to (1,1): on target.</li>
+  <li>Right turn toward (2,1): <b>turned ~95° instead of 90°</b>. The drive length was right, but the robot arrived
+      slightly to the side of (2,1).</li>
+  <li>Left 90° and drive toward (2,2): ended short of and beside (2,2), because it was still carrying the 5° heading error.</li>
+  <li>The double turns at (2,2) and (1,1) happened as planned; the robot got close to (1,1) and then close to (0,0).</li>
+</ul>
+
+<p><b>Distances were accurate; heading errors caused nearly all of the position error.</b> The reason is simple
+geometry: a heading error of δ produces a sideways error of about <code>d·sin δ</code>. With δ = 5° that is
+~9 cm per meter, and since the robot never re-measures its heading, the error carries into every later leg.
+Using the model on the run above: a 95° turn followed by a 1 m drive puts the robot near (2, 0.91) instead of (2, 1),
+and the next 90° turn then points it at 85° instead of 90°, landing near (2.09, 1.91) instead of (2, 2). That matches
+what we saw: "short of and beside (2,2)". The route has 8 turns, so even a few degrees of random error per turn adds up.</p>
+
+<p>In short: the open-loop approach can be made accurate <i>on average</i> by calibration, but it cannot fix
+<i>random</i> per-run error, because nothing measures what actually happened.</p>
+
+<h3>What would make it better</h3>
+<ol>
+  <li><b>Close the loop on heading.</b> Turn until a sensor says the robot has turned 90°, instead of for a fixed time.
+      The IMU's raw gyro rate (<code>angular_velocity.z</code>) integrated over a 1–2 s turn should be accurate to a degree or
+      two even though the fused yaw looked wrong. The same heading signal could also steer during straight drives,
+      replacing the hand-tuned trim.</li>
+  <li><b>More repeats per calibration point.</b> Most points were measured once; 3–5 repeats would average out
+      measurement noise and show the true spread.</li>
+  <li><b>External position correction</b>, e.g. the camera and AprilTags, to reset the accumulated error. That is
+      where the next assignments go.</li>
+</ol>
+
+<h2>8. Takeaways</h2>
+<ul>
+  <li>The kinematic model is only as good as its calibration, and the calibration only holds under the conditions it was
+      measured in (floor, battery, tape on the wheels, starting from rest).</li>
+  <li>Making the robot <i>repeatable</i> (fixed commands, pauses, a slower turn) mattered more than making the model fancy.</li>
+  <li>Dead reckoning errors grow along the route, and heading errors are the most damaging. That is the motivation
+      for feedback control and localization.</li>
+</ul>
+
+</body>
+</html>
