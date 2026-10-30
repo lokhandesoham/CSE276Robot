@@ -30,6 +30,7 @@ setup(
             'keyboard_control = robot_control.keyboard_control:main',
             'terminal_keyboard_control = robot_control.terminal_keyboard_control:main',
             'calibrate = robot_control.calibrate:main',
+            'capture_frames = robot_control.capture_frames:main',
             'waypoint_follower = robot_control.waypoint_follower:main',
         ],
     },
