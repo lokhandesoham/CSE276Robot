@@ -1,20 +1,3 @@
-"""Waypoint follower: drive through a list of (x, y, theta) waypoints with turn-drive-turn.
-
-Usage:
-    ros2 run robot_control waypoint_follower
-    ros2 run robot_control waypoint_follower --ros-args -p waypoints_file:=/path/to/waypoints.txt
-    ros2 run robot_control waypoint_follower --ros-args -p dry_run:=true   # print the plan, don't move
-    ros2 run robot_control waypoint_follower --ros-args -p settle_time:=2.0   # longer pause between motions
-
-Algorithm (open loop, dead reckoning):
-    For each waypoint, starting from the estimated pose (x, y, theta):
-      1. turn in place to face the waypoint     angle = atan2(dy, dx) - theta
-      2. drive straight to it                   distance = hypot(dx, dy)
-      3. turn in place to the waypoint heading  angle = theta_goal - theta
-    Each motion is converted to an [L, R] command and a duration with the calibrated
-    model in calibration.py. The estimated pose is updated with the unicycle model:
-      x += d * cos(theta),  y += d * sin(theta),  theta += angle
-"""
 import math
 import os
 import time
@@ -26,12 +9,10 @@ from std_msgs.msg import Float32MultiArray
 from robot_control.calibration import drive_command, turn_command
 
 
-PUBLISH_PERIOD_S = 0.05  # 20Hz, same as the other controllers
-# Pause between motions so each one starts from rest, like in calibration. With 0.5s the turn
-# after a drive came up short (the robot was still settling); with a 3s pause it was correct.
+PUBLISH_PERIOD_S = 0.05  
 DEFAULT_SETTLE_S = 1.5
-MIN_DISTANCE = 0.01      # m, skip driving shorter than this
-MIN_ANGLE = 0.02         # rad (~1 deg), skip turning smaller than this
+MIN_DISTANCE = 0.01     
+MIN_ANGLE = 0.02      
 
 DEFAULT_WAYPOINTS = os.path.expanduser('~/ros2_ws/src/rubikpi_ros2/waypoints.txt')
 
@@ -107,7 +88,6 @@ class WaypointFollowerNode(Node):
         end = time.monotonic() + duration
         while time.monotonic() < end:
             self.send(L, R)
-            # stop on time instead of up to one period late; turns are only ~0.3s long
             self.wait(min(PUBLISH_PERIOD_S, end - time.monotonic()))
         self.send(0.0, 0.0)
         self.wait(self.settle_time)

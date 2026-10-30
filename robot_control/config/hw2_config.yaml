@@ -1,0 +1,127 @@
+# CSE 276A Homework 2 Configuration
+# Closed-Loop Visual Navigation with Custom Landmarks (No AprilTags, No SLAM)
+
+# Coordinate unit scale:
+# HW2 requires 1 unit >= 0.5m. Setting unit_scale_m = 0.5 maps:
+#   (0, 0, 0) -> (1, 0, 0) -> (1, 2, pi) -> (0, 0, 0) [in units]
+# to physical meters:
+#   (0.0, 0.0, 0.0) -> (0.5, 0.0, 0.0) -> (0.5, 1.0, pi) -> (0.0, 0.0, 0.0) [in meters]
+# This keeps all drive legs (0.50m, 1.00m, 1.12m) inside the HW1 calibrated range [0.41m, 1.18m].
+unit_scale_m: 0.5
+
+# Desired waypoints in [x_units, y_units, theta_rad]
+waypoints_units:
+  - [0.0, 0.0, 0.0]
+  - [1.0, 0.0, 0.0]
+  - [1.0, 2.0, 3.14159265]
+  - [0.0, 0.0, 0.0]
+
+# Custom Landmark Recognition Settings (Single YOLO Pipeline with 2 Model Options)
+detector:
+  # Choose one option:
+  #   "yolo_world" -> Open-vocabulary YOLOv8s-Worldv2 using each landmark's `prompt`
+  #   "yolov8s"    -> Standard COCO pre-trained YOLOv8s using each landmark's `coco_classes`
+  model_mode: "yolo_world"
+  yolo_world_weights: "yolov8s-worldv2.pt"
+  yolov8s_weights: "yolov8s.pt"
+
+  conf_threshold: 0.35
+  iou_threshold: 0.45
+  imgsz: 640
+
+  # robot_vision_camera outputs BGR from GStreamer while labeling encoding as "rgb8".
+  # Set swap_rb: true if red/blue channels appear swapped in raw images.
+  swap_rb: false
+
+  # Minimum bounding box height in pixels to trust range estimation
+  min_box_height_px: 18
+  # Margin in pixels from top/bottom image border to detect vertical cropping/truncation
+  border_margin_px: 10
+
+# Known Landmark Map in World Frame (No SLAM)
+# Positions are given in units (multiplied by unit_scale_m at runtime):
+#   x_m = x_unit * unit_scale_m,  y_m = y_unit * unit_scale_m
+# Each landmark has a unique ID, known physical height/width (meters), and class mapping.
+landmarks:
+  - id: 0
+    name: "coke_can"
+    x_unit: 2.0        # 1.00 m ahead along +X (visible on Leg 1 & final turn at W3)
+    y_unit: 0.0        # 0.00 m
+    height_m: 0.122    # Standard 12oz can height (12.2 cm)
+    width_m: 0.066     # Standard 12oz can diameter (6.6 cm)
+    scale_factor: 1.0  # Empirical depth calibration multiplier
+    prompt: "red coke can"
+    coco_classes: ["cup", "bottle"]
+
+  - id: 1
+    name: "backpack"
+    x_unit: 1.8        # 0.90 m
+    y_unit: 1.0        # 0.50 m (visible on Leg 1 and during left turn at W1)
+    height_m: 0.42     # 42 cm tall backpack
+    width_m: 0.30
+    scale_factor: 1.0
+    prompt: "backpack"
+    coco_classes: ["backpack", "handbag", "suitcase"]
+
+  - id: 2
+    name: "tv_monitor"
+    x_unit: 1.0        # 0.50 m
+    y_unit: 3.0        # 1.50 m ahead along +Y (directly ahead during Leg 2: (1,0)->(1,2))
+    height_m: 0.32     # 32 cm tall monitor / open laptop
+    width_m: 0.50
+    scale_factor: 1.0
+    prompt: "tv monitor"
+    coco_classes: ["tv", "laptop"]
+
+  - id: 3
+    name: "sports_ball"
+    x_unit: -0.6       # -0.30 m
+    y_unit: 2.0        # 1.00 m (directly ahead when facing theta = pi at W2 = (1, 2, pi))
+    height_m: 0.22     # 22 cm diameter soccer/basketball
+    width_m: 0.22
+    scale_factor: 1.0
+    prompt: "sports ball"
+    coco_classes: ["sports ball", "orange", "bowl"]
+
+  - id: 4
+    name: "chair"
+    x_unit: -0.6       # -0.30 m
+    y_unit: -0.4       # -0.20 m (visible ahead during diagonal return Leg 3: (1,2)->(0,0))
+    height_m: 0.80     # 80 cm tall chair
+    width_m: 0.45
+    scale_factor: 1.0
+    prompt: "chair"
+    coco_classes: ["chair", "potted plant", "stop sign"]
+
+# Extended Kalman Filter (EKF) Parameters
+ekf:
+  # Forward offset from rover turn center to camera optical center (meters)
+  camera_offset_x_m: 0.08
+
+  # Initial pose uncertainty (standard deviations)
+  init_std_xy_m: 0.015
+  init_std_theta_rad: 0.03
+
+  # Motion model process noise Q (standard deviations per meter driven or radian turned)
+  q_drive_xy_per_m: 0.03        # ~3 cm/m translational uncertainty
+  q_drive_theta_per_m: 0.07     # ~4 deg/m heading drift during straight drive
+  q_turn_xy_per_rad: 0.015      # Small translational shift during in-place turn
+  q_turn_theta_per_rad: 0.08    # ~4.5 deg per radian of turn (captures wheel slip)
+
+  # Visual measurement noise R (standard deviations)
+  # sigma_r = r_range_base_m + r_range_per_m * range_m
+  r_range_base_m: 0.035
+  r_range_per_m: 0.06
+  r_bearing_rad: 0.030          # ~1.7 deg bearing uncertainty
+
+  # Chi-square (2 DoF) Mahalanobis gate for outlier rejection (9.21 = 99% confidence)
+  mahalanobis_gate: 9.21
+
+# Closed-Loop Controller Parameters
+controller:
+  pos_tolerance_m: 0.035        # 3.5 cm waypoint position tolerance
+  heading_tolerance_rad: 0.05   # ~2.9 deg heading tolerance
+  max_step_distance_m: 0.55     # Split long drives (>0.55m) for mid-leg visual correction
+  max_corrections: 2            # Max closed-loop corrective iterations per waypoint
+  settle_time_s: 1.5            # Settle pause (seconds) for stationary EKF frame fusion
+  trajectory_log_period_s: 0.5  # Record a 2D trajectory dot every 0.5s (Report 1i)

@@ -1,16 +1,3 @@
-"""Calibration helper: hold one of the fixed commands for a fixed time, then stop.
-
-Usage:
-    ros2 run robot_control calibrate drive DURATION    # [DRIVE_L, DRIVE_R] (DRIVE_CMD with trim)
-    ros2 run robot_control calibrate left DURATION     # [-TURN_CMD, TURN_CMD], counter-clockwise
-    ros2 run robot_control calibrate right DURATION    # [TURN_CMD, -TURN_CMD], clockwise
-    ros2 run robot_control calibrate L R DURATION      # any [L, R], e.g. for deadband tests
-    e.g. ros2 run robot_control calibrate drive 2.0
-
-The commands come from calibration.py, so they are the same ones the waypoint follower uses.
-Measure the distance (or rotation) with a tape measure and floor marks afterwards.
-The current model's prediction is printed so validation runs can be compared directly.
-"""
 import math
 import sys
 import time
@@ -25,7 +12,7 @@ from robot_control.calibration import (
 
 
 COUNTDOWN_S = 3
-PUBLISH_PERIOD_S = 0.05  # 20Hz, same as the other controllers
+PUBLISH_PERIOD_S = 0.05 
 
 
 class CalibrationNode(Node):
@@ -62,7 +49,6 @@ def main(args=None):
     rclpy.init(args=args)
     node = CalibrationNode()
     try:
-        # make sure motor_control is running and connected before we start
         print('Waiting for motor_control to subscribe to motor_commands...')
         while node.publisher.get_subscription_count() == 0:
             node.wait(0.1)
