@@ -41,7 +41,10 @@ import os
 import time
 
 import rclpy
+from apriltag_msgs.msg import AprilTagDetectionArray
 from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from sensor_msgs.msg import CameraInfo
 from std_msgs.msg import Float32MultiArray
 from tf2_msgs.msg import TFMessage
 
@@ -104,6 +107,13 @@ class ClosedLoopFollowerNode(Node):
         super().__init__('closed_loop_follower_node')
         self.publisher = self.create_publisher(Float32MultiArray, 'motor_commands', 10)
         self.create_subscription(TFMessage, '/tf', self.on_tf, 50)
+        # frame counters for diagnostics: the camera publishes one CameraInfo per frame, and
+        # apriltag_node one detection array per frame it processed
+        self.camera_frames = 0
+        self.apriltag_frames = 0
+        self.create_subscription(CameraInfo, '/camera/camera_info', self.on_camera_info,
+                                 qos_profile_sensor_data)
+        self.create_subscription(AprilTagDetectionArray, '/detections', self.on_detections, 10)
         self.waypoints_file = self.declare_parameter('waypoints_file', DEFAULT_WAYPOINTS).value
         self.landmarks_file = self.declare_parameter('landmarks_file', DEFAULT_LANDMARKS).value
         self.step = self.declare_parameter('step', 0.25).value
@@ -120,6 +130,18 @@ class ClosedLoopFollowerNode(Node):
         self.total_rotation = 0.0
 
     # ---- camera ----------------------------------------------------------------------
+    def on_camera_info(self, msg):
+        self.camera_frames += 1
+
+    def on_detections(self, msg):
+        self.apriltag_frames += 1
+
+    def frame_rates(self, seconds):
+        """Camera and apriltag frames per second, measured over the given time"""
+        cam, tag = self.camera_frames, self.apriltag_frames
+        self.wait(seconds)
+        return (self.camera_frames - cam) / seconds, (self.apriltag_frames - tag) / seconds
+
     def on_tf(self, msg):
         if not self.collecting:
             return
@@ -136,9 +158,12 @@ class ClosedLoopFollowerNode(Node):
     def localize(self):
         """Collect tag sightings while standing still and fuse them. Returns the tag ids used."""
         self.sightings = {}
+        cam, tag = self.camera_frames, self.apriltag_frames
         self.collecting = True
         self.wait(self.observe_time)
         self.collecting = False
+        frames = (f'camera {self.camera_frames - cam} frames, '
+                  f'apriltag {self.apriltag_frames - tag} frames')
 
         used = []
         for tag_id, sightings in sorted(self.sightings.items()):
@@ -153,7 +178,7 @@ class ClosedLoopFollowerNode(Node):
             f'   pose ({x:+.3f}, {y:+.3f}, {math.degrees(theta):+6.1f} deg) '
             f'std {math.sqrt(self.est.var_xy) * 100:.1f} cm / '
             f'{math.degrees(math.sqrt(self.est.var_theta)):.1f} deg'
-            + ('' if used else '  (no tag, dead reckoning)'))
+            + ('' if used else f'  (no tag, dead reckoning; {frames})'))
         self.log('fix', ' '.join(f'tag{i}' for i in used))
         self.seen_at_last_stop = bool(used)
         return used
@@ -286,6 +311,13 @@ class ClosedLoopFollowerNode(Node):
             for i in range(3, 0, -1):
                 self.get_logger().info(f'Starting in {i}...')
                 self.wait(1.0)
+
+        cam_fps, tag_fps = self.frame_rates(2.0)
+        self.get_logger().info(f'Camera {cam_fps:.1f} fps, apriltag {tag_fps:.1f} fps')
+        if tag_fps < 5.0:
+            self.get_logger().warn(
+                f'AprilTag gets only {tag_fps:.1f} frames/s (want ~10): with {self.observe_time} s '
+                'looks it may miss tags. Check `ros2 topic hz /camera/image_raw`.')
 
         self.t0 = time.monotonic()
         self.get_logger().info('Start')
