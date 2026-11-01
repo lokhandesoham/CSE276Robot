@@ -16,6 +16,9 @@ any of these change.
 
 Final check (2026-10-17), all on target:
     drive 3.80s -> 100 cm, 0 drift     left 1.23s -> 90 deg     right 0.97s -> 90 deg
+HW2 re-check (2026-10-31, HW2 floor): the same 90 deg turns gave only ~45 deg, so turn times
+were doubled (rates halved, delays doubled): left 2.46s -> 90 deg, right 1.94s -> 90 deg.
+Drive unchanged.
 """
 
 DRIVE_CMD = 0.2     # [L, R] = [DRIVE_CMD, DRIVE_CMD]; drifted the least in earlier tests
@@ -66,10 +69,15 @@ DRIVE_R = DRIVE_CMD + DRIVE_TRIM
 #          delay is set so the line passes through the 90 deg check (1.07s -> 100 deg),
 #          because 90 deg is the most common right turn on the route.
 # ---------------------------------------------------------------------------
-TURN_RATE_LEFT = 1.353    # rad/s, counter-clockwise (77.5 deg/s)
-TURN_DELAY_LEFT = 0.066   # s lost at the start of a left turn
-TURN_RATE_RIGHT = 1.730   # rad/s, clockwise (99.1 deg/s)
-TURN_DELAY_RIGHT = 0.061  # s lost at the start of a right turn
+#
+# HW2 (2026-10-31): on the HW2 floor the HW1 times turned only ~45 deg; doubling them
+# (2.46s left, 1.94s right) gave 90 deg. Doubling every turn time = half the rate and twice
+# the delay. HW1 values: left 1.353 rad/s + 0.066s, right 1.730 rad/s + 0.061s.
+# ---------------------------------------------------------------------------
+TURN_RATE_LEFT = 0.6765   # rad/s, counter-clockwise (38.8 deg/s)
+TURN_DELAY_LEFT = 0.132   # s lost at the start of a left turn
+TURN_RATE_RIGHT = 0.865   # rad/s, clockwise (49.6 deg/s)
+TURN_DELAY_RIGHT = 0.122  # s lost at the start of a right turn
 
 # IMU is not used: its yaw readings disagreed with the floor measurements.
 
