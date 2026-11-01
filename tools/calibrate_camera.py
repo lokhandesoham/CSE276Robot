@@ -51,12 +51,16 @@ def find_corners(paths):
     return size, found
 
 
-def calibrate(size, found):
+def calibrate(size, found, free_k3=False):
     board = np.zeros((PATTERN[0] * PATTERN[1], 3), np.float32)
     board[:, :2] = np.mgrid[0:PATTERN[0], 0:PATTERN[1]].T.reshape(-1, 2) * SQUARE_M
     object_points = [board] * len(found)
     image_points = [c for _, c in found]
-    rms, K, D, rvecs, tvecs = cv2.calibrateCamera(object_points, image_points, size, None, None)
+    # k3 only matters near the image corners; unless the board was photographed there it
+    # fits noise (first IMX219 run: same RMS, but k3 = -1.14 sent the corner pixel to x=-803)
+    flags = 0 if free_k3 else cv2.CALIB_FIX_K3
+    rms, K, D, rvecs, tvecs = cv2.calibrateCamera(
+        object_points, image_points, size, None, None, flags=flags)
 
     per_image = []
     for (path, corners), rvec, tvec in zip(found, rvecs, tvecs):
@@ -97,6 +101,8 @@ def main():
     parser.add_argument('--max-error', type=float,
                         help='drop images whose reprojection error (px) is above this, then refit')
     parser.add_argument('--dry-run', action='store_true', help="print results, don't write the YAML")
+    parser.add_argument('--free-k3', action='store_true',
+                        help='also fit k3 (only with many shots in the image corners; fixed at 0 by default)')
     args = parser.parse_args()
 
     paths = sorted(p for p in args.image_dir.iterdir() if p.suffix.lower() in EXTENSIONS)
@@ -105,13 +111,13 @@ def main():
     if len(found) < 10:
         raise SystemExit(f'board found in only {len(found)} images; need at least 10 (aim for 25+)')
 
-    rms, K, D, per_image = calibrate(size, found)
+    rms, K, D, per_image = calibrate(size, found, args.free_k3)
     if args.max_error is not None:
         keep = {p for p, e in per_image if e <= args.max_error}
         dropped = [p.name for p, _ in per_image if p not in keep]
         print(f'dropping {len(dropped)} images above {args.max_error} px: {", ".join(dropped) or "none"}')
         found = [(p, c) for p, c in found if p in keep]
-        rms, K, D, per_image = calibrate(size, found)
+        rms, K, D, per_image = calibrate(size, found, args.free_k3)
 
     print('\nper-image reprojection error (px), worst first:')
     for path, err in sorted(per_image, key=lambda pe: -pe[1]):
@@ -138,6 +144,14 @@ def main():
     if aspect_change > 0.05 or grid[[0, 0, 2, 2], [0, 2, 0, 2]].min() < 2 * PATTERN[0]:
         print('WARNING: weak coverage of the image corners (rectified fx/fy differs from the raw by '
               f'{100 * aspect_change:.0f}%). Take more shots with the board in each image corner.')
+
+    # an over-fitted model folds over near the edges: image corners undistort to wild places
+    w, h = size
+    corners = np.array([[[0, 0]], [[w - 1, 0]], [[0, h - 1]], [[w - 1, h - 1]]], np.float64)
+    moved = np.abs(cv2.undistortPoints(corners, K, D, P=K).reshape(-1, 2) - corners.reshape(-1, 2)).max()
+    if moved > 0.25 * w:
+        print(f'WARNING: the distortion model moves an image corner by {moved:.0f} px, so it is not '
+              'valid near the edges. Retake with the board in the corners (and drop --free-k3).')
 
     # save a before/after preview so straight lines can be checked by eye
     preview = cv2.imread(str(found[0][0]))
