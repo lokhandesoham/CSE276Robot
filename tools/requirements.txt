@@ -1,4 +1,5 @@
-# Mac-side tools (make_printables.py, calibrate_camera.py)
+# Mac-side tools (make_printables.py, calibrate_camera.py, plot_trajectory.py)
 # setup: python3 -m venv tools/.venv && tools/.venv/bin/pip install -r tools/requirements.txt
 numpy
 opencv-python-headless<5  # 4.x, same major version as the robot's OpenCV
+matplotlib

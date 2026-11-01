@@ -32,6 +32,7 @@ setup(
             'calibrate = robot_control.calibrate:main',
             'capture_frames = robot_control.capture_frames:main',
             'waypoint_follower = robot_control.waypoint_follower:main',
+            'closed_loop_follower = robot_control.closed_loop_follower:main',
         ],
     },
 )
