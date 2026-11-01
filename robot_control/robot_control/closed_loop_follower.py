@@ -9,18 +9,21 @@ The robot knows the map (tag poses in landmarks.txt) and the waypoints; at every
 works out where it is from the tags, then plans the next motion from there:
       1. look       stand still, collect AprilTag poses for observe_time seconds and fuse
                     them with the predicted pose (localization.py)
-      2. search     the robot never drives without a tag fix since its last drive. If the
-                    latest stops saw no tag: turn toward the tags the map says are visible,
-                    then sweep a full circle in SEARCH_STEP turns, looking after each, until
-                    a tag is seen; then re-plan from there (the turn back toward the
-                    waypoint is allowed without a new fix). A full circle with no tag stops
-                    the run.
+      2. search     the robot only drives if the stop right before the drive saw a tag. If
+                    not: turn toward the tags the map says are visible, then sweep a full
+                    circle in SEARCH_STEP turns, looking after each, until a tag is seen;
+                    then re-plan from there. The one drive after turning back toward the
+                    waypoint from a successful search is allowed without a new sighting
+                    (the tag found may be out of view again). A full circle with no tag
+                    stops the run.
       3. decide     far from the waypoint: turn toward it if pointing more than AIM_TOL off,
                     else drive toward it, at most `step` meters
                     close to it (APPROACH_RANGE): no more turning (a few cm sideways is a large
                     angle there), only drive the forward/backward part of the remaining offset
       4. move       play the motion with the HW1 calibrated model (calibration.py) and
-                    predict the new pose with the unicycle model
+                    predict the new pose with the unicycle model. Turns over 90 deg are
+                    split into equal pieces of at most 90 deg (the calibration was checked
+                    at 90 deg), with the settle pause after each piece
     Then turn to the waypoint heading, look again, and re-approach once if the turn left the
     robot off the mark. The final heading turn itself needs no fix (at (1, 2) facing pi no tag
     can be in view).
@@ -60,6 +63,7 @@ MIN_TURN = math.radians(5.0)    # 0.13 s: shorter turns are mostly the 0.07 s st
 MAX_STEPS = 30                  # per waypoint, in case it never converges
 MAX_FACE_ROUNDS = 2             # turn-to-heading / re-approach rounds per waypoint
 MIN_FRAMES = 2                  # a tag must be seen in this many frames to be used
+MAX_TURN = math.radians(95.0)   # longer turns are split into pieces of at most 90 deg
 
 SEARCH_MAX_TURNS = 2            # map-predicted tags to try before sweeping
 SEARCH_STEP = math.radians(40.0)    # sweep step, under the 64 deg field of view so no gaps
@@ -109,7 +113,8 @@ class ClosedLoopFollowerNode(Node):
 
         self.collecting = False
         self.sightings = {}     # tag id -> [(forward, left, phi), ...] while collecting
-        self.fix_since_drive = False   # a tag was used since the last drive
+        self.seen_at_last_stop = False  # the latest localize() used a tag
+        self.search_fix = False         # a search found a tag and no drive has happened since
         self.t0 = time.monotonic()
         self.total_distance = 0.0
         self.total_rotation = 0.0
@@ -150,8 +155,7 @@ class ClosedLoopFollowerNode(Node):
             f'{math.degrees(math.sqrt(self.est.var_theta)):.1f} deg'
             + ('' if used else '  (no tag, dead reckoning)'))
         self.log('fix', ' '.join(f'tag{i}' for i in used))
-        if used:
-            self.fix_since_drive = True
+        self.seen_at_last_stop = bool(used)
         return used
 
     def search(self):
@@ -162,6 +166,7 @@ class ClosedLoopFollowerNode(Node):
             self.get_logger().info(f' search: turn {math.degrees(angle):+.1f} deg toward tag {tag_id}')
             self.move('turn', angle)
             if self.localize():
+                self.search_fix = True
                 return
         turned = 0.0
         while turned < 2 * math.pi:
@@ -169,6 +174,7 @@ class ClosedLoopFollowerNode(Node):
             self.move('turn', SEARCH_STEP)
             turned += SEARCH_STEP
             if self.localize():
+                self.search_fix = True
                 return
         raise NoTagError('no tag seen in a full circle')
 
@@ -186,6 +192,11 @@ class ClosedLoopFollowerNode(Node):
 
     def move(self, kind, value):
         """Play one turn/drive, logging the in-between pose, then update the prediction"""
+        if kind == 'turn' and abs(value) > MAX_TURN:
+            pieces = math.ceil(abs(value) / math.radians(90.0))
+            for _ in range(pieces):
+                self.move('turn', value / pieces)
+            return
         command, duration = turn_command(value) if kind == 'turn' else drive_command(value)
         x0, y0, th0 = self.est.pose()
         start = time.monotonic()
@@ -208,7 +219,7 @@ class ClosedLoopFollowerNode(Node):
         else:
             self.est.predict_drive(value)
             self.total_distance += abs(value)
-            self.fix_since_drive = False
+            self.search_fix = False
         self.log('move')
         self.wait(self.settle_time)
 
@@ -225,8 +236,8 @@ class ClosedLoopFollowerNode(Node):
             if motion is None:
                 return
             kind, value = motion
-            if kind == 'drive' and not self.fix_since_drive:
-                self.get_logger().info(' no tag since the last drive: searching before driving')
+            if kind == 'drive' and not (self.seen_at_last_stop or self.search_fix):
+                self.get_logger().info(' no tag at this stop: searching before driving')
                 self.search()
                 continue    # the search turned the robot: re-plan from the fix
             dist = math.hypot(goal[0] - self.est.x, goal[1] - self.est.y)
@@ -254,6 +265,8 @@ class ClosedLoopFollowerNode(Node):
         waypoints = load_waypoints(self.waypoints_file)
         self.landmarks = load_landmarks(self.landmarks_file)
         self.est = PoseEstimate(*waypoints[0])
+        self.get_logger().info('closed_loop_follower v4: drives only right after a tag sighting, '
+                               'turns over 90 deg split')
         self.get_logger().info(f'Waypoints: {waypoints}')
         self.get_logger().info('Landmarks: ' + ', '.join(
             f'tag {i} at ({x}, {y}) facing {math.degrees(f):.0f} deg'
