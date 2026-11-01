@@ -145,3 +145,29 @@ class PoseEstimate:
         self.y += k * (y_meas - self.y)
         self.var_xy *= 1.0 - k
         return f'used (r={r:.2f} m, meas=({x_meas:.3f}, {y_meas:.3f}, {math.degrees(theta_meas):.1f} deg))'
+
+
+# A tag can be detected when it is within this range of the lens, facing the camera within
+# VIEW_MAX_ANGLE, and within VIEW_HALF_FOV of the image centre (the camera sees +-32 deg)
+VIEW_MIN_RANGE = 0.30
+VIEW_MAX_RANGE = 2.80
+VIEW_MAX_ANGLE = math.radians(60.0)
+VIEW_HALF_FOV = math.radians(25.0)
+
+
+def tag_view_turns(pose, landmarks):
+    """Turns that would bring a tag into view from pose, smallest first: [(angle, tag_id), ...]
+
+    Uses the map: for each tag, the turn that centres it in the image, kept only if the tag
+    would be close enough and facing the robot (its printed side, not too oblique).
+    """
+    x, y, theta = pose
+    turns = []
+    for tag_id, (lx, ly, facing) in landmarks.items():
+        bearing = math.atan2(ly - y, lx - x)
+        r = math.hypot(lx - x, ly - y) - CAMERA_OFFSET
+        # angle between the tag's face direction and the direction from the tag to the robot
+        view = abs(wrap_angle(bearing + math.pi - facing))
+        if VIEW_MIN_RANGE <= r <= VIEW_MAX_RANGE and view <= VIEW_MAX_ANGLE:
+            turns.append((wrap_angle(bearing - theta), tag_id))
+    return sorted(turns, key=lambda t: abs(t[0]))

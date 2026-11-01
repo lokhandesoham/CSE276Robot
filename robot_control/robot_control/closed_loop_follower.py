@@ -5,18 +5,23 @@ Usage (camera with image_rectify:=true, apriltag_node and motor_control running)
     ros2 run robot_control closed_loop_follower --ros-args -p step:=0.25 -p settle_time:=1.0
     ros2 run robot_control closed_loop_follower --ros-args -p dry_run:=true   # no motors
 
-Algorithm:
-    Repeat until the waypoint is reached:
+The robot knows the map (tag poses in landmarks.txt) and the waypoints; at every stop it
+works out where it is from the tags, then plans the next motion from there:
       1. look       stand still, collect AprilTag poses for observe_time seconds and fuse
                     them with the predicted pose (localization.py)
-      2. decide     if not pointing at the waypoint: turn toward it
+      2. search     before a drive, if no tag was seen and the pose has become uncertain,
+                    turn toward the tag the map says is easiest to see (at most 90 deg away),
+                    look again, and re-plan from wherever the robot now points
+      3. decide     far from the waypoint: turn toward it if pointing more than AIM_TOL off,
                     else drive toward it, at most `step` meters
-      3. move       play the motion with the HW1 calibrated model (calibration.py) and
+                    close to it (APPROACH_RANGE): no more turning (a few cm sideways is a large
+                    angle there), only drive the forward/backward part of the remaining offset
+      4. move       play the motion with the HW1 calibrated model (calibration.py) and
                     predict the new pose with the unicycle model
-    Then turn to the waypoint heading, look again, and correct the heading (and the
-    position, if the turn moved the robot off the mark).
-    With no tag in view the prediction is used as is (dead reckoning), with a growing
-    variance, so the next tag sighting gets more weight.
+    Then turn to the waypoint heading, look again, and re-approach once if the turn left the
+    robot off the mark.
+    Motions shorter than MIN_DRIVE / MIN_TURN are not sent: the motors do not move reliably
+    for such short commands, and the loop would repeat them forever.
 
 Output:
     ~/hw2_runs/run_<time>.csv  one row per 50 ms while moving ('move'), per fix ('fix') and
@@ -35,7 +40,7 @@ from tf2_msgs.msg import TFMessage
 
 from robot_control.calibration import drive_command, turn_command
 from robot_control.localization import (
-    PoseEstimate, load_landmarks, median_sighting, tag_in_robot_frame, wrap_angle)
+    PoseEstimate, load_landmarks, median_sighting, tag_in_robot_frame, tag_view_turns, wrap_angle)
 from robot_control.waypoint_follower import load_waypoints
 
 
@@ -43,14 +48,21 @@ PUBLISH_PERIOD_S = 0.05
 CAMERA_FRAME = 'camera_frame'
 
 POS_TOL = 0.05                  # m, waypoint reached
+APPROACH_RANGE = 0.15           # m, closer than this only drive forward/backward, no turns
 AIM_TOL = math.radians(5.0)     # turn toward the waypoint when pointing further off than this
 FACE_TOL = math.radians(5.0)    # final heading tolerance
-MIN_DRIVE = 0.02                # m
-MIN_TURN = math.radians(2.0)    # smaller turns are not repeatable (~1 tick)
-BACKUP_RANGE = 0.15             # m, closer than this, back up instead of turning around
-MAX_STEPS = 40                  # per waypoint, in case it never converges
-MAX_FACE_ROUNDS = 3             # turn-to-heading / re-approach rounds per waypoint
+MIN_DRIVE = 0.04                # m, 0.15 s: shorter drives barely move the robot
+MIN_TURN = math.radians(5.0)    # 0.13 s: shorter turns are mostly the 0.07 s start-up delay
+MAX_STEPS = 30                  # per waypoint, in case it never converges
+MAX_FACE_ROUNDS = 2             # turn-to-heading / re-approach rounds per waypoint
 MIN_FRAMES = 2                  # a tag must be seen in this many frames to be used
+
+# Search for a tag (before driving) when none was seen and the pose is this uncertain
+SEARCH_STD_XY = 0.06            # m
+SEARCH_STD_THETA = math.radians(6.0)
+SEARCH_MAX_TURNS = 2            # tags to try per search
+SEARCH_MAX_ANGLE = math.radians(90.0)   # larger turns (and back) add more error than a fix removes
+SEARCH_RETRY_DISTANCE = 0.5     # m, after a failed search, drive this far before searching again
 
 DEFAULT_ROOT = os.path.expanduser('~/ros2_ws/src/rubikpi_ros2')
 DEFAULT_WAYPOINTS = os.path.join(DEFAULT_ROOT, 'waypoints_hw2.txt')
@@ -65,23 +77,18 @@ def next_motion(pose, goal, step):
     dist = math.hypot(dx, dy)
     if dist < POS_TOL:
         return None
-
     err = wrap_angle(math.atan2(dy, dx) - theta)
-    if dist < BACKUP_RANGE and abs(err) > math.pi / 2:
-        # just past the goal: back up rather than turn around
-        err = wrap_angle(err - math.pi)
-        direction = -1.0
-    else:
-        direction = 1.0
 
-    # near the goal a small sideways miss means a large angle; only turn when the
-    # straight-line miss would exceed the position tolerance
-    if abs(err) > max(AIM_TOL, math.atan2(POS_TOL, dist)) and abs(err) > MIN_TURN:
+    if dist < APPROACH_RANGE:
+        # forward/backward part of the offset only; the sideways part is accepted
+        along = dist * math.cos(err)
+        return ('drive', along) if abs(along) >= MIN_DRIVE else None
+
+    if abs(err) > AIM_TOL:
         return ('turn', err)
-    distance = min(step, dist * math.cos(err))
-    if distance < MIN_DRIVE:
-        return None
-    return ('drive', direction * distance)
+    # the last step goes all the way instead of leaving a short remainder
+    along = dist * math.cos(err)
+    return ('drive', along if along < step + APPROACH_RANGE else step)
 
 
 class ClosedLoopFollowerNode(Node):
@@ -98,9 +105,11 @@ class ClosedLoopFollowerNode(Node):
 
         self.collecting = False
         self.sightings = {}     # tag id -> [(forward, left, phi), ...] while collecting
+        self.last_seen = []     # tag ids used in the latest fix
         self.t0 = time.monotonic()
         self.total_distance = 0.0
         self.total_rotation = 0.0
+        self.no_search_until = 0.0   # total_distance before the next search is allowed
 
     # ---- camera ----------------------------------------------------------------------
     def on_tf(self, msg):
@@ -138,7 +147,25 @@ class ClosedLoopFollowerNode(Node):
             f'{math.degrees(math.sqrt(self.est.var_theta)):.1f} deg'
             + ('' if used else '  (no tag, dead reckoning)'))
         self.log('fix', ' '.join(f'tag{i}' for i in used))
+        self.last_seen = used
         return used
+
+    def uncertain(self):
+        return (math.sqrt(self.est.var_xy) > SEARCH_STD_XY
+                or math.sqrt(self.est.var_theta) > SEARCH_STD_THETA)
+
+    def search(self):
+        """Turn toward the tags the map says are visible until one is seen. Returns True if found."""
+        turns = [t for t in tag_view_turns(self.est.pose(), self.landmarks)
+                 if MIN_TURN <= abs(t[0]) <= SEARCH_MAX_ANGLE]
+        for angle, tag_id in turns[:SEARCH_MAX_TURNS]:
+            self.get_logger().info(f' search: turn {math.degrees(angle):+.1f} deg to look at tag {tag_id}')
+            self.move('turn', angle)
+            if self.localize():
+                return True
+        self.get_logger().info(' search: no tag found, continuing on dead reckoning')
+        self.no_search_until = self.total_distance + SEARCH_RETRY_DISTANCE
+        return False
 
     # ---- motors ----------------------------------------------------------------------
     def send(self, L, R):
@@ -192,9 +219,15 @@ class ClosedLoopFollowerNode(Node):
             if motion is None:
                 return
             kind, value = motion
+            if (kind == 'drive' and not self.last_seen and self.uncertain()
+                    and self.total_distance >= self.no_search_until):
+                self.search()
+                continue    # the search turned the robot: re-plan from there
+            dist = math.hypot(goal[0] - self.est.x, goal[1] - self.est.y)
             self.get_logger().info(
                 f' {kind} ' + (f'{math.degrees(value):+.1f} deg' if kind == 'turn'
-                               else f'{value * 100:+.1f} cm'))
+                               else f'{value * 100:+.1f} cm')
+                + f'  (waypoint {dist * 100:.0f} cm away)')
             self.move(kind, value)
             self.localize()
         self.get_logger().warn(f'Gave up on {goal} after {MAX_STEPS} steps')
@@ -203,9 +236,9 @@ class ClosedLoopFollowerNode(Node):
         """Turn to the goal heading; re-approach if the turn left the robot off the mark"""
         for _ in range(MAX_FACE_ROUNDS):
             err = wrap_angle(goal[2] - self.est.theta)
-            if abs(err) < FACE_TOL:
+            if abs(err) < max(FACE_TOL, MIN_TURN):
                 return
-            self.get_logger().info(f' face: turn {math.degrees(err):+.1f} deg')
+            self.get_logger().info(f' face: turn {math.degrees(err):+.1f} deg to the waypoint heading')
             self.move('turn', err)
             self.localize()
             if math.hypot(goal[0] - self.est.x, goal[1] - self.est.y) > POS_TOL:
