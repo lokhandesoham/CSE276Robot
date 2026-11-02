@@ -139,7 +139,11 @@ class PoseEstimate:
         var_meas = (POSITION_STD_BASE + POSITION_STD_PER_M * r) ** 2 + r * r * self.var_theta
         off = math.hypot(x_meas - self.x, y_meas - self.y)
         if off > max(POSITION_GATE, GATE_SIGMAS * math.sqrt(2.0 * (self.var_xy + var_meas))):
-            return f'rejected (position off by {off:.2f} m)'
+            # where the tag would be if the predicted position were right, to compare with the map
+            seen_x = self.x + c * forward - s * left
+            seen_y = self.y + s * forward + c * left
+            return (f'rejected (position off by {off:.2f} m; r={r:.2f} m, tag seen at '
+                    f'({seen_x:.2f}, {seen_y:.2f}), map has ({lx:.2f}, {ly:.2f}))')
         k = self.var_xy / (self.var_xy + var_meas)
         self.x += k * (x_meas - self.x)
         self.y += k * (y_meas - self.y)
