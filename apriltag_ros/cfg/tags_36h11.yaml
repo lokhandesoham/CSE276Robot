@@ -1,6 +1,8 @@
 /**:
     ros__parameters:
-        image_transport: raw    # image format
+        # compressed: the 2.7 MB raw frames mostly got lost on the way (1-3 of 10 per second
+        # arrived); the camera node's JPEGs (same rectified frame, same stamp) are ~10x smaller
+        image_transport: compressed
         family: 36h11           # tag family name
         size: 0.1435            # tag edge size in meter (measured black square; printer scaled the 150 mm PDF)
         max_hamming: 1          # maximum allowed hamming distance (corrected bits)

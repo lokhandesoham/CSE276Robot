@@ -186,8 +186,13 @@ class ClosedLoopFollowerNode(Node):
     def search(self):
         """Turn until a tag is seen: first toward the tags the map says are visible, then a
         full circle in SEARCH_STEP turns. Raises NoTagError if nothing is found."""
-        turns = [t for t in tag_view_turns(self.est.pose(), self.landmarks) if abs(t[0]) >= MIN_TURN]
-        for angle, tag_id in turns[:SEARCH_MAX_TURNS]:
+        # headings that centre each tag, fixed now; each turn is then measured from the
+        # heading the previous search turn left the robot at
+        theta = self.est.pose()[2]
+        targets = [(theta + t[0], t[1]) for t in tag_view_turns(self.est.pose(), self.landmarks)
+                   if abs(t[0]) >= MIN_TURN]
+        for target, tag_id in targets[:SEARCH_MAX_TURNS]:
+            angle = wrap_angle(target - self.est.pose()[2])
             self.get_logger().info(f' search: turn {math.degrees(angle):+.1f} deg toward tag {tag_id}')
             self.move('turn', angle)
             if self.localize():
