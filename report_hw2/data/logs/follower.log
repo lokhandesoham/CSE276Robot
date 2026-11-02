@@ -1,0 +1,117 @@
+[INFO] [1793587506.353248904] [closed_loop_follower_node]: closed_loop_follower v4: drives only right after a tag sighting, turns over 90 deg split
+[INFO] [1793587506.353847575] [closed_loop_follower_node]: Waypoints: [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 2.0, 3.14159), (0.0, 0.0, 0.0)]
+[INFO] [1793587506.354351667] [closed_loop_follower_node]: Landmarks: tag 0 at (-0.4, 0.0) facing 0 deg, tag 1 at (1.4, 0.0) facing 180 deg, tag 2 at (1.0, 2.4) facing -90 deg
+[INFO] [1793587506.354829354] [closed_loop_follower_node]: Start pose (0.0, 0.0, 0.0): turning centre on the mark
+[INFO] [1793587506.355530989] [closed_loop_follower_node]: Waiting for motor_control to subscribe to motor_commands...
+[INFO] [1793587506.356106172] [closed_loop_follower_node]: Starting in 3...
+[INFO] [1793587507.364271585] [closed_loop_follower_node]: Starting in 2...
+[INFO] [1793587508.377811232] [closed_loop_follower_node]: Starting in 1...
+[INFO] [1793587511.399293192] [closed_loop_follower_node]: Camera 10.0 fps, apriltag 10.0 fps
+[INFO] [1793587511.402065047] [closed_loop_follower_node]: Start
+[INFO] [1793587512.209868136] [closed_loop_follower_node]:    tag 1 (9 frames): used (r=1.53 m, meas=(-0.127, 0.017, -9.0 deg))
+[INFO] [1793587512.213761503] [closed_loop_follower_node]:    pose (-0.011, +0.001,   -0.8 deg) std 1.9 cm / 1.9 deg
+[INFO] [1793587512.216838813] [closed_loop_follower_node]: === waypoint 1: (1.0, 0.0, 0.0)
+[INFO] [1793587512.218876950] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 101 cm away)
+[INFO] [1793587514.986980870] [closed_loop_follower_node]:    tag 1 (8 frames): used (r=1.31 m, meas=(0.090, 0.052, -8.1 deg))
+[INFO] [1793587514.991231357] [closed_loop_follower_node]:    pose (+0.220, +0.005,   -1.8 deg) std 2.3 cm / 2.2 deg
+[INFO] [1793587514.993494901] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 78 cm away)
+[INFO] [1793587517.755481093] [closed_loop_follower_node]:    tag 1 (7 frames): used (r=1.09 m, meas=(0.317, 0.084, -6.8 deg))
+[INFO] [1793587517.756923372] [closed_loop_follower_node]:    pose (+0.439, +0.014,   -2.9 deg) std 2.5 cm / 2.4 deg
+[INFO] [1793587517.758320757] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 56 cm away)
+[INFO] [1793587520.528965851] [closed_loop_follower_node]:    tag 1 (9 frames): used (r=0.88 m, meas=(0.531, 0.123, -3.8 deg))
+[INFO] [1793587520.532127271] [closed_loop_follower_node]:    pose (+0.643, +0.037,   -3.1 deg) std 2.5 cm / 2.4 deg
+[INFO] [1793587520.534218219] [closed_loop_follower_node]:  drive +35.9 cm  (waypoint 36 cm away)
+[INFO] [1793587523.713363035] [closed_loop_follower_node]:    tag 1 (9 frames): used (r=0.55 m, meas=(0.858, 0.117, -1.1 deg))
+[INFO] [1793587523.716155930] [closed_loop_follower_node]:    pose (+0.921, +0.074,   -2.4 deg) std 2.3 cm / 2.2 deg
+[INFO] [1793587523.721952336] [closed_loop_follower_node]:  drive +8.2 cm  (waypoint 11 cm away)
+[INFO] [1793587525.849117032] [closed_loop_follower_node]:    tag 1 (8 frames): used (r=0.50 m, meas=(0.909, 0.114, -0.1 deg))
+[INFO] [1793587525.851392034] [closed_loop_follower_node]:    pose (+0.964, +0.088,   -1.5 deg) std 1.8 cm / 2.1 deg
+[INFO] [1793587525.861636678] [closed_loop_follower_node]: === reached waypoint 1: estimate (+0.964, +0.088, -1.5 deg), estimated error 9.6 cm, +1.5 deg
+[INFO] [1793587525.866014970] [closed_loop_follower_node]: === waypoint 2: (1.0, 2.0, 3.14159)
+[INFO] [1793587525.870100151] [closed_loop_follower_node]:  turn +90.4 deg  (waypoint 191 cm away)
+[INFO] [1793587528.915550650] [closed_loop_follower_node]:    tag 2 (9 frames): used (r=2.33 m, meas=(0.968, 0.073, 83.7 deg))
+[INFO] [1793587528.919321158] [closed_loop_follower_node]:    pose (+0.964, +0.088,  +87.0 deg) std 1.8 cm / 5.4 deg
+[INFO] [1793587528.922651112] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 191 cm away)
+[INFO] [1793587531.690878475] [closed_loop_follower_node]:    tag 2 (8 frames): used (r=2.10 m, meas=(0.953, 0.301, 82.6 deg))
+[INFO] [1793587531.692731152] [closed_loop_follower_node]:    pose (+0.976, +0.337,  +85.6 deg) std 3.2 cm / 4.6 deg
+[INFO] [1793587531.694541956] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 166 cm away)
+[INFO] [1793587534.454914223] [closed_loop_follower_node]:    tag 2 (8 frames): used (r=1.87 m, meas=(0.926, 0.527, 82.8 deg))
+[INFO] [1793587534.457942316] [closed_loop_follower_node]:    pose (+0.990, +0.582,  +84.8 deg) std 3.8 cm / 4.1 deg
+[INFO] [1793587534.461273416] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 142 cm away)
+[INFO] [1793587537.226362836] [closed_loop_follower_node]:    tag 2 (9 frames): used (r=1.66 m, meas=(0.940, 0.738, 81.6 deg))
+[INFO] [1793587537.232129920] [closed_loop_follower_node]:    pose (+1.004, +0.819,  +83.9 deg) std 4.1 cm / 3.7 deg
+[INFO] [1793587537.237197140] [closed_loop_follower_node]:  turn +6.3 deg  (waypoint 118 cm away)
+[INFO] [1793587539.202751286] [closed_loop_follower_node]:    tag 2 (9 frames): used (r=1.66 m, meas=(0.841, 0.746, 91.1 deg))
+[INFO] [1793587539.205143626] [closed_loop_follower_node]:    pose (+0.983, +0.810,  +90.4 deg) std 3.8 cm / 3.4 deg
+[INFO] [1793587539.211720257] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 119 cm away)
+[INFO] [1793587541.985177058] [closed_loop_follower_node]:    tag 2 (8 frames): used (r=1.45 m, meas=(0.851, 0.954, 90.9 deg))
+[INFO] [1793587541.987902820] [closed_loop_follower_node]:    pose (+0.958, +1.041,  +90.5 deg) std 3.9 cm / 3.2 deg
+[INFO] [1793587541.991732283] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 96 cm away)
+[INFO] [1793587544.760798208] [closed_loop_follower_node]:    tag 2 (7 frames): used (r=1.24 m, meas=(0.851, 1.169, 90.3 deg))
+[INFO] [1793587544.766905485] [closed_loop_follower_node]:    pose (+0.929, +1.260,  +90.5 deg) std 3.7 cm / 3.0 deg
+[INFO] [1793587544.771457051] [closed_loop_follower_node]:  turn -6.0 deg  (waypoint 74 cm away)
+[INFO] [1793587546.710090162] [closed_loop_follower_node]:    tag 2 (7 frames): used (r=1.24 m, meas=(0.874, 1.167, 83.3 deg))
+[INFO] [1793587546.714900987] [closed_loop_follower_node]:    pose (+0.917, +1.239,  +84.2 deg) std 3.3 cm / 2.9 deg
+[INFO] [1793587546.721129560] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 77 cm away)
+[INFO] [1793587549.482091214] [closed_loop_follower_node]:    tag 2 (9 frames): used (r=1.02 m, meas=(0.888, 1.385, 83.1 deg))
+[INFO] [1793587549.484564332] [closed_loop_follower_node]:    pose (+0.926, +1.457,  +83.9 deg) std 3.1 cm / 2.7 deg
+[INFO] [1793587549.487286397] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 55 cm away)
+[INFO] [1793587552.252201123] [closed_loop_follower_node]:    tag 2 (8 frames): used (r=0.80 m, meas=(0.904, 1.602, 82.6 deg))
+[INFO] [1793587552.254624087] [closed_loop_follower_node]:    pose (+0.933, +1.665,  +83.4 deg) std 2.8 cm / 2.5 deg
+[INFO] [1793587552.257067727] [closed_loop_follower_node]:  drive +34.1 cm  (waypoint 34 cm away)
+[INFO] [1793587555.370461289] [closed_loop_follower_node]:    tag 2 (8 frames): used (r=0.50 m, meas=(0.945, 1.902, 80.0 deg))
+[INFO] [1793587555.372977061] [closed_loop_follower_node]:    pose (+0.955, +1.940,  +82.0 deg) std 2.2 cm / 2.3 deg
+[INFO] [1793587555.375223158] [closed_loop_follower_node]:  drive +6.5 cm  (waypoint 7 cm away)
+[INFO] [1793587557.436929124] [closed_loop_follower_node]:    tag 2 (9 frames): used (r=0.45 m, meas=(0.948, 1.952, 79.5 deg))
+[INFO] [1793587557.439115067] [closed_loop_follower_node]:    pose (+0.957, +1.981,  +81.0 deg) std 1.7 cm / 2.1 deg
+[INFO] [1793587557.443126396] [closed_loop_follower_node]:  face: turn +99.0 deg to the waypoint heading
+[INFO] [1793587561.688114302] [closed_loop_follower_node]:    pose (+0.957, +1.981, +180.0 deg) std 1.7 cm / 6.0 deg  (no tag, dead reckoning; camera 8 frames, apriltag 8 frames)
+[INFO] [1793587561.691785699] [closed_loop_follower_node]: === reached waypoint 2: estimate (+0.957, +1.981, +180.0 deg), estimated error 4.7 cm, +0.0 deg
+[INFO] [1793587561.694697755] [closed_loop_follower_node]: === waypoint 3: (0.0, 0.0, 0.0)
+[INFO] [1793587561.696766724] [closed_loop_follower_node]:  turn +64.2 deg  (waypoint 220 cm away)
+[INFO] [1793587564.413426671] [closed_loop_follower_node]:    tag 0 (8 frames): used (r=2.35 m, meas=(0.865, 1.977, -121.6 deg))
+[INFO] [1793587564.415976348] [closed_loop_follower_node]:    pose (+0.957, +1.981, -118.2 deg) std 1.7 cm / 5.9 deg
+[INFO] [1793587564.418940016] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 220 cm away)
+[INFO] [1793587567.191551627] [closed_loop_follower_node]:    tag 0 (7 frames): used (r=2.15 m, meas=(0.797, 1.783, -122.1 deg))
+[INFO] [1793587567.195092457] [closed_loop_follower_node]:    pose (+0.837, +1.762, -119.5 deg) std 3.3 cm / 4.9 deg
+[INFO] [1793587567.198928065] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 195 cm away)
+[INFO] [1793587569.963726769] [closed_loop_follower_node]:    tag 0 (8 frames): used (r=1.93 m, meas=(0.690, 1.596, -123.3 deg))
+[INFO] [1793587569.966012343] [closed_loop_follower_node]:    pose (+0.712, +1.548, -120.7 deg) std 4.0 cm / 4.3 deg
+[INFO] [1793587569.969187408] [closed_loop_follower_node]:  turn +6.0 deg  (waypoint 170 cm away)
+[INFO] [1793587571.937141918] [closed_loop_follower_node]:    tag 0 (9 frames): used (r=1.93 m, meas=(0.745, 1.557, -115.6 deg))
+[INFO] [1793587571.939365619] [closed_loop_follower_node]:    pose (+0.715, +1.548, -114.9 deg) std 3.8 cm / 3.9 deg
+[INFO] [1793587571.941394538] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 171 cm away)
+[INFO] [1793587574.719407855] [closed_loop_follower_node]:    tag 0 (8 frames): used (r=1.72 m, meas=(0.642, 1.369, -116.6 deg))
+[INFO] [1793587574.721850974] [closed_loop_follower_node]:    pose (+0.613, +1.328, -115.4 deg) std 4.1 cm / 3.6 deg
+[INFO] [1793587574.724171650] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 146 cm away)
+[INFO] [1793587577.506254753] [closed_loop_follower_node]:    tag 0 (7 frames): used (r=1.53 m, meas=(0.567, 1.185, -116.6 deg))
+[INFO] [1793587577.508992650] [closed_loop_follower_node]:    pose (+0.517, +1.116, -115.7 deg) std 4.1 cm / 3.4 deg
+[INFO] [1793587577.514257569] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 123 cm away)
+[INFO] [1793587580.293218440] [closed_loop_follower_node]:    tag 0 (9 frames): used (r=1.32 m, meas=(0.464, 0.995, -117.7 deg))
+[INFO] [1793587580.295332042] [closed_loop_follower_node]:    pose (+0.422, +0.916, -116.2 deg) std 4.0 cm / 3.1 deg
+[INFO] [1793587580.297353826] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 101 cm away)
+[INFO] [1793587583.072728632] [closed_loop_follower_node]:    tag 0 (7 frames): used (r=1.10 m, meas=(0.373, 0.787, -117.7 deg))
+[INFO] [1793587583.075629230] [closed_loop_follower_node]:    pose (+0.331, +0.722, -116.7 deg) std 3.6 cm / 2.9 deg
+[INFO] [1793587583.078277600] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 79 cm away)
+[INFO] [1793587585.850904115] [closed_loop_follower_node]:    tag 0 (7 frames): used (r=0.92 m, meas=(0.296, 0.607, -117.5 deg))
+[INFO] [1793587585.851758191] [closed_loop_follower_node]:    pose (+0.248, +0.539, -116.9 deg) std 3.2 cm / 2.7 deg
+[INFO] [1793587585.852472117] [closed_loop_follower_node]:  drive +25.0 cm  (waypoint 59 cm away)
+[INFO] [1793587588.625032252] [closed_loop_follower_node]:    pose (+0.135, +0.317, -116.9 deg) std 3.6 cm / 3.1 deg  (no tag, dead reckoning; camera 9 frames, apriltag 8 frames)
+[INFO] [1793587588.629571682] [closed_loop_follower_node]:  no tag at this stop: searching before driving
+[INFO] [1793587588.635184866] [closed_loop_follower_node]:  search: turn -32.4 deg toward tag 0
+[INFO] [1793587590.837217032] [closed_loop_follower_node]:    tag 0 (8 frames): used (r=0.74 m, meas=(0.232, 0.392, -144.6 deg))
+[INFO] [1793587590.842929118] [closed_loop_follower_node]:    pose (+0.172, +0.345, -147.0 deg) std 2.9 cm / 3.0 deg
+[INFO] [1793587590.846547443] [closed_loop_follower_node]:  turn +30.5 deg  (waypoint 39 cm away)
+[INFO] [1793587593.117435799] [closed_loop_follower_node]:    pose (+0.172, +0.345, -116.4 deg) std 2.9 cm / 4.1 deg  (no tag, dead reckoning; camera 7 frames, apriltag 8 frames)
+[INFO] [1793587593.119770068] [closed_loop_follower_node]:  drive +38.6 cm  (waypoint 39 cm away)
+[INFO] [1793587596.398590967] [closed_loop_follower_node]:    pose (-0.000, +0.000, -116.4 deg) std 4.4 cm / 4.4 deg  (no tag, dead reckoning; camera 8 frames, apriltag 8 frames)
+[INFO] [1793587596.400643738] [closed_loop_follower_node]:  face: turn +116.4 deg to the waypoint heading
+[INFO] [1793587600.871930873] [closed_loop_follower_node]:    tag 1 (8 frames): used (r=1.30 m, meas=(0.124, 0.227, -3.1 deg))
+[INFO] [1793587600.874042548] [closed_loop_follower_node]:    pose (+0.017, +0.031,   -2.0 deg) std 4.1 cm / 4.7 deg
+[INFO] [1793587600.877444165] [closed_loop_follower_node]: === reached waypoint 3: estimate (+0.017, +0.031, -2.0 deg), estimated error 3.5 cm, +2.0 deg
+[INFO] [1793587600.880809273] [closed_loop_follower_node]: Done. Estimated error at each waypoint (measure the true error with a tape):
+[INFO] [1793587600.884608007] [closed_loop_follower_node]:   waypoint 1 (1.0, 0.0, 0.0): 9.6 cm, +1.5 deg
+[INFO] [1793587600.890593465] [closed_loop_follower_node]:   waypoint 2 (1.0, 2.0, 3.14159): 4.7 cm, +0.0 deg
+[INFO] [1793587600.894044194] [closed_loop_follower_node]:   waypoint 3 (0.0, 0.0, 0.0): 3.5 cm, +2.0 deg
+[INFO] [1793587600.897621532] [closed_loop_follower_node]: Driven 5.73 m, turned 451 deg, 89 s
+[INFO] [1793587600.901453390] [closed_loop_follower_node]: Log: /home/ubuntu/hw2_runs/run_20261102_024506.csv

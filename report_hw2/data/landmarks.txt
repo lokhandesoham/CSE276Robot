@@ -1,0 +1,7 @@
+# AprilTag map for HW2: id, x (m), y (m), facing (deg)
+# x, y: tag centre in the world frame (origin at the start mark, +x toward (1, 0), +y left)
+# facing: direction the printed face points (0 = +x, 90 = +y, 180 = -x, -90 = -y)
+# Tag centres at the height of the camera lens.
+0, -0.40, 0.00,    0    # 0.4 m behind the start, faces +x
+1,  1.40, 0.00,  180    # 0.4 m past (1, 0), faces -x
+2,  1.00, 2.40,  -90    # 0.4 m past (1, 2), faces -y
