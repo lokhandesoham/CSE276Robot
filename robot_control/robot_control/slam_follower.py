@@ -26,6 +26,7 @@ import time
 
 import rclpy
 from apriltag_msgs.msg import AprilTagDetectionArray
+from rcl_interfaces.msg import ParameterDescriptor
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import CameraInfo
@@ -59,10 +60,10 @@ class SlamFollowerNode(Node):
         self.create_subscription(AprilTagDetectionArray, '/detections', self.on_detections, 10)
         self.path_file = self.declare_parameter('path_file', DEFAULT_PATH).value
         self.loops = self.declare_parameter('loops', 3).value
-        self.step = self.declare_parameter('step', 0.25).value
-        self.settle_time = self.declare_parameter('settle_time', 1.0).value
-        self.observe_time = self.declare_parameter('observe_time', 0.8).value
-        self.stationary_time = self.declare_parameter('stationary_time', 0.0).value
+        self.step = self.number('step', 0.25)
+        self.settle_time = self.number('settle_time', 1.0)
+        self.observe_time = self.number('observe_time', 0.8)
+        self.stationary_time = self.number('stationary_time', 0.0)
         self.dry_run = self.declare_parameter('dry_run', False).value
 
         self.collecting = False
@@ -72,6 +73,12 @@ class SlamFollowerNode(Node):
         self.total_distance = 0.0
         self.total_rotation = 0.0
         self.slam = EkfSlam()
+
+    def number(self, name, default):
+        """Float parameter that also accepts an integer on the command line (30 or 30.0)"""
+        value = self.declare_parameter(
+            name, default, ParameterDescriptor(dynamic_typing=True)).value
+        return float(value)
 
     # ---- camera ----------------------------------------------------------------------
     def on_camera_info(self, msg):
