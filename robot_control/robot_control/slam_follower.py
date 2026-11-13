@@ -70,6 +70,8 @@ class SlamFollowerNode(Node):
         self.turn_scale = self.number('turn_scale', 1.0)
         self.drive_scale = self.number('drive_scale', 1.0)
         self.drift = math.radians(self.number('drift_deg_per_m', 0.0))
+        # the filter expects turns of turn_gain x planned (they come out short and erratic)
+        self.turn_gain = self.number('turn_gain', ekf_slam.TURN_GAIN)
 
         self.collecting = False
         self.frames = {}        # tag id -> [(f, l, phi), ...] while collecting
@@ -196,7 +198,7 @@ class SlamFollowerNode(Node):
     # ---- main ------------------------------------------------------------------------
     def run(self):
         path = load_path(self.path_file)
-        self.slam = EkfSlam(drift=self.drift)
+        self.slam = EkfSlam(drift=self.drift, turn_gain=self.turn_gain)
         if math.hypot(*path[0]) < 1e-6:
             path = path[1:]     # the start (0, 0) is where the robot already is
         os.makedirs(LOG_DIR, exist_ok=True)
@@ -205,16 +207,18 @@ class SlamFollowerNode(Node):
         self.log_file = open(log_path, 'w')
         self.get_logger().info('slam_follower v2: EKF-SLAM (tag position + facing), no map given, '
                                f'map frame = start pose; turn x{self.turn_scale:.2f}, '
-                               f'drive x{self.drive_scale:.2f}, drift {math.degrees(self.drift):+.1f} deg/m')
+                               f'drive x{self.drive_scale:.2f}, drift {math.degrees(self.drift):+.1f} deg/m, '
+                               f'filter turn gain {self.turn_gain:.2f}')
         self.get_logger().info(f'Path ({self.path_file}), {self.loops} loops: {path}')
         self.write({'type': 'header', 'path_file': self.path_file, 'path': path,
                     'loops': self.loops, 'step': self.step, 'camera_offset': CAMERA_OFFSET,
                     'observe_time': self.observe_time, 'settle_time': self.settle_time,
                     'stationary_time': self.stationary_time, 'turn_scale': self.turn_scale,
                     'drive_scale': self.drive_scale, 'drift': self.drift,
+                    'turn_gain': self.turn_gain,
                     'noise': {k: getattr(ekf_slam, k) for k in (
                         'DRIVE_STD_BASE', 'DRIVE_STD_PER_M', 'DRIVE_HEADING_STD_PER_M',
-                        'TURN_STD_BASE', 'TURN_STD_FRACTION', 'MEAS_STD_BASE',
+                        'TURN_STD_BASE', 'TURN_STD_FRACTION', 'TURN_GAIN', 'MEAS_STD_BASE',
                         'MEAS_STD_PER_M', 'PHI_STD_BASE', 'PHI_STD_PER_M', 'PHI_MAX_RANGE',
                         'MIN_FRAMES', 'MAX_RANGE')}})
 

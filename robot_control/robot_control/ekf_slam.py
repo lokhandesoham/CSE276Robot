@@ -30,7 +30,9 @@ DRIVE_STD_BASE = 0.005                  # m
 DRIVE_STD_PER_M = 0.05                  # along-track, 5 % of the distance
 DRIVE_HEADING_STD_PER_M = math.radians(4.0)   # heading drift while driving
 TURN_STD_BASE = math.radians(2.0)
-TURN_STD_FRACTION = 0.08                # 8 % of the turn angle (after the scale correction)
+TURN_STD_FRACTION = 0.25                # turns are erratic on the arena floor (12-42 deg for
+                                        # the same 46 deg command, measured from tag bearings)
+TURN_GAIN = 0.75                        # mean turn = 0.75 x planned (fitted on 3 runs)
 
 # measurement (R): frame-to-frame jitter is < 1 mm, the error is bias (calibration, lens
 # offset, placement), measured against the tape at 1.7 m as ~4 cm
@@ -53,7 +55,8 @@ def wrap_angle(a):
 
 
 class EkfSlam:
-    def __init__(self, x0=(0.0, 0.0, 0.0), P0=None, meas_base=None, meas_per_m=None, drift=0.0):
+    def __init__(self, x0=(0.0, 0.0, 0.0), P0=None, meas_base=None, meas_per_m=None, drift=0.0,
+                 turn_gain=None):
         self.s = np.array(x0, dtype=float)
         self.P = np.zeros((3, 3)) if P0 is None else np.array(P0, dtype=float)
         self.ids = []                   # landmark ids in state order
@@ -63,6 +66,7 @@ class EkfSlam:
         self.updates = {}               # id -> number of updates (incl. the first sighting)
         self.lost_looks = 0             # looks in a row with only rejections
         self.drift = drift              # rad/m, heading change while driving (+ = curves left)
+        self.turn_gain = TURN_GAIN if turn_gain is None else turn_gain
         self.recoveries = 0
 
     # ---- accessors -----------------------------------------------------------------
@@ -110,6 +114,8 @@ class EkfSlam:
         self.s[2] = wrap_angle(self.s[2] + self.drift * abs(d))
 
     def predict_turn(self, a):
+        """a: the planned turn. The robot turns TURN_GAIN * a on average, +-TURN_STD_FRACTION."""
+        a = self.turn_gain * a
         W = np.array([[0.0], [0.0], [1.0]])
         Q = np.array([[(TURN_STD_BASE + TURN_STD_FRACTION * abs(a)) ** 2]])
         self._predict(np.eye(3), W, Q)

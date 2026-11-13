@@ -59,8 +59,10 @@ def replay(records, cam_offset, meas_base, meas_per_m, kt=1.0, kd=1.0, drift=Non
     """kt, kd: extra turn/drive scale on the logged motions; drift (rad/m) overrides the run's"""
     header = records[0]
     d_off = 0.0 if cam_offset is None else cam_offset - header.get('camera_offset', 0.10)
+    # runs before turn_gain existed logged no gain: use the current default for them too
     slam = EkfSlam(meas_base=meas_base, meas_per_m=meas_per_m,
-                   drift=header.get('drift', 0.0) if drift is None else drift)
+                   drift=header.get('drift', 0.0) if drift is None else drift,
+                   turn_gain=header.get('turn_gain'))
     traj, truth, snaps, statuses = [slam.pose()], [], [], []
     if 'truth' in header:
         truth.append(header['truth'])
@@ -115,7 +117,7 @@ def main():
     ap.add_argument('--meas-base', type=float)
     ap.add_argument('--meas-per-m', type=float)
     ap.add_argument('--noise', action='store_true', help='stationary noise test summary')
-    ap.add_argument('--kt', type=float, default=1.0, help='extra turn scale on logged turns')
+    ap.add_argument('--kt', type=float, default=1.0, help='extra factor on the filter turn gain')
     ap.add_argument('--kd', type=float, default=1.0, help='extra drive scale on logged drives')
     ap.add_argument('--drift', type=float, help='deg/m, overrides the run\'s drift')
     a = ap.parse_args()
