@@ -33,6 +33,7 @@ setup(
             'capture_frames = robot_control.capture_frames:main',
             'waypoint_follower = robot_control.waypoint_follower:main',
             'closed_loop_follower = robot_control.closed_loop_follower:main',
+            'slam_follower = robot_control.slam_follower:main',
         ],
     },
 )

@@ -1,0 +1,11 @@
+# HW3 octagon path, side m = 1.5 ft (0.457 m), relative to the start pose (x forward, y left).
+# Start mark: arena (0.99, 0.67) facing +x (bottom flat edge). Counter-clockwise, 45 deg turns.
+0.000, 0.000
+0.457, 0.000
+0.780, 0.323
+0.780, 0.780
+0.457, 1.103
+0.000, 1.103
+-0.323, 0.780
+-0.323, 0.323
+0.000, 0.000
