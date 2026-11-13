@@ -10,8 +10,8 @@ HW2 is finished; see "HW2 (done)" at the end.
 | Item | State |
 |---|---|
 | Arena and ground truth | Done. Tags were placed at the planned positions, and the user says those **are** the measured ground truth (`ground_truth_hw3.txt`). |
-| SLAM code (v2) | Done and pushed. A turn-model fix is **planned, not written**; see "Next step". |
-| Square run, for the report | **Done: square run 3.** Saved in `report_hw3/square_run3/`, with a 7.0 cm mean landmark error. |
+| SLAM code (v2) | Done and pushed. **Turn fix written and pushed:** 25° turn pieces, TURN_GAIN 0.9, TURN_STD_FRACTION 0.35. Needs an octagon run on the robot. |
+| Square run, for the report | **Done: square run 3.** Saved in `report_hw3/square_run3/`. Figures regenerated with the new filter: 9.4 cm mean landmark error (5.5 cm best-fit), 0 recoveries. |
 | Octagon run | **Failing.** The robot loses its heading during loop 1 and drives out of the arena. This is the current task. |
 | Noise test | Done: `runs/bundle_20261113_053954/`. |
 | Lens-to-axle distance | **Still not given by the user.** `CAMERA_OFFSET = 0.10` m is a guess. The replay can correct it afterwards with `--camera-offset`. |
@@ -116,7 +116,17 @@ Then check that the numbers are still about 7 cm.
 - At every octagon vertex the robot turns toward a **new** tag. No mapped tag is in view to correct the heading, so each new landmark is placed with the wrong heading. The map stays self-consistent but rotates further at each vertex.
 - When the robot sees tag 2 again (the loop closure), the heading error is ~100°. Every sighting is rejected. The recovery inflation of 30° is too small, so the robot drives on a wrong estimate and leaves the arena.
 
-## Next step (planned, not yet done)
+## Diagnosis of octagon run 2 (done)
+- **Measured turn.** The only octagon turn with the same tag in view before and after came out 1.10× planned. The filter assumed 0.75×.
+- **Replay with the right gain.** With a gain of ~1.09 (`--kt 1.45`), octagon run 2 replays with 0 rejections and a 5.9 cm best-fit error. So the failure is the turn model, not the camera or the start pose.
+- **No single gain fits.** Square runs need ~0.75 and fail at ≥ 0.95; the octagon needs ≥ 1.0. A grid over gain × std on all 5 logs found nothing that works for both.
+- **Simulation, 6 seeds, ±30% erratic turns.**
+  - 46° pieces with gain 0.75 and turns at 1.1× planned: the robot leaves the arena in 3–4 of 6 runs. This reproduces the real failure.
+  - 25° pieces with gain 0.9 and std 0.35: 0 recoveries in both regimes (0.75× and 1.1× planned), median error 2–9 cm.
+  - **Chosen:** 25° pieces, gain 0.9, std 0.35. Steps 1, 2, 4 and 5 below are done; 6 onwards remain.
+- **Replaying octagon logs.** Their headers log `turn_gain` 0.75, so the replay uses that. Add `--kt 1.2` to replay them with the new model.
+
+## Next step
 1. **Smaller turn pieces.** Change `MAX_TURN_STEP` in `ekf_slam.py` from 46° to about **25°**. A tag that's already mapped then stays inside the ±32° field of view across each piece and corrects the heading before a new tag is added. This is the main fix.
 2. **Turn model for erratic turns.** Set `TURN_GAIN` to about 0.85–0.9 and `TURN_STD_FRACTION` to about 0.35, instead of 0.75 / 0.25.
 3. **Optionally,** raise the recovery heading inflation, e.g. to 60°, or add a re-anchoring step.

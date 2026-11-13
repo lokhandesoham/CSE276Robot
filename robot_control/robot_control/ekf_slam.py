@@ -30,9 +30,10 @@ DRIVE_STD_BASE = 0.005                  # m
 DRIVE_STD_PER_M = 0.05                  # along-track, 5 % of the distance
 DRIVE_HEADING_STD_PER_M = math.radians(4.0)   # heading drift while driving
 TURN_STD_BASE = math.radians(2.0)
-TURN_STD_FRACTION = 0.25                # turns are erratic on the arena floor (12-42 deg for
-                                        # the same 46 deg command, measured from tag bearings)
-TURN_GAIN = 0.75                        # mean turn = 0.75 x planned (fitted on 3 runs)
+TURN_STD_FRACTION = 0.35                # turns are erratic on the arena floor: the same command
+                                        # came out 0.3-0.9 x planned on the square runs and
+                                        # 1.1 x planned on the octagon runs (tag bearings)
+TURN_GAIN = 0.9                         # between the two regimes; with +-35 % it covers both
 
 # measurement (R): frame-to-frame jitter is < 1 mm, the error is bias (calibration, lens
 # offset, placement), measured against the tape at 1.7 m as ~4 cm
@@ -232,7 +233,10 @@ POS_TOL = 0.06              # m, waypoint reached
 APPROACH_RANGE = 0.15       # m, closer than this only drive forward/backward
 AIM_TOL = math.radians(6.0)
 MIN_DRIVE = 0.04            # m, shorter drives barely move the robot
-MAX_TURN_STEP = math.radians(46.0)  # turns are made in pieces of at most this, with a look after each
+MAX_TURN_STEP = math.radians(25.0)  # turns are made in pieces of at most this, with a look after each:
+                                    # smaller than the +-32 deg field of view, so a mapped tag stays in
+                                    # view across a piece and corrects the heading before a new tag is
+                                    # added (with 46 deg pieces the octagon lost ~13 deg per vertex)
 
 
 def circular_median(angles):
