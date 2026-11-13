@@ -4,13 +4,15 @@
 #   slam_follower (typed, press Enter to start) | motor_control
 #   ./hw3_tmux.sh square [loops]     square path (default 3 loops)
 #   ./hw3_tmux.sh octagon [loops]    octagon path
+#   TURN_SCALE=0.85 DRIVE_SCALE=0.9 DRIFT=6 ./hw3_tmux.sh square 3   with motion corrections
 #   ./hw3_tmux.sh noise [seconds]    robot stands still, logs every tag frame (default 30 s)
 # Logs: ~/hw3_runs/logs/<start time>/*.log and ~/hw3_runs/{slam,noise}_<time>.jsonl;
 # ./hw3_bundle.sh packs the latest ones. `tmux kill-session -t hw3` stops all.
 MODE=${1:-square}
 ROOT=~/ros2_ws/src/rubikpi_ros2
 case $MODE in
-    square|octagon) ARGS="-p path_file:=$ROOT/path_hw3_$MODE.txt -p loops:=${2:-3}" ;;
+    square|octagon) ARGS="-p path_file:=$ROOT/path_hw3_$MODE.txt -p loops:=${2:-3}"
+                    ARGS="$ARGS -p turn_scale:=${TURN_SCALE:-1.0} -p drive_scale:=${DRIVE_SCALE:-1.0} -p drift_deg_per_m:=${DRIFT:-0.0}" ;;
     noise) ARGS="-p stationary_time:=${2:-30.0}" ;;
     *) echo "usage: $0 square|octagon|noise [loops|seconds]"; exit 1 ;;
 esac

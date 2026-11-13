@@ -55,10 +55,12 @@ def best_fit(src, dst):
     return R, md - R @ ms
 
 
-def replay(records, cam_offset, meas_base, meas_per_m):
+def replay(records, cam_offset, meas_base, meas_per_m, kt=1.0, kd=1.0, drift=None):
+    """kt, kd: extra turn/drive scale on the logged motions; drift (rad/m) overrides the run's"""
     header = records[0]
     d_off = 0.0 if cam_offset is None else cam_offset - header.get('camera_offset', 0.10)
-    slam = EkfSlam(meas_base=meas_base, meas_per_m=meas_per_m)
+    slam = EkfSlam(meas_base=meas_base, meas_per_m=meas_per_m,
+                   drift=header.get('drift', 0.0) if drift is None else drift)
     traj, truth, snaps, statuses = [slam.pose()], [], [], []
     if 'truth' in header:
         truth.append(header['truth'])
@@ -66,10 +68,17 @@ def replay(records, cam_offset, meas_base, meas_per_m):
         if 'truth' in r and r['type'] in ('motion', 'look'):
             truth.append(r['truth'])
         if r['type'] == 'motion':
-            (slam.predict_turn if r['kind'] == 'turn' else slam.predict_drive)(r['value'])
+            if r['kind'] == 'turn':
+                slam.predict_turn(kt * r['value'])
+            else:
+                slam.predict_drive(kd * r['value'])
             traj.append(slam.pose())
         elif r['type'] == 'look':
-            frames = {int(k): [(p[0] + d_off, p[1]) for p in v] for k, v in r['frames'].items()}
+            if 'raw' in r:      # camera frame (tx, ty, tz, phi): rebuild with the lens offset
+                off = header.get('camera_offset', 0.10) + d_off
+                frames = {int(k): [(p[2] + off, -p[0], p[3]) for p in v] for k, v in r['raw'].items()}
+            else:
+                frames = {int(k): [tuple(p) for p in v] for k, v in r['frames'].items()}
             statuses += fuse_look(slam, frames)
             traj.append(slam.pose())
         elif r['type'] == 'loop':
@@ -106,6 +115,9 @@ def main():
     ap.add_argument('--meas-base', type=float)
     ap.add_argument('--meas-per-m', type=float)
     ap.add_argument('--noise', action='store_true', help='stationary noise test summary')
+    ap.add_argument('--kt', type=float, default=1.0, help='extra turn scale on logged turns')
+    ap.add_argument('--kd', type=float, default=1.0, help='extra drive scale on logged drives')
+    ap.add_argument('--drift', type=float, help='deg/m, overrides the run\'s drift')
     a = ap.parse_args()
 
     if a.noise:
@@ -136,7 +148,9 @@ def main():
     p0, th0 = np.array(start[:2]), math.radians(start[2])
     R0 = rot(th0)
 
-    slam, traj, truth, snaps, statuses = replay(records, a.camera_offset, a.meas_base, a.meas_per_m)
+    slam, traj, truth, snaps, statuses = replay(
+        records, a.camera_offset, a.meas_base, a.meas_per_m, a.kt, a.kd,
+        None if a.drift is None else math.radians(a.drift))
     gt = load_gt(a.gt)
     to_arena = lambda p: p0 + R0 @ p  # noqa: E731
 
@@ -148,6 +162,7 @@ def main():
     n_rej = sum(1 for s in statuses if s[4].startswith('rejected'))
     n_upd = sum(1 for s in statuses if s[4].startswith('updated'))
     print(f'updates {n_upd}, rejected {n_rej}, new {sum(1 for s in statuses if s[4] == "new")}')
+    print(f'lost-robot recoveries {slam.recoveries}')
     for loop, lms, _ in snaps:
         ids = sorted(i for i in lms if i in gt)
         est = np.array([to_arena(lms[i][0]) for i in ids])

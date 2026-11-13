@@ -71,7 +71,10 @@ def main():
             if f <= 0.3 or r > 3.0 or abs(math.atan2(l, f)) > HALF_FOV or view > MAX_VIEW_ANGLE:
                 continue
             sd = 0.005 + 0.015 * r
-            frames[i] = [(f + rng.normal(0, sd), l + rng.normal(0, sd))
+            phi = wrap_angle(math.radians(FACING[i]) - th)
+            phi_bias = rng.normal(0, math.radians(2.0 + 4.0 * r))   # PnP yaw error, per look
+            frames[i] = [(f + rng.normal(0, sd), l + rng.normal(0, sd),
+                          phi + phi_bias + rng.normal(0, math.radians(1.0)))
                          for _ in range(FRAMES_PER_LOOK)]
         res = fuse_look(slam, frames)
         w({'type': 'look', 'frames': {str(k): v for k, v in frames.items()},

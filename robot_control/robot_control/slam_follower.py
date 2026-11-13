@@ -65,14 +65,18 @@ class SlamFollowerNode(Node):
         self.observe_time = self.number('observe_time', 0.8)
         self.stationary_time = self.number('stationary_time', 0.0)
         self.dry_run = self.declare_parameter('dry_run', False).value
+        # motion corrections (1.0 / 0.0 = the HW1 calibration as is): the robot turns/drives
+        # turn_scale/drive_scale times what calibration.py expects, and curves drift deg/m
+        self.turn_scale = self.number('turn_scale', 1.0)
+        self.drive_scale = self.number('drive_scale', 1.0)
+        self.drift = math.radians(self.number('drift_deg_per_m', 0.0))
 
         self.collecting = False
-        self.frames = {}        # tag id -> [(f, l), ...] while collecting
+        self.frames = {}        # tag id -> [(f, l, phi), ...] while collecting
         self.raw = {}           # tag id -> [(tx, ty, tz, phi), ...] camera-frame, for the log
         self.t0 = time.monotonic()
         self.total_distance = 0.0
         self.total_rotation = 0.0
-        self.slam = EkfSlam()
 
     def number(self, name, default):
         """Float parameter that also accepts an integer on the command line (30 or 30.0)"""
@@ -99,7 +103,7 @@ class SlamFollowerNode(Node):
                 continue
             t, q = tf.transform.translation, tf.transform.rotation
             f, l, phi = tag_in_robot_frame((t.x, t.y, t.z), (q.x, q.y, q.z, q.w))
-            self.frames.setdefault(tag_id, []).append((f, l))
+            self.frames.setdefault(tag_id, []).append((f, l, phi))
             self.raw.setdefault(tag_id, []).append((t.x, t.y, t.z, phi))
 
     def frame_rates(self, seconds):
@@ -154,7 +158,11 @@ class SlamFollowerNode(Node):
             rclpy.spin_once(self, timeout_sec=0.01)
 
     def move(self, kind, value):
-        command, duration = turn_command(value) if kind == 'turn' else drive_command(value)
+        # command more than wanted so the robot really turns/drives `value`
+        if kind == 'turn':
+            command, duration = turn_command(value / self.turn_scale)
+        else:
+            command, duration = drive_command(value / self.drive_scale)
         end = time.monotonic() + duration
         while time.monotonic() < end:
             if not self.dry_run:
@@ -167,7 +175,7 @@ class SlamFollowerNode(Node):
         else:
             self.slam.predict_drive(value)
             self.total_distance += abs(value)
-        self.write({'type': 'motion', 'kind': kind, 'value': value})
+        self.write({'type': 'motion', 'kind': kind, 'value': value, 'duration': duration})
         self.wait(self.settle_time)
 
     def go_to(self, goal):
@@ -188,22 +196,27 @@ class SlamFollowerNode(Node):
     # ---- main ------------------------------------------------------------------------
     def run(self):
         path = load_path(self.path_file)
+        self.slam = EkfSlam(drift=self.drift)
         if math.hypot(*path[0]) < 1e-6:
             path = path[1:]     # the start (0, 0) is where the robot already is
         os.makedirs(LOG_DIR, exist_ok=True)
         name = 'noise' if self.stationary_time > 0 else 'slam'
         log_path = os.path.join(LOG_DIR, time.strftime(f'{name}_%Y%m%d_%H%M%S.jsonl'))
         self.log_file = open(log_path, 'w')
-        self.get_logger().info('slam_follower v1: EKF-SLAM, no map given, map frame = start pose')
+        self.get_logger().info('slam_follower v2: EKF-SLAM (tag position + facing), no map given, '
+                               f'map frame = start pose; turn x{self.turn_scale:.2f}, '
+                               f'drive x{self.drive_scale:.2f}, drift {math.degrees(self.drift):+.1f} deg/m')
         self.get_logger().info(f'Path ({self.path_file}), {self.loops} loops: {path}')
         self.write({'type': 'header', 'path_file': self.path_file, 'path': path,
                     'loops': self.loops, 'step': self.step, 'camera_offset': CAMERA_OFFSET,
                     'observe_time': self.observe_time, 'settle_time': self.settle_time,
-                    'stationary_time': self.stationary_time,
+                    'stationary_time': self.stationary_time, 'turn_scale': self.turn_scale,
+                    'drive_scale': self.drive_scale, 'drift': self.drift,
                     'noise': {k: getattr(ekf_slam, k) for k in (
                         'DRIVE_STD_BASE', 'DRIVE_STD_PER_M', 'DRIVE_HEADING_STD_PER_M',
                         'TURN_STD_BASE', 'TURN_STD_FRACTION', 'MEAS_STD_BASE',
-                        'MEAS_STD_PER_M', 'GATE_CHI2', 'MIN_FRAMES', 'MAX_RANGE')}})
+                        'MEAS_STD_PER_M', 'PHI_STD_BASE', 'PHI_STD_PER_M', 'PHI_MAX_RANGE',
+                        'MIN_FRAMES', 'MAX_RANGE')}})
 
         if not self.dry_run and self.stationary_time <= 0:
             self.get_logger().info('Waiting for motor_control to subscribe to motor_commands...')
