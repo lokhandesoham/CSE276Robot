@@ -1,0 +1,221 @@
+[INFO] [1794607617.086758906] [motor_controller_node]: Serial connection established on /dev/ttyUSB0
+[INFO] [1794607617.089385068] [motor_controller_node]: Motor Controller Node with IMU started
+[INFO] [1794607617.089902654] [motor_controller_node]: Listening for motor commands on topic: motor_commands
+[INFO] [1794607617.090375243] [motor_controller_node]: Publishing IMU data on topic: imu_data
+[INFO] [1794607617.090869237] [motor_controller_node]: Safety timeout set to 0.15 seconds
+[INFO] [1794607617.091345731] [motor_controller_node]: Requesting IMU data at 50Hz
+[WARN] [1794607617.246531986] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607632.554963531] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607633.760391436] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607635.413503152] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607636.463989746] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607638.101020001] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607638.668198679] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607640.323684128] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607640.717556825] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607642.392038332] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607643.616377520] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607645.259355999] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607645.546432060] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607647.212754785] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607648.203924331] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607649.842419578] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607650.393675399] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607652.079115985] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607652.636090322] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607654.298257492] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607655.488352457] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607657.170018231] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607658.190016320] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607659.840298535] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607660.428549782] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607662.051244189] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607662.568486656] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607664.193230135] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607664.497749147] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607666.156530373] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607667.354983289] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607669.021053943] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607670.060466006] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607671.695641728] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607672.248445552] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607673.914594751] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607674.354169886] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607676.001720715] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607677.209590329] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607678.877154384] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607679.256613240] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607680.883648554] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607681.899960374] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607683.542013452] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607684.142646210] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607685.769359768] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607686.283412895] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607687.939624877] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607689.145611008] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607690.790459179] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607691.184956164] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607692.797485423] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607693.887435628] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607695.520804595] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607696.083098614] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607697.745193482] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607698.328840818] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607699.966125746] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607701.176940670] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607702.818121179] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607703.123385455] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607704.772951595] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607705.790521195] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607707.454847555] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607708.029255648] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607709.676107920] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607710.219616204] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607711.889183222] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607712.360579300] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607714.026894833] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607714.355010153] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607715.981347593] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607717.169743068] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607718.840893912] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607719.199169919] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607720.834158585] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607721.183546138] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607722.811760048] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607724.392047836] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607726.025684934] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607726.576807401] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607728.250591593] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607729.441204953] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607731.111493873] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607731.482034663] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607733.115384448] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607734.028894825] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607735.679928330] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607736.268101233] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607737.897852799] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607738.308792545] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607739.982832477] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607741.217902285] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607742.844320260] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607743.177128560] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607744.823899692] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607745.687403695] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607747.330479349] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607747.882672947] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607749.544804304] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607750.127253538] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607751.777019695] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607752.990609980] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607754.638901787] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607754.963297727] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607756.623337244] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607757.604226444] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607759.246958477] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607759.842019679] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607761.467509743] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607761.819833903] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607763.480374461] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607764.675172369] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607766.337957361] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607767.319124629] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607768.984500083] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607769.558183160] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607771.209685858] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607771.598302140] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607773.258431557] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607774.457454500] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607776.123848063] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607777.076705109] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607778.737910272] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607779.316648634] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607780.960439435] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607781.360147880] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607783.022645073] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607784.226983641] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607785.868462011] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607786.166809741] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607787.839644093] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607788.908445155] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607790.569052117] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607791.156548723] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607792.784424993] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607793.242422464] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607794.912094953] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607796.144557484] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607797.775137722] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607798.733369659] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607800.429162969] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607800.979736790] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607802.624129231] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607804.409098291] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607806.084217166] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607806.648468636] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607808.320668042] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607808.741295768] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607810.367497667] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607811.592905790] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607813.241835522] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607813.626965759] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607815.255457782] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607816.276102902] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607817.903391394] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607818.476658234] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607820.129043020] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607820.669182028] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607822.340865743] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607823.571936418] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607825.215442263] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607826.244693878] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607827.912669011] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607828.483205136] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607830.145802233] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607830.522462099] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607832.197349703] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607833.384373003] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607835.057591727] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607836.031116696] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607837.698095488] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607838.268381858] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607839.917909874] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607840.303180942] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607841.936039771] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607843.142972230] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607844.799937654] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607845.129257869] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607846.775829163] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607847.777282044] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607849.415205616] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607849.968361892] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607851.634992323] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607852.208704196] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607853.856992577] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607855.057624217] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607856.709897649] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607857.709056018] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607859.375402667] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607859.949189716] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607861.585875667] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607862.052105070] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607863.701520161] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607864.037556390] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607865.647053191] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607866.852384125] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607868.504516980] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607868.838060797] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607870.505266311] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607871.538511730] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607873.190690767] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607873.776433723] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607875.397413982] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607875.813986616] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607877.460378424] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607877.908565261] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607879.564334911] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607880.804528354] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607882.434839463] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607882.751518215] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607884.415621907] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607885.342738383] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop
+[INFO] [1794607887.039430847] [motor_controller_node]: Motor commands resumed - exiting safety timeout
+[WARN] [1794607887.226477333] [motor_controller_node]: No motor commands received for 0.2s - applying safety stop

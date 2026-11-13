@@ -1,0 +1,385 @@
+[INFO] [1794607625.543108375] [slam_follower_node]: slam_follower v2: EKF-SLAM (tag position + facing), no map given, map frame = start pose; turn x1.00, drive x0.92, drift +6.0 deg/m, filter turn gain 0.90
+[INFO] [1794607625.543712157] [slam_follower_node]: Path (/home/ubuntu/ros2_ws/src/rubikpi_ros2/path_hw3_octagon.txt), 3 loops: [(0.457, 0.0), (0.78, 0.323), (0.78, 0.78), (0.457, 1.103), (0.0, 1.103), (-0.323, 0.78), (-0.323, 0.323), (0.0, 0.0)]
+[INFO] [1794607625.544367968] [slam_follower_node]: Waiting for motor_control to subscribe to motor_commands...
+[INFO] [1794607626.698582574] [slam_follower_node]: Starting in 3...
+[INFO] [1794607627.702584714] [slam_follower_node]: Starting in 2...
+[INFO] [1794607628.709159693] [slam_follower_node]: Starting in 1...
+[INFO] [1794607631.722735924] [slam_follower_node]: Camera 10.5 fps, apriltag 10.5 fps
+[INFO] [1794607631.726164456] [slam_follower_node]: Start
+[INFO] [1794607632.532033464] [slam_follower_node]:    tag 2 (7 frames) at f=1.60 l=+0.24 m: new
+[INFO] [1794607632.539234890] [slam_follower_node]:    pose (+0.000, +0.000,   +0.0 deg) std 0.0/0.0 cm 0.0 deg, 1 landmarks
+[INFO] [1794607632.547442324] [slam_follower_node]: === loop 1, point 1/8: (0.457, 0.0)
+[INFO] [1794607632.550926530] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607635.405868407] [slam_follower_node]:    tag 2 (9 frames) at f=1.35 l=+0.20 m: updated (Mahalanobis 0.0, innovation -1.0/+0.3 cm +0.4 deg)
+[INFO] [1794607635.407982503] [slam_follower_node]:    pose (+0.251, +0.003,   +1.5 deg) std 1.7/0.0 cm 0.9 deg, 1 landmarks
+[INFO] [1794607635.410191440] [slam_follower_node]:  drive +20.6 cm  (point 21 cm away)
+[INFO] [1794607638.088158034] [slam_follower_node]:    tag 2 (7 frames) at f=1.13 l=+0.20 m: updated (Mahalanobis 0.4, innovation -2.1/+2.0 cm +2.3 deg)
+[INFO] [1794607638.090857007] [slam_follower_node]:    pose (+0.460, +0.011,   +2.5 deg) std 2.1/0.3 cm 1.1 deg, 1 landmarks
+[INFO] [1794607638.095107907] [slam_follower_node]: === loop 1, point 2/8: (0.78, 0.323)
+[INFO] [1794607638.097147578] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607640.312101754] [slam_follower_node]:    tag 2 (9 frames) at f=1.08 l=-0.39 m: updated (Mahalanobis 0.5, innovation -4.1/-12.6 cm -5.8 deg)
+[INFO] [1794607640.314259859] [slam_follower_node]:    tag 3 (9 frames) at f=1.43 l=+0.33 m: new
+[INFO] [1794607640.316342967] [slam_follower_node]:    pose (+0.461, +0.011,  +31.3 deg) std 2.1/0.3 cm 2.0 deg, 2 landmarks
+[INFO] [1794607640.319391928] [slam_follower_node]:  turn +13.2 deg  (point 45 cm away)
+[INFO] [1794607642.377623188] [slam_follower_node]:    tag 3 (7 frames) at f=1.46 l=-0.07 m: updated (Mahalanobis 0.3, innovation -0.1/-9.6 cm -4.0 deg)
+[INFO] [1794607642.380004150] [slam_follower_node]:    pose (+0.461, +0.011,  +46.4 deg) std 2.1/0.3 cm 2.9 deg, 2 landmarks
+[INFO] [1794607642.386351126] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607645.246291799] [slam_follower_node]:    tag 3 (9 frames) at f=1.19 l=-0.07 m: updated (Mahalanobis 0.5, innovation -2.4/+2.4 cm -1.3 deg)
+[INFO] [1794607645.250200210] [slam_follower_node]:    pose (+0.635, +0.195,  +47.4 deg) std 2.5/1.5 cm 2.7 deg, 2 landmarks
+[INFO] [1794607645.253567442] [slam_follower_node]:  turn -6.2 deg  (point 19 cm away)
+[INFO] [1794607647.204800154] [slam_follower_node]:    tag 3 (9 frames) at f=1.19 l=+0.09 m: updated (Mahalanobis 0.4, innovation -1.6/+5.3 cm +1.8 deg)
+[INFO] [1794607647.206901282] [slam_follower_node]:    pose (+0.636, +0.196,  +39.7 deg) std 2.5/1.5 cm 2.9 deg, 2 landmarks
+[INFO] [1794607647.209181987] [slam_follower_node]:  drive +19.2 cm  (point 19 cm away)
+[INFO] [1794607649.824666054] [slam_follower_node]:    tag 3 (7 frames) at f=0.98 l=+0.06 m: updated (Mahalanobis 0.3, innovation -2.0/+0.5 cm -0.6 deg)
+[INFO] [1794607649.829525164] [slam_follower_node]:    pose (+0.786, +0.323,  +40.7 deg) std 2.9/2.1 cm 2.8 deg, 2 landmarks
+[INFO] [1794607649.837804836] [slam_follower_node]: === loop 1, point 3/8: (0.78, 0.78)
+[INFO] [1794607649.839927786] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607652.062128216] [slam_follower_node]:    tag 4 (9 frames) at f=1.31 l=+0.64 m: new
+[INFO] [1794607652.070602362] [slam_follower_node]:    pose (+0.786, +0.323,  +63.2 deg) std 2.9/2.1 cm 10.3 deg, 3 landmarks
+[INFO] [1794607652.075803178] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607654.288840617] [slam_follower_node]:    tag 4 (8 frames) at f=1.46 l=-0.04 m: updated (Mahalanobis 0.3, innovation +0.3/-13.1 cm -5.5 deg)
+[INFO] [1794607654.291193299] [slam_follower_node]:    pose (+0.786, +0.323,  +90.6 deg) std 2.9/2.1 cm 10.5 deg, 3 landmarks
+[INFO] [1794607654.293692070] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607657.146325060] [slam_follower_node]:    tag 4 (8 frames) at f=1.21 l=-0.06 m: updated (Mahalanobis 0.0, innovation +0.3/+1.1 cm +0.8 deg)
+[INFO] [1794607657.149763436] [slam_follower_node]:    pose (+0.781, +0.572,  +91.9 deg) std 5.6/2.6 cm 10.4 deg, 3 landmarks
+[INFO] [1794607657.154650617] [slam_follower_node]:  drive +20.8 cm  (point 21 cm away)
+[INFO] [1794607659.826838826] [slam_follower_node]:    tag 4 (7 frames) at f=1.01 l=-0.07 m: updated (Mahalanobis 0.1, innovation +0.6/+1.4 cm +1.3 deg)
+[INFO] [1794607659.829323483] [slam_follower_node]:    pose (+0.773, +0.779,  +92.8 deg) std 9.1/2.9 cm 10.4 deg, 3 landmarks
+[INFO] [1794607659.833287726] [slam_follower_node]: === loop 1, point 4/8: (0.457, 1.103)
+[INFO] [1794607659.835348491] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607662.039855452] [slam_follower_node]:    tag 5 (9 frames) at f=1.39 l=+0.13 m: new
+[INFO] [1794607662.041967205] [slam_follower_node]:    pose (+0.773, +0.779, +115.3 deg) std 9.1/2.9 cm 14.4 deg, 4 landmarks
+[INFO] [1794607662.044347855] [slam_follower_node]:  turn +19.0 deg  (point 45 cm away)
+[INFO] [1794607664.181915458] [slam_follower_node]:    tag 5 (7 frames) at f=1.31 l=-0.49 m: updated (Mahalanobis 1.2, innovation -5.5/-21.1 cm -8.7 deg)
+[INFO] [1794607664.183713732] [slam_follower_node]:    tag 6 (7 frames) at f=1.58 l=+0.56 m: new
+[INFO] [1794607664.186327916] [slam_follower_node]:    pose (+0.773, +0.779, +140.7 deg) std 9.1/2.9 cm 14.5 deg, 5 landmarks
+[INFO] [1794607664.189948994] [slam_follower_node]:  turn -6.4 deg  (point 45 cm away)
+[INFO] [1794607666.141545454] [slam_follower_node]:    tag 5 (7 frames) at f=1.36 l=-0.33 m: updated (Mahalanobis 0.1, innovation +1.6/+1.7 cm +1.2 deg)
+[INFO] [1794607666.146670492] [slam_follower_node]:    tag 6 (7 frames) at f=1.50 l=+0.74 m: updated (Mahalanobis 0.0, innovation -0.7/+1.3 cm -0.5 deg)
+[INFO] [1794607666.150518646] [slam_follower_node]:    pose (+0.774, +0.779, +133.9 deg) std 9.1/2.9 cm 14.5 deg, 5 landmarks
+[INFO] [1794607666.153673697] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607669.010196959] [slam_follower_node]:    tag 5 (9 frames) at f=1.09 l=-0.37 m: updated (Mahalanobis 0.0, innovation -0.2/-1.0 cm -0.0 deg)
+[INFO] [1794607669.013214150] [slam_follower_node]:    pose (+0.597, +0.956, +135.6 deg) std 12.6/5.4 cm 14.5 deg, 5 landmarks
+[INFO] [1794607669.016753669] [slam_follower_node]:  drive +20.3 cm  (point 20 cm away)
+[INFO] [1794607671.679530907] [slam_follower_node]:    tag 5 (8 frames) at f=0.87 l=-0.40 m: updated (Mahalanobis 0.1, innovation -1.1/-0.8 cm +1.3 deg)
+[INFO] [1794607671.681621150] [slam_follower_node]:    pose (+0.447, +1.097, +137.2 deg) std 15.7/8.7 cm 14.4 deg, 5 landmarks
+[INFO] [1794607671.685300768] [slam_follower_node]: === loop 1, point 5/8: (0.0, 1.103)
+[INFO] [1794607671.687724490] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607673.904253948] [slam_follower_node]:    tag 6 (9 frames) at f=1.26 l=+0.04 m: updated (Mahalanobis 0.9, innovation -0.2/-16.2 cm -5.0 deg)
+[INFO] [1794607673.907752113] [slam_follower_node]:    pose (+0.451, +1.102, +165.9 deg) std 15.7/8.7 cm 14.6 deg, 5 landmarks
+[INFO] [1794607673.910612904] [slam_follower_node]:  turn +14.0 deg  (point 45 cm away)
+[INFO] [1794607675.987820497] [slam_follower_node]:    tag 6 (8 frames) at f=1.20 l=-0.35 m: updated (Mahalanobis 0.9, innovation -3.9/-12.7 cm -4.2 deg)
+[INFO] [1794607675.989740746] [slam_follower_node]:    tag 7 (8 frames) at f=1.42 l=+0.44 m: new
+[INFO] [1794607675.993052720] [slam_follower_node]:    pose (+0.450, +1.103, -175.9 deg) std 15.6/8.7 cm 14.7 deg, 6 landmarks
+[INFO] [1794607675.997023266] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607678.859686993] [slam_follower_node]:    tag 6 (9 frames) at f=0.94 l=-0.37 m: updated (Mahalanobis 0.1, innovation -0.9/-0.1 cm +0.1 deg)
+[INFO] [1794607678.861563337] [slam_follower_node]:    tag 7 (9 frames) at f=1.17 l=+0.41 m: updated (Mahalanobis 0.0, innovation -0.5/+0.7 cm -0.0 deg)
+[INFO] [1794607678.866234224] [slam_follower_node]:    pose (+0.198, +1.081, -174.2 deg) std 15.2/14.7 cm 14.6 deg, 6 landmarks
+[INFO] [1794607678.868927520] [slam_follower_node]:  turn -12.2 deg  (point 20 cm away)
+[INFO] [1794607680.875038787] [slam_follower_node]:    tag 6 (8 frames) at f=1.00 l=-0.12 m: updated (Mahalanobis 0.4, innovation +0.6/+6.3 cm +3.8 deg)
+[INFO] [1794607680.877652398] [slam_follower_node]:    pose (+0.195, +1.080, +171.7 deg) std 15.1/14.7 cm 14.8 deg, 6 landmarks
+[INFO] [1794607680.879891960] [slam_follower_node]:  drive +19.7 cm  (point 20 cm away)
+[INFO] [1794607683.516511794] [slam_follower_node]:    tag 6 (7 frames) at f=0.80 l=-0.14 m: updated (Mahalanobis 0.1, innovation -0.2/+1.2 cm +0.4 deg)
+[INFO] [1794607683.520954043] [slam_follower_node]:    pose (-0.001, +1.107, +172.5 deg) std 15.8/19.6 cm 14.7 deg, 6 landmarks
+[INFO] [1794607683.529898592] [slam_follower_node]: === loop 1, point 6/8: (-0.323, 0.78)
+[INFO] [1794607683.537912546] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607685.752134660] [slam_follower_node]:    tag 7 (8 frames) at f=1.08 l=+0.11 m: updated (Mahalanobis 1.0, innovation +3.4/-18.1 cm -9.5 deg)
+[INFO] [1794607685.757216992] [slam_follower_node]:    pose (-0.000, +1.109, -156.0 deg) std 15.8/19.6 cm 14.8 deg, 6 landmarks
+[INFO] [1794607685.762521504] [slam_follower_node]:  turn +21.6 deg  (point 46 cm away)
+[INFO] [1794607687.927151591] [slam_follower_node]:    tag 7 (8 frames) at f=1.01 l=-0.39 m: updated (Mahalanobis 0.8, innovation -3.5/-14.4 cm -7.3 deg)
+[INFO] [1794607687.929262459] [slam_follower_node]:    pose (+0.001, +1.111, -129.1 deg) std 15.7/19.6 cm 14.9 deg, 6 landmarks
+[INFO] [1794607687.931494520] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607690.782750683] [slam_follower_node]:    pose (-0.154, +0.915, -127.6 deg) std 11.6/23.5 cm 14.9 deg, 6 landmarks  (no tag; camera 8, apriltag 8 frames)
+[INFO] [1794607690.785045243] [slam_follower_node]:  turn -13.7 deg  (point 22 cm away)
+[INFO] [1794607692.791139279] [slam_follower_node]:    tag 7 (9 frames) at f=0.82 l=-0.21 m: updated (Mahalanobis 0.1, innovation +0.4/+3.0 cm +2.6 deg)
+[INFO] [1794607692.792267210] [slam_follower_node]:    pose (-0.156, +0.913, -141.9 deg) std 11.5/23.5 cm 14.9 deg, 6 landmarks
+[INFO] [1794607692.793468004] [slam_follower_node]:  drive +21.4 cm  (point 21 cm away)
+[INFO] [1794607695.504680856] [slam_follower_node]:    tag 7 (8 frames) at f=0.60 l=-0.23 m: updated (Mahalanobis 0.3, innovation -0.6/-0.0 cm -3.9 deg)
+[INFO] [1794607695.509590954] [slam_follower_node]:    pose (-0.324, +0.776, -140.3 deg) std 9.1/27.7 cm 14.8 deg, 6 landmarks
+[INFO] [1794607695.514004767] [slam_follower_node]: === loop 1, point 7/8: (-0.323, 0.323)
+[INFO] [1794607695.517569337] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607697.732122090] [slam_follower_node]:    tag 0 (9 frames) at f=1.10 l=+0.50 m: new
+[INFO] [1794607697.734442587] [slam_follower_node]:    pose (-0.324, +0.776, -117.8 deg) std 9.1/27.7 cm 17.8 deg, 7 landmarks
+[INFO] [1794607697.737041980] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607699.952595566] [slam_follower_node]:    tag 0 (7 frames) at f=1.19 l=-0.12 m: updated (Mahalanobis 0.7, innovation -1.2/-16.4 cm -6.7 deg)
+[INFO] [1794607699.957477645] [slam_follower_node]:    pose (-0.324, +0.776,  -87.9 deg) std 9.1/27.7 cm 18.0 deg, 7 landmarks
+[INFO] [1794607699.958972075] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607702.810817356] [slam_follower_node]:    tag 0 (8 frames) at f=0.93 l=-0.16 m: updated (Mahalanobis 0.1, innovation -0.0/-1.1 cm +0.3 deg)
+[INFO] [1794607702.812092783] [slam_follower_node]:    pose (-0.311, +0.530,  -86.4 deg) std 8.6/27.4 cm 18.0 deg, 7 landmarks
+[INFO] [1794607702.813382689] [slam_follower_node]:  turn -6.9 deg  (point 21 cm away)
+[INFO] [1794607704.762162887] [slam_follower_node]:    tag 0 (8 frames) at f=0.95 l=-0.05 m: updated (Mahalanobis 0.0, innovation +0.3/+0.2 cm +1.0 deg)
+[INFO] [1794607704.766426497] [slam_follower_node]:    pose (-0.312, +0.531,  -92.8 deg) std 8.6/27.3 cm 18.0 deg, 7 landmarks
+[INFO] [1794607704.768830741] [slam_follower_node]:  drive +20.9 cm  (point 21 cm away)
+[INFO] [1794607707.443516678] [slam_follower_node]:    tag 0 (9 frames) at f=0.74 l=-0.08 m: updated (Mahalanobis 0.1, innovation +0.3/-1.0 cm -0.1 deg)
+[INFO] [1794607707.445600099] [slam_follower_node]:    pose (-0.319, +0.325,  -91.3 deg) std 12.7/27.4 cm 17.9 deg, 7 landmarks
+[INFO] [1794607707.449817721] [slam_follower_node]: === loop 1, point 8/8: (0.0, 0.0)
+[INFO] [1794607707.451562924] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607709.669229813] [slam_follower_node]:    pose (-0.319, +0.325,  -68.8 deg) std 12.7/27.4 cm 20.5 deg, 7 landmarks  (no tag; camera 8, apriltag 8 frames)
+[INFO] [1794607709.671625776] [slam_follower_node]:  turn +23.3 deg  (point 46 cm away)
+[INFO] [1794607711.860565308] [slam_follower_node]:    tag 2 (9 frames) at f=1.66 l=+0.59 m: updated (Mahalanobis 5.6, innovation +31.8/-77.1 cm -37.1 deg)
+[INFO] [1794607711.862653573] [slam_follower_node]:    pose (-0.044, -0.041,  -14.2 deg) std 4.7/20.5 cm 6.3 deg, 7 landmarks
+[INFO] [1794607711.868331042] [slam_follower_node]: === loop 1 done. Map:
+[INFO] [1794607711.870237074] [slam_follower_node]:    tag 2: (+1.583, +0.244) std 2.4/2.7 cm, 5 sightings
+[INFO] [1794607711.872114720] [slam_follower_node]:    tag 3: (+1.509, +1.016) std 5.0/4.8 cm, 5 sightings
+[INFO] [1794607711.873981221] [slam_follower_node]:    tag 4: (+0.752, +1.787) std 23.9/2.9 cm, 4 sightings
+[INFO] [1794607711.875820536] [slam_follower_node]:    tag 5: (-0.319, +1.761) std 29.0/13.5 cm, 5 sightings
+[INFO] [1794607711.877563135] [slam_follower_node]:    tag 6: (-0.977, +0.837) std 17.6/29.2 cm, 7 sightings
+[INFO] [1794607711.879323702] [slam_follower_node]:    tag 7: (-0.854, -0.009) std 6.0/31.9 cm, 6 sightings
+[INFO] [1794607711.881083436] [slam_follower_node]:    tag 0: (+0.296, -0.825) std 14.2/21.6 cm, 5 sightings
+[INFO] [1794607711.883730380] [slam_follower_node]: === loop 2, point 1/8: (0.457, 0.0)
+[INFO] [1794607711.885465740] [slam_follower_node]:  turn +18.8 deg  (point 50 cm away)
+[INFO] [1794607714.013972392] [slam_follower_node]:    tag 2 (7 frames) at f=1.75 l=-0.17 m: updated (Mahalanobis 3.8, innovation +11.4/-37.9 cm -10.5 deg)
+[INFO] [1794607714.015941963] [slam_follower_node]:    tag 3 (7 frames) at f=1.85 l=+0.62 m: updated (Mahalanobis 0.2, innovation +1.4/+2.7 cm +3.8 deg)
+[INFO] [1794607714.018573075] [slam_follower_node]:    pose (-0.073, -0.105,  +17.6 deg) std 3.9/9.2 cm 3.4 deg, 7 landmarks
+[INFO] [1794607714.021374701] [slam_follower_node]:  turn -6.4 deg  (point 54 cm away)
+[INFO] [1794607715.965275047] [slam_follower_node]:    tag 2 (8 frames) at f=1.75 l=+0.21 m: updated (Mahalanobis 3.7, innovation +5.5/+20.7 cm +10.2 deg)
+[INFO] [1794607715.967429820] [slam_follower_node]:    pose (-0.087, -0.110,   +5.7 deg) std 3.7/9.0 cm 3.5 deg, 7 landmarks
+[INFO] [1794607715.971573122] [slam_follower_node]:  drive +25.0 cm  (point 55 cm away)
+[INFO] [1794607718.828409790] [slam_follower_node]:    tag 2 (8 frames) at f=1.50 l=+0.17 m: updated (Mahalanobis 1.2, innovation +4.7/+2.4 cm +4.7 deg)
+[INFO] [1794607718.833490040] [slam_follower_node]:    pose (+0.145, -0.083,   +6.7 deg) std 3.7/7.6 cm 3.3 deg, 7 landmarks
+[INFO] [1794607718.836845138] [slam_follower_node]:  turn +8.2 deg  (point 32 cm away)
+[INFO] [1794607720.816820404] [slam_follower_node]:    tag 2 (8 frames) at f=1.50 l=-0.20 m: updated (Mahalanobis 2.3, innovation +2.4/-17.6 cm -3.0 deg)
+[INFO] [1794607720.821969558] [slam_follower_node]:    tag 3 (8 frames) at f=1.63 l=+0.58 m: updated (Mahalanobis 0.2, innovation -2.3/+0.5 cm +3.1 deg)
+[INFO] [1794607720.827624268] [slam_follower_node]:    pose (+0.137, -0.066,  +19.4 deg) std 3.5/6.5 cm 2.9 deg, 7 landmarks
+[INFO] [1794607720.830664846] [slam_follower_node]:  turn -7.7 deg  (point 33 cm away)
+[INFO] [1794607722.796024261] [slam_follower_node]:    tag 2 (7 frames) at f=1.51 l=+0.07 m: updated (Mahalanobis 0.8, innovation +2.7/+6.9 cm +5.8 deg)
+[INFO] [1794607722.804245763] [slam_follower_node]:    pose (+0.131, -0.063,   +9.8 deg) std 3.4/6.4 cm 3.1 deg, 7 landmarks
+[INFO] [1794607722.807554769] [slam_follower_node]:  drive +33.2 cm  (point 33 cm away)
+[INFO] [1794607726.009947533] [slam_follower_node]:    tag 2 (7 frames) at f=1.15 l=+0.02 m: updated (Mahalanobis 0.1, innovation -0.1/+0.3 cm +3.6 deg)
+[INFO] [1794607726.013579549] [slam_follower_node]:    pose (+0.457, +0.001,  +11.6 deg) std 3.4/5.0 cm 2.9 deg, 7 landmarks
+[INFO] [1794607726.017998779] [slam_follower_node]: === loop 2, point 2/8: (0.78, 0.323)
+[INFO] [1794607726.020355056] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607728.241376530] [slam_follower_node]:    tag 3 (9 frames) at f=1.42 l=+0.13 m: updated (Mahalanobis 1.0, innovation -1.5/-14.5 cm -3.3 deg)
+[INFO] [1794607728.243579479] [slam_follower_node]:    pose (+0.459, +0.018,  +38.7 deg) std 3.4/4.6 cm 3.1 deg, 7 landmarks
+[INFO] [1794607728.246133562] [slam_follower_node]:  drive +25.0 cm  (point 44 cm away)
+[INFO] [1794607731.098638148] [slam_follower_node]:    tag 3 (7 frames) at f=1.17 l=+0.11 m: updated (Mahalanobis 0.2, innovation -1.9/+1.1 cm +1.9 deg)
+[INFO] [1794607731.102235686] [slam_follower_node]:    pose (+0.656, +0.184,  +39.7 deg) std 3.3/3.9 cm 3.0 deg, 7 landmarks
+[INFO] [1794607731.104849090] [slam_follower_node]:  turn +8.6 deg  (point 19 cm away)
+[INFO] [1794607733.103413538] [slam_follower_node]:    tag 3 (9 frames) at f=1.16 l=-0.17 m: updated (Mahalanobis 1.5, innovation -2.1/-12.4 cm -4.9 deg)
+[INFO] [1794607733.105676797] [slam_follower_node]:    pose (+0.657, +0.189,  +52.7 deg) std 3.2/3.7 cm 3.2 deg, 7 landmarks
+[INFO] [1794607733.108023699] [slam_follower_node]:  drive +18.1 cm  (point 18 cm away)
+[INFO] [1794607735.668618283] [slam_follower_node]:    tag 3 (8 frames) at f=0.99 l=-0.18 m: updated (Mahalanobis 0.1, innovation +0.3/+0.6 cm +1.7 deg)
+[INFO] [1794607735.670990861] [slam_follower_node]:    pose (+0.765, +0.333,  +53.5 deg) std 3.1/3.5 cm 3.0 deg, 7 landmarks
+[INFO] [1794607735.674278931] [slam_follower_node]: === loop 2, point 3/8: (0.78, 0.78)
+[INFO] [1794607735.676099861] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607737.886071205] [slam_follower_node]:    tag 4 (7 frames) at f=1.34 l=+0.46 m: updated (Mahalanobis 0.5, innovation -4.3/+0.4 cm -0.8 deg)
+[INFO] [1794607737.890116698] [slam_follower_node]:    pose (+0.763, +0.346,  +74.2 deg) std 3.1/2.9 cm 5.1 deg, 7 landmarks
+[INFO] [1794607737.892902805] [slam_follower_node]:  turn +13.5 deg  (point 43 cm away)
+[INFO] [1794607739.968734864] [slam_follower_node]:    tag 4 (8 frames) at f=1.41 l=+0.04 m: updated (Mahalanobis 0.9, innovation -1.3/-12.4 cm -3.8 deg)
+[INFO] [1794607739.975446572] [slam_follower_node]:    pose (+0.762, +0.351,  +90.4 deg) std 3.1/2.8 cm 5.2 deg, 7 landmarks
+[INFO] [1794607739.978823441] [slam_follower_node]:  drive +25.0 cm  (point 43 cm away)
+[INFO] [1794607742.838933665] [slam_follower_node]:    tag 4 (8 frames) at f=1.14 l=+0.02 m: updated (Mahalanobis 0.7, innovation -3.5/+0.2 cm +0.9 deg)
+[INFO] [1794607742.839960976] [slam_follower_node]:    pose (+0.757, +0.613,  +91.5 deg) std 3.7/3.0 cm 5.1 deg, 7 landmarks
+[INFO] [1794607742.841056982] [slam_follower_node]:  turn -9.3 deg  (point 17 cm away)
+[INFO] [1794607744.817569639] [slam_follower_node]:    tag 4 (9 frames) at f=1.10 l=+0.33 m: updated (Mahalanobis 2.3, innovation -5.0/+14.1 cm +6.9 deg)
+[INFO] [1794607744.818691737] [slam_follower_node]:    pose (+0.758, +0.619,  +76.6 deg) std 3.7/2.8 cm 5.3 deg, 7 landmarks
+[INFO] [1794607744.820089712] [slam_follower_node]:  drive +16.2 cm  (point 16 cm away)
+[INFO] [1794607747.309048277] [slam_follower_node]:    tag 4 (8 frames) at f=0.94 l=+0.31 m: updated (Mahalanobis 0.2, innovation -1.1/+1.4 cm +0.2 deg)
+[INFO] [1794607747.312191352] [slam_follower_node]:    pose (+0.795, +0.779,  +77.1 deg) std 4.6/2.9 cm 5.2 deg, 7 landmarks
+[INFO] [1794607747.322132277] [slam_follower_node]: === loop 2, point 4/8: (0.457, 1.103)
+[INFO] [1794607747.326305839] [slam_follower_node]:  turn +25.0 deg  (point 47 cm away)
+[INFO] [1794607749.532619441] [slam_follower_node]:    tag 4 (8 frames) at f=0.99 l=-0.13 m: updated (Mahalanobis 0.1, innovation -0.8/-4.5 cm -1.5 deg)
+[INFO] [1794607749.535979696] [slam_follower_node]:    pose (+0.795, +0.780, +102.1 deg) std 4.6/2.8 cm 5.4 deg, 7 landmarks
+[INFO] [1794607749.540109509] [slam_follower_node]:  turn +25.0 deg  (point 47 cm away)
+[INFO] [1794607751.760546586] [slam_follower_node]:    tag 5 (8 frames) at f=1.40 l=+0.04 m: updated (Mahalanobis 3.4, innovation -3.6/-27.9 cm -11.9 deg)
+[INFO] [1794607751.763157751] [slam_follower_node]:    pose (+0.776, +0.793, +132.1 deg) std 4.4/2.7 cm 2.9 deg, 7 landmarks
+[INFO] [1794607751.765957660] [slam_follower_node]:  drive +25.0 cm  (point 44 cm away)
+[INFO] [1794607754.628264008] [slam_follower_node]:    tag 5 (8 frames) at f=1.15 l=+0.02 m: updated (Mahalanobis 0.2, innovation -1.9/+0.2 cm +0.1 deg)
+[INFO] [1794607754.631750978] [slam_follower_node]:    pose (+0.604, +0.981, +133.3 deg) std 4.7/2.8 cm 2.7 deg, 7 landmarks
+[INFO] [1794607754.634310478] [slam_follower_node]:  turn +7.2 deg  (point 19 cm away)
+[INFO] [1794607756.614475918] [slam_follower_node]:    tag 5 (9 frames) at f=1.14 l=-0.18 m: updated (Mahalanobis 0.6, innovation -1.6/-6.7 cm -3.3 deg)
+[INFO] [1794607756.616691419] [slam_follower_node]:    pose (+0.603, +0.983, +142.6 deg) std 4.7/2.7 cm 2.9 deg, 7 landmarks
+[INFO] [1794607756.618966866] [slam_follower_node]:  drive +18.9 cm  (point 19 cm away)
+[INFO] [1794607759.229218274] [slam_follower_node]:    tag 5 (7 frames) at f=0.94 l=-0.18 m: updated (Mahalanobis 0.2, innovation -1.1/+1.0 cm +0.9 deg)
+[INFO] [1794607759.232974870] [slam_follower_node]:    pose (+0.450, +1.100, +143.4 deg) std 5.0/2.8 cm 2.7 deg, 7 landmarks
+[INFO] [1794607759.238033039] [slam_follower_node]: === loop 2, point 5/8: (0.0, 1.103)
+[INFO] [1794607759.243874776] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607761.459066060] [slam_follower_node]:    tag 6 (7 frames) at f=1.33 l=+0.27 m: updated (Mahalanobis 1.2, innovation +1.5/-16.6 cm -9.8 deg)
+[INFO] [1794607761.460983029] [slam_follower_node]:    pose (+0.450, +1.102, +172.0 deg) std 5.0/2.8 cm 2.6 deg, 7 landmarks
+[INFO] [1794607761.462972808] [slam_follower_node]:  turn +7.8 deg  (point 45 cm away)
+[INFO] [1794607763.461565594] [slam_follower_node]:    tag 6 (9 frames) at f=1.35 l=+0.08 m: updated (Mahalanobis 0.3, innovation -1.6/-4.0 cm -3.7 deg)
+[INFO] [1794607763.467755340] [slam_follower_node]:    pose (+0.450, +1.103, -179.6 deg) std 5.0/2.8 cm 2.6 deg, 7 landmarks
+[INFO] [1794607763.477480128] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607766.329030984] [slam_follower_node]:    tag 6 (8 frames) at f=1.09 l=+0.06 m: updated (Mahalanobis 0.5, innovation -2.5/+1.1 cm -2.2 deg)
+[INFO] [1794607766.331692408] [slam_follower_node]:    pose (+0.196, +1.101, -178.5 deg) std 5.2/2.9 cm 2.4 deg, 7 landmarks
+[INFO] [1794607766.334405028] [slam_follower_node]:  drive +19.6 cm  (point 20 cm away)
+[INFO] [1794607768.967037161] [slam_follower_node]:    tag 6 (9 frames) at f=0.89 l=+0.03 m: updated (Mahalanobis 0.3, innovation -1.8/-0.1 cm -1.5 deg)
+[INFO] [1794607768.969427083] [slam_follower_node]:    pose (-0.005, +1.095, -177.4 deg) std 5.3/3.1 cm 2.4 deg, 7 landmarks
+[INFO] [1794607768.977175269] [slam_follower_node]: === loop 2, point 6/8: (-0.323, 0.78)
+[INFO] [1794607768.980109861] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607771.193984597] [slam_follower_node]:    tag 7 (8 frames) at f=1.21 l=+0.27 m: updated (Mahalanobis 1.3, innovation +2.4/-17.1 cm -6.4 deg)
+[INFO] [1794607771.201411908] [slam_follower_node]:    pose (-0.005, +1.094, -147.9 deg) std 5.3/3.1 cm 2.8 deg, 7 landmarks
+[INFO] [1794607771.203967814] [slam_follower_node]:  turn +12.6 deg  (point 45 cm away)
+[INFO] [1794607773.248367508] [slam_follower_node]:    tag 7 (7 frames) at f=1.24 l=+0.04 m: updated (Mahalanobis 0.1, innovation -1.3/+0.7 cm +2.0 deg)
+[INFO] [1794607773.250479784] [slam_follower_node]:    pose (-0.005, +1.094, -137.0 deg) std 5.3/3.1 cm 2.8 deg, 7 landmarks
+[INFO] [1794607773.252995379] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607776.111962772] [slam_follower_node]:    tag 7 (9 frames) at f=0.98 l=+0.04 m: updated (Mahalanobis 0.9, innovation -2.4/+3.2 cm +3.4 deg)
+[INFO] [1794607776.114836377] [slam_follower_node]:    pose (-0.193, +0.920, -136.6 deg) std 5.1/3.6 cm 2.6 deg, 7 landmarks
+[INFO] [1794607776.119274462] [slam_follower_node]:  drive +19.1 cm  (point 19 cm away)
+[INFO] [1794607778.726709229] [slam_follower_node]:    tag 7 (9 frames) at f=0.79 l=+0.04 m: updated (Mahalanobis 0.7, innovation -1.3/+2.5 cm +2.8 deg)
+[INFO] [1794607778.728861087] [slam_follower_node]:    pose (-0.336, +0.787, -136.2 deg) std 4.9/4.0 cm 2.6 deg, 7 landmarks
+[INFO] [1794607778.732729555] [slam_follower_node]: === loop 2, point 7/8: (-0.323, 0.323)
+[INFO] [1794607778.734725323] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607780.951927992] [slam_follower_node]:    tag 0 (8 frames) at f=1.33 l=+0.57 m: updated (Mahalanobis 4.9, innovation +13.6/-36.2 cm -17.5 deg)
+[INFO] [1794607780.954404422] [slam_follower_node]:    pose (-0.291, +0.786, -105.2 deg) std 4.5/4.0 cm 3.4 deg, 7 landmarks
+[INFO] [1794607780.956946423] [slam_follower_node]:  turn +11.2 deg  (point 46 cm away)
+[INFO] [1794607783.001399876] [slam_follower_node]:    tag 0 (8 frames) at f=1.42 l=+0.26 m: updated (Mahalanobis 0.4, innovation +0.9/-8.6 cm -2.7 deg)
+[INFO] [1794607783.009486281] [slam_follower_node]:    pose (-0.289, +0.785,  -92.2 deg) std 4.5/4.0 cm 3.6 deg, 7 landmarks
+[INFO] [1794607783.013284699] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607785.858278279] [slam_follower_node]:    tag 0 (8 frames) at f=1.18 l=+0.22 m: updated (Mahalanobis 0.1, innovation -0.5/-1.0 cm +0.6 deg)
+[INFO] [1794607785.860481488] [slam_follower_node]:    pose (-0.294, +0.534,  -90.6 deg) std 3.6/4.3 cm 3.4 deg, 7 landmarks
+[INFO] [1794607785.862910056] [slam_follower_node]:  turn -7.2 deg  (point 21 cm away)
+[INFO] [1794607787.824611663] [slam_follower_node]:    tag 0 (9 frames) at f=1.15 l=+0.35 m: updated (Mahalanobis 0.0, innovation -0.3/-0.6 cm +0.5 deg)
+[INFO] [1794607787.828738873] [slam_follower_node]:    pose (-0.294, +0.534,  -96.9 deg) std 3.6/4.2 cm 3.6 deg, 7 landmarks
+[INFO] [1794607787.834234112] [slam_follower_node]:  drive +21.3 cm  (point 21 cm away)
+[INFO] [1794607790.540844644] [slam_follower_node]:    tag 0 (8 frames) at f=0.93 l=+0.31 m: updated (Mahalanobis 0.4, innovation -1.6/-1.8 cm -0.4 deg)
+[INFO] [1794607790.545716518] [slam_follower_node]:    pose (-0.316, +0.317,  -95.4 deg) std 3.2/4.4 cm 3.4 deg, 7 landmarks
+[INFO] [1794607790.555579167] [slam_follower_node]: === loop 2, point 8/8: (0.0, 0.0)
+[INFO] [1794607790.563659166] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607792.767196228] [slam_follower_node]:    tag 0 (9 frames) at f=0.94 l=-0.26 m: updated (Mahalanobis 2.3, innovation -4.7/-19.9 cm -9.7 deg)
+[INFO] [1794607792.772139610] [slam_follower_node]:    pose (-0.316, +0.310,  -61.7 deg) std 3.2/4.4 cm 3.7 deg, 7 landmarks
+[INFO] [1794607792.778045721] [slam_follower_node]:  turn +17.3 deg  (point 44 cm away)
+[INFO] [1794607794.901111298] [slam_follower_node]:    pose (-0.316, +0.310,  -46.2 deg) std 3.2/4.4 cm 8.3 deg, 7 landmarks  (no tag; camera 8, apriltag 9 frames)
+[INFO] [1794607794.907165529] [slam_follower_node]:  drive +25.0 cm  (point 44 cm away)
+[INFO] [1794607797.767879520] [slam_follower_node]:    pose (-0.141, +0.132,  -44.7 deg) std 4.2/4.8 cm 8.4 deg, 7 landmarks  (no tag; camera 8, apriltag 9 frames)
+[INFO] [1794607797.770146634] [slam_follower_node]:  drive +19.3 cm  (point 19 cm away)
+[INFO] [1794607800.383546944] [slam_follower_node]:    pose (-0.002, -0.002,  -43.5 deg) std 5.6/5.9 cm 8.4 deg, 7 landmarks  (no tag; camera 7, apriltag 7 frames)
+[INFO] [1794607800.396560429] [slam_follower_node]: === loop 2 done. Map:
+[INFO] [1794607800.399826417] [slam_follower_node]:    tag 2: (+1.576, +0.237) std 2.3/2.5 cm, 11 sightings
+[INFO] [1794607800.402967149] [slam_follower_node]:    tag 3: (+1.544, +0.993) std 3.8/3.5 cm, 11 sightings
+[INFO] [1794607800.404948491] [slam_follower_node]:    tag 4: (+0.819, +1.784) std 10.3/2.4 cm, 10 sightings
+[INFO] [1794607800.406844368] [slam_follower_node]:    tag 5: (-0.115, +1.841) std 6.3/3.8 cm, 9 sightings
+[INFO] [1794607800.408729255] [slam_follower_node]:    tag 6: (-0.852, +1.040) std 4.6/5.5 cm, 11 sightings
+[INFO] [1794607800.410861790] [slam_follower_node]:    tag 7: (-0.838, +0.223) std 4.0/5.6 cm, 10 sightings
+[INFO] [1794607800.412895162] [slam_follower_node]:    tag 0: (-0.087, -0.647) std 5.9/3.7 cm, 11 sightings
+[INFO] [1794607800.415930428] [slam_follower_node]: === loop 3, point 1/8: (0.457, 0.0)
+[INFO] [1794607800.418272905] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607802.615163687] [slam_follower_node]:    tag 2 (7 frames) at f=1.52 l=+0.34 m: updated (Mahalanobis 2.8, innovation +12.8/-44.8 cm -15.4 deg)
+[INFO] [1794607802.617940681] [slam_follower_node]:    pose (+0.068, +0.052,   -6.4 deg) std 3.7/4.8 cm 2.3 deg, 7 landmarks
+[INFO] [1794607802.620400914] [slam_follower_node]:  drive +39.3 cm  (point 39 cm away)
+[INFO] [1794607806.070584012] [slam_follower_node]:    tag 2 (7 frames) at f=1.11 l=+0.29 m: updated (Mahalanobis 0.1, innovation +1.5/-0.8 cm +0.4 deg)
+[INFO] [1794607806.074581695] [slam_follower_node]:    pose (+0.451, +0.017,   -3.8 deg) std 3.4/3.7 cm 2.3 deg, 7 landmarks
+[INFO] [1794607806.078257671] [slam_follower_node]: === loop 3, point 2/8: (0.78, 0.323)
+[INFO] [1794607806.080198545] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607808.301075810] [slam_follower_node]:    tag 2 (9 frames) at f=1.09 l=-0.39 m: updated (Mahalanobis 1.4, innovation -4.3/-23.2 cm -10.6 deg)
+[INFO] [1794607808.302763932] [slam_follower_node]:    tag 3 (9 frames) at f=1.44 l=+0.33 m: updated (Mahalanobis 0.4, innovation +0.9/+3.7 cm +0.7 deg)
+[INFO] [1794607808.304821314] [slam_follower_node]:    pose (+0.453, +0.018,  +29.6 deg) std 3.0/3.4 cm 2.2 deg, 7 landmarks
+[INFO] [1794607808.307183998] [slam_follower_node]:  turn +13.5 deg  (point 45 cm away)
+[INFO] [1794607810.359017732] [slam_follower_node]:    tag 3 (7 frames) at f=1.47 l=-0.17 m: updated (Mahalanobis 1.1, innovation +0.3/-17.8 cm -7.7 deg)
+[INFO] [1794607810.361367188] [slam_follower_node]:    pose (+0.453, +0.017,  +48.2 deg) std 3.0/3.3 cm 2.5 deg, 7 landmarks
+[INFO] [1794607810.364194961] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607813.224627379] [slam_follower_node]:    tag 3 (8 frames) at f=1.20 l=-0.19 m: updated (Mahalanobis 0.0, innovation -0.4/+0.8 cm -0.1 deg)
+[INFO] [1794607813.233098877] [slam_follower_node]:    pose (+0.619, +0.206,  +49.5 deg) std 3.0/3.1 cm 2.3 deg, 7 landmarks
+[INFO] [1794607813.237959709] [slam_follower_node]:  turn -13.6 deg  (point 20 cm away)
+[INFO] [1794607815.246397293] [slam_follower_node]:    tag 3 (8 frames) at f=1.21 l=+0.13 m: updated (Mahalanobis 0.2, innovation -0.8/+6.1 cm +2.5 deg)
+[INFO] [1794607815.248808830] [slam_follower_node]:    pose (+0.620, +0.207,  +34.6 deg) std 2.9/3.0 cm 2.5 deg, 7 landmarks
+[INFO] [1794607815.251200732] [slam_follower_node]:  drive +19.8 cm  (point 20 cm away)
+[INFO] [1794607817.890289055] [slam_follower_node]:    tag 3 (9 frames) at f=1.01 l=+0.11 m: updated (Mahalanobis 0.0, innovation -0.3/+0.4 cm +0.1 deg)
+[INFO] [1794607817.893478744] [slam_follower_node]:    pose (+0.782, +0.321,  +35.7 deg) std 3.0/2.8 cm 2.3 deg, 7 landmarks
+[INFO] [1794607817.896933789] [slam_follower_node]: === loop 3, point 3/8: (0.78, 0.78)
+[INFO] [1794607817.899479905] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607820.116042761] [slam_follower_node]:    tag 3 (8 frames) at f=0.91 l=-0.44 m: updated (Mahalanobis 1.0, innovation -6.2/-15.4 cm -8.3 deg)
+[INFO] [1794607820.119956698] [slam_follower_node]:    tag 4 (8 frames) at f=1.34 l=+0.63 m: updated (Mahalanobis 0.8, innovation -1.4/+8.8 cm +1.7 deg)
+[INFO] [1794607820.123143574] [slam_follower_node]:    pose (+0.786, +0.323,  +66.3 deg) std 2.9/2.6 cm 2.2 deg, 7 landmarks
+[INFO] [1794607820.125614120] [slam_follower_node]:  turn +24.5 deg  (point 46 cm away)
+[INFO] [1794607822.329092528] [slam_follower_node]:    tag 4 (8 frames) at f=1.48 l=-0.03 m: updated (Mahalanobis 0.2, innovation +1.7/-10.1 cm -3.5 deg)
+[INFO] [1794607822.331584896] [slam_follower_node]:    pose (+0.786, +0.321,  +92.2 deg) std 2.9/2.5 cm 2.8 deg, 7 landmarks
+[INFO] [1794607822.334671255] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607825.203360360] [slam_follower_node]:    tag 4 (9 frames) at f=1.22 l=-0.03 m: updated (Mahalanobis 0.2, innovation +0.1/+2.6 cm +2.2 deg)
+[INFO] [1794607825.207295285] [slam_follower_node]:    pose (+0.776, +0.571,  +93.0 deg) std 3.1/2.8 cm 2.6 deg, 7 landmarks
+[INFO] [1794607825.210587159] [slam_follower_node]:  drive +20.9 cm  (point 21 cm away)
+[INFO] [1794607827.898093022] [slam_follower_node]:    tag 4 (9 frames) at f=1.01 l=-0.06 m: updated (Mahalanobis 0.1, innovation +0.8/+1.1 cm +1.6 deg)
+[INFO] [1794607827.901865036] [slam_follower_node]:    pose (+0.763, +0.776,  +94.0 deg) std 3.5/2.8 cm 2.6 deg, 7 landmarks
+[INFO] [1794607827.906146200] [slam_follower_node]: === loop 3, point 4/8: (0.457, 1.103)
+[INFO] [1794607827.909320473] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607830.125308725] [slam_follower_node]:    tag 5 (8 frames) at f=1.37 l=+0.20 m: updated (Mahalanobis 0.3, innovation +1.9/-12.6 cm -5.6 deg)
+[INFO] [1794607830.132703279] [slam_follower_node]:    pose (+0.761, +0.778, +121.5 deg) std 3.5/2.7 cm 2.6 deg, 7 landmarks
+[INFO] [1794607830.137974203] [slam_follower_node]:  turn +11.6 deg  (point 44 cm away)
+[INFO] [1794607832.175617016] [slam_follower_node]:    tag 5 (8 frames) at f=1.39 l=-0.08 m: updated (Mahalanobis 0.0, innovation -0.2/-3.0 cm -1.1 deg)
+[INFO] [1794607832.179001856] [slam_follower_node]:    pose (+0.761, +0.778, +133.1 deg) std 3.5/2.7 cm 2.6 deg, 7 landmarks
+[INFO] [1794607832.181894523] [slam_follower_node]:  drive +25.0 cm  (point 44 cm away)
+[INFO] [1794607835.046866551] [slam_follower_node]:    tag 5 (8 frames) at f=1.13 l=-0.11 m: updated (Mahalanobis 0.0, innovation -0.3/+0.1 cm +0.3 deg)
+[INFO] [1794607835.049301994] [slam_follower_node]:    pose (+0.587, +0.959, +134.5 deg) std 3.8/2.8 cm 2.4 deg, 7 landmarks
+[INFO] [1794607835.052504651] [slam_follower_node]:  drive +19.4 cm  (point 19 cm away)
+[INFO] [1794607837.684263640] [slam_follower_node]:    tag 5 (7 frames) at f=0.93 l=-0.11 m: updated (Mahalanobis 0.2, innovation -0.7/+1.5 cm +1.3 deg)
+[INFO] [1794607837.688496682] [slam_follower_node]:    pose (+0.449, +1.100, +135.3 deg) std 4.0/2.8 cm 2.3 deg, 7 landmarks
+[INFO] [1794607837.692227447] [slam_follower_node]: === loop 3, point 5/8: (0.0, 1.103)
+[INFO] [1794607837.694127438] [slam_follower_node]:  turn +25.0 deg  (point 45 cm away)
+[INFO] [1794607839.907561196] [slam_follower_node]:    tag 6 (9 frames) at f=1.30 l=+0.25 m: updated (Mahalanobis 2.6, innovation +9.4/-29.9 cm -14.9 deg)
+[INFO] [1794607839.909686961] [slam_follower_node]:    pose (+0.445, +1.100, +170.8 deg) std 4.0/2.8 cm 2.5 deg, 7 landmarks
+[INFO] [1794607839.912016522] [slam_follower_node]:  turn +8.9 deg  (point 44 cm away)
+[INFO] [1794607841.923171746] [slam_follower_node]:    tag 6 (8 frames) at f=1.32 l=-0.02 m: updated (Mahalanobis 0.7, innovation +0.8/-9.7 cm -2.2 deg)
+[INFO] [1794607841.928575896] [slam_follower_node]:    pose (+0.445, +1.100, -177.4 deg) std 4.0/2.8 cm 2.5 deg, 7 landmarks
+[INFO] [1794607841.931356535] [slam_follower_node]:  drive +25.0 cm  (point 45 cm away)
+[INFO] [1794607844.790324212] [slam_follower_node]:    tag 6 (9 frames) at f=1.06 l=-0.04 m: updated (Mahalanobis 0.1, innovation -0.1/+0.6 cm +2.0 deg)
+[INFO] [1794607844.792470497] [slam_follower_node]:    pose (+0.195, +1.086, -176.1 deg) std 4.2/2.9 cm 2.3 deg, 7 landmarks
+[INFO] [1794607844.794633709] [slam_follower_node]:  turn -8.9 deg  (point 20 cm away)
+[INFO] [1794607846.769044901] [slam_follower_node]:    tag 6 (9 frames) at f=1.04 l=+0.19 m: updated (Mahalanobis 0.7, innovation -1.0/+7.9 cm +3.2 deg)
+[INFO] [1794607846.771152334] [slam_follower_node]:    pose (+0.195, +1.087, +172.1 deg) std 4.1/2.9 cm 2.5 deg, 7 landmarks
+[INFO] [1794607846.773369294] [slam_follower_node]:  drive +19.5 cm  (point 20 cm away)
+[INFO] [1794607849.402305145] [slam_follower_node]:    tag 6 (7 frames) at f=0.85 l=+0.17 m: updated (Mahalanobis 0.1, innovation -0.2/+0.7 cm -1.5 deg)
+[INFO] [1794607849.406020234] [slam_follower_node]:    pose (+0.001, +1.112, +173.1 deg) std 4.2/3.1 cm 2.3 deg, 7 landmarks
+[INFO] [1794607849.409863027] [slam_follower_node]: === loop 3, point 6/8: (-0.323, 0.78)
+[INFO] [1794607849.411719114] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607851.621371353] [slam_follower_node]:    tag 6 (9 frames) at f=0.83 l=-0.24 m: updated (Mahalanobis 0.4, innovation -2.3/-6.6 cm -2.0 deg)
+[INFO] [1794607851.623180045] [slam_follower_node]:    tag 7 (9 frames) at f=1.10 l=+0.53 m: updated (Mahalanobis 0.0, innovation -0.4/+0.1 cm +1.3 deg)
+[INFO] [1794607851.626091202] [slam_follower_node]:    pose (-0.002, +1.112, -160.2 deg) std 4.1/3.1 cm 2.2 deg, 7 landmarks
+[INFO] [1794607851.628909705] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607853.846614524] [slam_follower_node]:    tag 7 (8 frames) at f=1.20 l=+0.03 m: updated (Mahalanobis 0.5, innovation -2.1/-4.8 cm -0.3 deg)
+[INFO] [1794607853.849282980] [slam_follower_node]:    pose (-0.003, +1.111, -135.7 deg) std 4.1/3.1 cm 2.6 deg, 7 landmarks
+[INFO] [1794607853.851653946] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607856.695907629] [slam_follower_node]:    tag 7 (9 frames) at f=0.95 l=+0.02 m: updated (Mahalanobis 0.6, innovation -2.2/+2.2 cm +2.9 deg)
+[INFO] [1794607856.698824775] [slam_follower_node]:    pose (-0.186, +0.932, -135.0 deg) std 3.9/3.5 cm 2.4 deg, 7 landmarks
+[INFO] [1794607856.701642393] [slam_follower_node]:  drive +20.4 cm  (point 20 cm away)
+[INFO] [1794607859.361280411] [slam_follower_node]:    tag 7 (8 frames) at f=0.75 l=+0.01 m: updated (Mahalanobis 0.2, innovation -0.6/+1.1 cm +1.9 deg)
+[INFO] [1794607859.363460341] [slam_follower_node]:    pose (-0.332, +0.785, -134.1 deg) std 3.8/3.9 cm 2.3 deg, 7 landmarks
+[INFO] [1794607859.367105798] [slam_follower_node]: === loop 3, point 7/8: (-0.323, 0.323)
+[INFO] [1794607859.369281770] [slam_follower_node]:  turn +25.0 deg  (point 46 cm away)
+[INFO] [1794607861.571201449] [slam_follower_node]:    tag 0 (8 frames) at f=1.28 l=+0.63 m: updated (Mahalanobis 0.6, innovation +6.5/-14.7 cm -6.1 deg)
+[INFO] [1794607861.574591705] [slam_follower_node]:    pose (-0.328, +0.783, -106.0 deg) std 3.7/3.9 cm 2.9 deg, 7 landmarks
+[INFO] [1794607861.579434675] [slam_follower_node]:  turn +16.7 deg  (point 46 cm away)
+[INFO] [1794607863.685897380] [slam_follower_node]:    tag 0 (9 frames) at f=1.42 l=+0.05 m: updated (Mahalanobis 2.1, innovation +1.4/-23.6 cm -8.9 deg)
+[INFO] [1794607863.691196377] [slam_follower_node]:    pose (-0.327, +0.780,  -82.3 deg) std 3.7/3.8 cm 3.0 deg, 7 landmarks
+[INFO] [1794607863.694268466] [slam_follower_node]:  turn -7.2 deg  (point 46 cm away)
+[INFO] [1794607865.639945345] [slam_follower_node]:    tag 0 (9 frames) at f=1.38 l=+0.37 m: updated (Mahalanobis 1.7, innovation -3.6/+14.7 cm +6.6 deg)
+[INFO] [1794607865.641523941] [slam_follower_node]:    pose (-0.327, +0.779,  -94.2 deg) std 3.7/3.8 cm 3.0 deg, 7 landmarks
+[INFO] [1794607865.643302738] [slam_follower_node]:  drive +25.0 cm  (point 46 cm away)
+[INFO] [1794607868.493436501] [slam_follower_node]:    tag 0 (9 frames) at f=1.14 l=+0.31 m: updated (Mahalanobis 0.0, innovation -0.6/-0.7 cm +0.2 deg)
+[INFO] [1794607868.496199798] [slam_follower_node]:    pose (-0.342, +0.528,  -92.6 deg) std 3.2/4.1 cm 2.8 deg, 7 landmarks
+[INFO] [1794607868.498674459] [slam_follower_node]:  turn +7.8 deg  (point 21 cm away)
+[INFO] [1794607870.491906686] [slam_follower_node]:    tag 0 (8 frames) at f=1.18 l=+0.08 m: updated (Mahalanobis 1.0, innovation +0.5/-9.7 cm -4.0 deg)
+[INFO] [1794607870.494123855] [slam_follower_node]:    pose (-0.341, +0.527,  -81.5 deg) std 3.2/4.1 cm 3.0 deg, 7 landmarks
+[INFO] [1794607870.496549194] [slam_follower_node]:  drive +20.4 cm  (point 20 cm away)
+[INFO] [1794607873.170303397] [slam_follower_node]:    tag 0 (7 frames) at f=0.96 l=+0.05 m: updated (Mahalanobis 0.2, innovation -1.3/-1.1 cm +0.3 deg)
+[INFO] [1794607873.172493744] [slam_follower_node]:    pose (-0.307, +0.321,  -80.0 deg) std 3.0/4.1 cm 2.8 deg, 7 landmarks
+[INFO] [1794607873.182630139] [slam_follower_node]: === loop 3, point 8/8: (0.0, 0.0)
+[INFO] [1794607873.184643096] [slam_follower_node]:  turn +25.0 deg  (point 44 cm away)
+[INFO] [1794607875.390542430] [slam_follower_node]:    pose (-0.307, +0.321,  -57.5 deg) std 3.0/4.1 cm 10.3 deg, 7 landmarks  (no tag; camera 9, apriltag 9 frames)
+[INFO] [1794607875.393694674] [slam_follower_node]:  turn +11.3 deg  (point 44 cm away)
+[INFO] [1794607877.447913665] [slam_follower_node]:    tag 2 (9 frames) at f=1.76 l=+0.73 m: updated (Mahalanobis 11.4, innovation +41.4/-59.6 cm -2.0 deg)
+[INFO] [1794607877.451323505] [slam_follower_node]:    pose (-0.289, +0.325,  -26.4 deg) std 2.9/4.1 cm 2.1 deg, 7 landmarks
+[INFO] [1794607877.455864662] [slam_follower_node]:  turn -21.9 deg  (point 44 cm away)
+[INFO] [1794607879.555099893] [slam_follower_node]:    pose (-0.289, +0.325,  -46.1 deg) std 2.9/4.1 cm 9.1 deg, 7 landmarks  (no tag; camera 8, apriltag 9 frames)
+[INFO] [1794607879.559557511] [slam_follower_node]:  drive +25.0 cm  (point 44 cm away)
+[INFO] [1794607882.423530710] [slam_follower_node]:    pose (-0.114, +0.147,  -44.6 deg) std 4.2/4.8 cm 9.2 deg, 7 landmarks  (no tag; camera 8, apriltag 8 frames)
+[INFO] [1794607882.427692868] [slam_follower_node]:  turn -7.6 deg  (point 19 cm away)
+[INFO] [1794607884.394643462] [slam_follower_node]:    pose (-0.114, +0.147,  -51.5 deg) std 4.2/4.8 cm 10.2 deg, 7 landmarks  (no tag; camera 9, apriltag 9 frames)
+[INFO] [1794607884.404256645] [slam_follower_node]:  drive +18.6 cm  (point 19 cm away)
+[INFO] [1794607886.991206708] [slam_follower_node]:    pose (+0.003, +0.003,  -50.4 deg) std 6.1/6.1 cm 10.2 deg, 7 landmarks  (no tag; camera 8, apriltag 7 frames)
+[INFO] [1794607886.999098643] [slam_follower_node]: === loop 3 done. Map:
+[INFO] [1794607887.000989937] [slam_follower_node]:    tag 2: (+1.573, +0.228) std 2.3/2.5 cm, 15 sightings
+[INFO] [1794607887.002763318] [slam_follower_node]:    tag 3: (+1.558, +0.985) std 3.5/3.1 cm, 17 sightings
+[INFO] [1794607887.004702579] [slam_follower_node]:    tag 4: (+0.774, +1.789) std 6.5/2.2 cm, 14 sightings
+[INFO] [1794607887.006572259] [slam_follower_node]:    tag 5: (-0.116, +1.847) std 5.6/3.6 cm, 13 sightings
+[INFO] [1794607887.008369233] [slam_follower_node]:    tag 6: (-0.850, +1.057) std 3.8/5.1 cm, 17 sightings
+[INFO] [1794607887.010160687] [slam_follower_node]:    tag 7: (-0.841, +0.244) std 3.3/5.1 cm, 14 sightings
+[INFO] [1794607887.011935838] [slam_follower_node]:    tag 0: (-0.056, -0.623) std 4.9/3.4 cm, 17 sightings
+[INFO] [1794607887.017463787] [slam_follower_node]: Done. Driven 10.37 m, turned 1076 deg, 255 s
+[INFO] [1794607887.019391069] [slam_follower_node]:    tag 2: (+1.573, +0.228) std 2.3/2.5 cm, 15 sightings
+[INFO] [1794607887.021415015] [slam_follower_node]:    tag 3: (+1.558, +0.985) std 3.5/3.1 cm, 17 sightings
+[INFO] [1794607887.023627549] [slam_follower_node]:    tag 4: (+0.774, +1.789) std 6.5/2.2 cm, 14 sightings
+[INFO] [1794607887.025641860] [slam_follower_node]:    tag 5: (-0.116, +1.847) std 5.6/3.6 cm, 13 sightings
+[INFO] [1794607887.026541466] [slam_follower_node]:    tag 6: (-0.850, +1.057) std 3.8/5.1 cm, 17 sightings
+[INFO] [1794607887.027253163] [slam_follower_node]:    tag 7: (-0.841, +0.244) std 3.3/5.1 cm, 14 sightings
+[INFO] [1794607887.027940380] [slam_follower_node]:    tag 0: (-0.056, -0.623) std 4.9/3.4 cm, 17 sightings
+[INFO] [1794607887.029362366] [slam_follower_node]: Log: /home/ubuntu/hw3_runs/slam_20261113_220705.jsonl

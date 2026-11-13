@@ -10,12 +10,12 @@ HW2 is finished; see "HW2 (done)" at the end.
 | Item | State |
 |---|---|
 | Arena and ground truth | Done. Tags were placed at the planned positions, and the user says those **are** the measured ground truth (`ground_truth_hw3.txt`). |
-| SLAM code (v2) | Done and pushed. **Turn fix written and pushed:** 25° turn pieces, TURN_GAIN 0.9, TURN_STD_FRACTION 0.35. Needs an octagon run on the robot. |
+| SLAM code | **v2 on `main` is final for the report:** 25° turn pieces, TURN_GAIN 0.9, TURN_STD_FRACTION 0.35. v3 (turn gains learned online, start calibration, lost-robot stop) is on the **local** branch `hw3-v3`, not pushed and never run on the robot. |
 | Square run, for the report | **Done: square run 3.** Saved in `report_hw3/square_run3/`. Figures regenerated with the new filter: 9.4 cm mean landmark error (5.5 cm best-fit), 0 recoveries. |
-| Octagon run | **Failing.** The robot loses its heading during loop 1 and drives out of the arena. This is the current task. |
+| Octagon run, for the report | **Done: octagon run 4** (`bundle_20261113_221216`, v2, `TURN_SCALE=1.0 DRIVE_SCALE=0.92 DRIFT=6`). Saved in `report_hw3/octagon_run4/`: 3 loops, 0 rejections, 7 of 8 tags. Error after loops 1/2/3: 19.2 / 13.8 / **14.0 cm** against the X, 10.8 / 4.5 / **3.8 cm** best-fit. The uniform ~12 cm shift is start placement: the fitted start is (0.874, 0.602) against the X at (0.991, 0.667). **Ask the user where the X really is.** |
 | Noise test | Done: `runs/bundle_20261113_053954/`. |
 | Lens-to-axle distance | **Still not given by the user.** `CAMERA_OFFSET = 0.10` m is a guess. The replay can correct it afterwards with `--camera-offset`. |
-| Report | **Kumaran (teammate) writes it** after all runs are done. Give him the data folders, figures and the method notes below. |
+| Report | **Kumaran (teammate) writes it** from `report_hw3/square_run3/` and `report_hw3/octagon_run4/`. Give him the data folders, figures and the method notes below. |
 | Video | The user films the runs. The report needs an unlisted YouTube link. |
 | Code zip | Not built yet. Same recipe as HW2 (see "HW2 (done)"), plus the HW3 files. |
 

@@ -1,0 +1,17 @@
+report_hw3/octagon_run4/slam_20261113_220705.jsonl: 106 motions, 107 looks, 7 landmarks found: [0, 2, 3, 4, 5, 6, 7]
+updates 100, rejected 0, new 7
+lost-robot recoveries 0
+after loop 1: mean error 19.2 cm (measured start pose), 10.8 cm (best-fit alignment), mean std 16.1 cm
+after loop 2: mean error 13.8 cm (measured start pose), 4.5 cm (best-fit alignment), mean std 4.8 cm
+after loop 3: mean error 14.0 cm (measured start pose), 3.8 cm (best-fit alignment), mean std 4.0 cm
+
+landmark  est x,y (arena)      truth x,y        error   std x/y (cm)
+    0    (0.935, 0.044)   (0.813, 0.000)    13.0 cm   4.9/3.4
+    2    (2.564, 0.895)   (2.438, 0.813)    15.1 cm   2.3/2.5
+    3    (2.549, 1.652)   (2.438, 1.626)    11.4 cm   3.5/3.1
+    4    (1.765, 2.456)   (1.626, 2.438)    14.0 cm   6.5/2.2
+    5    (0.875, 2.514)   (0.813, 2.438)     9.8 cm   5.6/3.6
+    6    (0.141, 1.724)   (0.000, 1.626)    17.2 cm   3.8/5.1
+    7    (0.150, 0.911)   (0.000, 0.813)    17.9 cm   3.3/5.1
+
+wrote report_hw3/octagon_run4/figures/octagon_map.png, _landmarks.png, _loops.png, _summary.json
