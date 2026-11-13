@@ -1,0 +1,8 @@
+as run: turn x0.80 drive x0.92 drift +6.0 deg/m, mean NIS 0.91
+  NIS 0.87: robot turns x1.00, drives x0.96 of the logged motion, drift +4.0 deg/m, recoveries 0
+  NIS 0.89: robot turns x0.95, drives x0.96 of the logged motion, drift +4.0 deg/m, recoveries 0
+  NIS 0.89: robot turns x1.00, drives x0.96 of the logged motion, drift +6.0 deg/m, recoveries 0
+  NIS 0.89: robot turns x1.00, drives x1.00 of the logged motion, drift +4.0 deg/m, recoveries 0
+  NIS 0.90: robot turns x1.05, drives x0.96 of the logged motion, drift +4.0 deg/m, recoveries 0
+
+next run: TURN_SCALE=0.80 DRIVE_SCALE=0.88 DRIFT=4

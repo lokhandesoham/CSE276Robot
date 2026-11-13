@@ -1,0 +1,12 @@
+# HW3 ground-truth landmark map: id, x (m), y (m), measured with a tape in the ARENA frame
+# (origin bottom-left corner of the 8 ft square, +x along the bottom edge, +y up the left edge).
+# Used ONLY by tools/slam_replay.py on the Mac to score the SLAM map. The robot never reads it.
+# PLANNED positions below: replace with the measured ones.
+0, 0.813, 0.000
+1, 1.626, 0.000
+2, 2.438, 0.813
+3, 2.438, 1.626
+4, 1.626, 2.438
+5, 0.813, 2.438
+6, 0.000, 1.626
+7, 0.000, 0.813

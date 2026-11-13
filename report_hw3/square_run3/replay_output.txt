@@ -1,0 +1,17 @@
+report_hw3/square_run3/slam_20261113_062025.jsonl: 101 motions, 102 looks, 7 landmarks found: [0, 2, 3, 4, 5, 6, 7]
+updates 101, rejected 0, new 7
+lost-robot recoveries 0
+after loop 1: mean error 14.7 cm (measured start pose), 6.9 cm (best-fit alignment), mean std 18.3 cm
+after loop 2: mean error 5.6 cm (measured start pose), 4.5 cm (best-fit alignment), mean std 5.1 cm
+after loop 3: mean error 7.0 cm (measured start pose), 4.9 cm (best-fit alignment), mean std 4.4 cm
+
+landmark  est x,y (arena)      truth x,y        error   std x/y (cm)
+    0    (0.917, -0.047)   (0.813, 0.000)    11.4 cm   4.9/4.0
+    2    (2.477, 0.807)   (2.438, 0.813)     3.9 cm   2.2/2.4
+    3    (2.449, 1.589)   (2.438, 1.626)     3.8 cm   3.1/2.9
+    4    (1.569, 2.397)   (1.626, 2.438)     7.0 cm   6.5/2.2
+    5    (0.678, 2.415)   (0.813, 2.438)    13.7 cm   6.2/4.3
+    6    (-0.019, 1.574)   (0.000, 1.626)     5.5 cm   4.1/6.6
+    7    (0.022, 0.786)   (0.000, 0.813)     3.5 cm   3.2/6.7
+
+wrote report_hw3/square_run3/figures/square_map.png, _landmarks.png, _loops.png, _summary.json

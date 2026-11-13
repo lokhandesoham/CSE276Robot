@@ -1,0 +1,7 @@
+# HW3 square path, n = 3 ft (0.914 m), relative to the start pose (x forward, y left).
+# Start mark: arena (0.76, 0.76) facing +x. Counter-clockwise (left turns).
+0.000, 0.000
+0.914, 0.000
+0.914, 0.914
+0.000, 0.914
+0.000, 0.000

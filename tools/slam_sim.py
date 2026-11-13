@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.join(ROOT, 'robot_control'))
 from robot_control.ekf_slam import EkfSlam, fuse_look, load_path, next_motion, wrap_angle  # noqa: E402
 
 FACING = {0: 90, 1: 90, 2: 180, 3: 180, 4: -90, 5: -90, 6: 0, 7: 0}  # planned layout
-START = {'square': (0.76, 0.76, 0.0), 'octagon': (0.99, 0.67, 0.0)}
+START = {'square': (0.762, 0.762, 0.0), 'octagon': (0.991, 0.667, 0.0)}
 HALF_FOV = math.radians(30.0)
 MAX_VIEW_ANGLE = math.radians(65.0)
 FRAMES_PER_LOOK = 8
@@ -43,6 +43,8 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--turn-bias', type=float, default=0.03, help='true turn = cmd * (1 + bias)')
     ap.add_argument('--drive-bias', type=float, default=-0.02)
+    ap.add_argument('--turn-spread', type=float, default=0.0,
+                    help='each turn x uniform(1-spread, 1+spread): erratic turns')
     a = ap.parse_args()
     rng = np.random.default_rng(a.seed)
     gt = load_gt(os.path.join(ROOT, 'ground_truth_hw3.txt'))
@@ -82,7 +84,9 @@ def main():
 
     def move(kind, value):
         if kind == 'turn':
-            true[2] = wrap_angle(true[2] + value * (1 + a.turn_bias) + rng.normal(0, math.radians(1.5)))
+            true[2] = wrap_angle(true[2] + value * (1 + a.turn_bias)
+                                 * rng.uniform(1 - a.turn_spread, 1 + a.turn_spread)
+                                 + rng.normal(0, math.radians(1.5)))
             slam.predict_turn(value)
         else:
             d = value * (1 + a.drive_bias) + rng.normal(0, 0.01)
