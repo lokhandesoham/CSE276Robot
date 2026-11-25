@@ -1,0 +1,27 @@
+# HW4 landmark map: id, x (m), y (m), facing_deg, measured with a tape in the ARENA frame
+# (origin bottom-left corner of the 8 ft square, +x along the bottom edge, +y up the left edge).
+# Read by robot_control.localization.load_landmarks. The robot IS given this map (known-map
+# localization, not SLAM): measure it carefully before driving.
+#
+# Tags 0-7: the 8 edge tags, clustered in pairs near each of the 4 corners (per the HW4 figure),
+# each 12 in (0.3048 m) in from its corner along the wall. PLANNED positions below -- remeasure
+# once taped down.
+0, 0.3048, 0.0000, 90      # bottom wall, near bottom-left corner
+1, 2.1336, 0.0000, 90      # bottom wall, near bottom-right corner
+2, 2.4384, 0.3048, 180     # right wall, near bottom-right corner
+3, 2.4384, 2.1336, 180     # right wall, near top-right corner
+4, 2.1336, 2.4384, 270     # top wall, near top-right corner
+5, 0.3048, 2.4384, 270     # top wall, near top-left corner
+6, 0.0000, 2.1336, 0       # left wall, near top-left corner
+7, 0.0000, 0.3048, 0       # left wall, near bottom-left corner
+#
+# Tags 8-11: no physical box -- these 4 tags themselves mark an 18 in (0.4572 m) virtual-obstacle
+# square centered at arena-center (4 ft, 4 ft) = (1.2192, 1.2192) m, spanning 39-57 in on each
+# axis (same footprint tools/planners.py already plans around). Each tag stands at the midpoint
+# of one side of that square, facing straight outward (away from the square's center) along a
+# cardinal direction. Mount each on a small stand/post. PLANNED positions below -- remeasure once
+# placed.
+8, 1.4478, 1.2192, 0       # east side midpoint, faces east (+x, outward)
+9, 1.2192, 1.4478, 90      # north side midpoint, faces north (+y, outward)
+10, 0.9906, 1.2192, 180    # west side midpoint, faces west (-x, outward)
+11, 1.2192, 0.9906, 270    # south side midpoint, faces south (-y, outward)

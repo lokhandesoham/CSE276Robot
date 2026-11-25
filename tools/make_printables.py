@@ -22,7 +22,7 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 OUT_DIR = REPO / 'printables'
 CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
-TAG_FILES = [REPO / f'tag36_11_0000{i}.png' for i in range(3)]
+TAG_FILES = [REPO / f'tag36_11_{i:05d}.png' for i in range(12)]
 TAG_CELLS = 10           # tag36h11 image: 1 white border cell + 8 black-square cells + 1 white
 BLACK_SQUARE_MM = 150.0  # edge of the black square; this is the "size" apriltag_ros needs
 CELL_MM = BLACK_SQUARE_MM / 8
