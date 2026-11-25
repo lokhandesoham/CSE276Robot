@@ -2,10 +2,11 @@
 
 Last updated 24 Nov 2026 (Pacific). HW3 is below, kept for reference; HW4 is the active work.
 
-**HW4 deadline: 25 Nov 2026, before midnight** (`CSE276A_26_HW4.pdf`). **Current focus:** physical
-setup (central obstacle + 4 new tags), the two robot runs, then report + zip. HW3's deadline (13
-Nov) already passed; HW3's own report fixes (video link, code zip) are still open separately, see
-its section below.
+**HW4 deadline: 25 Nov 2026, before midnight** (`CSE276A_26_HW4.pdf`). **Current focus: debug why
+the first robot run (`./hw4_tmux.sh safety`) didn't drive** — see "Current blocker" below; this is
+the single thing standing between here and two filmed runs + report + zip. HW3's deadline (13 Nov)
+already passed; HW3's own report fixes (video link, code zip) are still open separately, see its
+section below.
 
 ## HW4: path planning in the 8x8 ft arena (reusing HW3's arena and HW2's known-map localization)
 HW4 is **localization with a known map**, not SLAM — it reuses `closed_loop_follower.py` /
@@ -17,23 +18,56 @@ needed, only a new offline planner. See the approved plan for full reasoning:
 | Item | State |
 |---|---|
 | Arena | Reusing HW3's 8x8 ft (2.438 m) square, but the 8 edge tags (ids 0-7) are **repositioned** per the HW4 figure: clustered in pairs near each of the 4 corners (12 in in from the corner along each wall), not at the HW3 quarter-points. |
-| Central "obstacle" | **No physical box.** The user chose to mark the obstacle with 4 tags (8-11), one at the midpoint of each side of an 18 in (0.4572 m) virtual-obstacle square (within the assignment's 1x1-2x2 ft range), centered at arena-center (4 ft, 4 ft) = (1.2192, 1.2192) m, spanning 39-57 in on each axis, each facing straight outward along a cardinal direction (not diagonal). **Not yet physically placed.** The planner treats this square as blocked regardless of there being a real box there. |
-| New tags 8-11 | **Print `apriltags_8_11.pdf`** (repo root, user's preferred source for these 4 pages over `printables/apriltags.pdf` pages 9-12 — same tag36h11 ids 8-11, both decode-verified correct). Mount each on a small stand/post at its side-midpoint, facing straight outward (E/N/W/S). **Not yet printed/placed.** The PNGs backing `printables/apriltags.pdf` were generated with `cv2.aruco.generateImageMarker(..., borderBits=1)` + a 180° rotation to match the existing tags' bit layout (`tools/make_printables.py`, `TAG_FILES` now covers ids 0-11). |
-| `apriltag_ros/cfg/tags_36h11.yaml` | Updated to include ids 8-11, size 0.1435 (same as tags 0-7) as a placeholder. **Re-measure the actual printed black-square size of tags 8-11 after printing `apriltags_8_11.pdf`** (it may scale slightly differently from the original 0-7 print run) and update their `sizes` entries if it differs from 0.1435. **Needs `colcon build --packages-select apriltag_ros` on the robot**, not just `robot_control`, since this is a config file in that package. |
-| `landmarks_hw4.txt` | Rewritten: tags 0-7 at their new corner-clustered positions, tags 8-11 at the virtual-obstacle square's 4 side-midpoints, cardinal facing. **All 12 positions are planned, not measured** — remeasure every one once placed, the same way HW3's tags were. |
+| Central "obstacle" | **Placed.** No physical box — 4 tags (8-11) mark the midpoint of each side of an 18 in (0.4572 m) virtual-obstacle square (within the assignment's 1x1-2x2 ft range), centered at arena-center (4 ft, 4 ft) = (1.2192, 1.2192) m, spanning 39-57 in on each axis, each facing straight outward along a cardinal direction (not diagonal). The planner treats this square as blocked regardless of there being a real box there. |
+| New tags 8-11 | **Printed and placed.** The user printed `apriltags_8_11.pdf` (repo root); its 100 mm scale bar measured 94-96 mm, same scale factor as the original tags 0-7 print run, so **no change needed** to the 0.1435 m size already in the config. Mounted at each side-midpoint, facing straight outward (E/N/W/S). |
+| `apriltag_ros/cfg/tags_36h11.yaml` | Updated to include ids 8-11, size 0.1435 (confirmed correct per the print-scale check above). Robot must `colcon build --packages-select apriltag_ros` (not just `robot_control`) to pick this up. |
+| `landmarks_hw4.txt` | Tags 0-7 at their new corner-clustered positions, tags 8-11 at the virtual-obstacle square's 4 side-midpoints, cardinal facing. User placed everything at exactly these planned numbers with a tape, so this file should already be accurate — **not re-confirmed against a post-placement tape measurement**, worth double-checking if the debugging below doesn't turn up a software cause. |
 | `tools/planners.py` | **New, working.** Two planners sharing one obstacle/robot-radius model: max-safety (occupancy grid + BFS distance transform + Dijkstra weighted by `1/clearance`) and min-time/distance (visibility graph over the inflated obstacle's corners + Dijkstra). Verified end to end on the Mac (no ROS): `tools/.venv/bin/python tools/planners.py --start 0.4064 0.4064 45 --goal 2.032 2.032 45` writes `waypoints_hw4_safety.txt`, `waypoints_hw4_time.txt` and `report_hw4/figures/{safety,time}_plan.png`. |
 | Waypoints files | Generated at the repo root with start (16 in, 16 in, 45°) = (0.4064, 0.4064, 45°) and goal (80 in, 80 in, 45°) = (2.032, 2.032, 45°) — adjust and rerun `planners.py` if the real obstacle/start/goal differ from the plan once placed. **Important:** these files must stay pure `x, y, theta` lines with no `#` comments — `waypoint_follower.load_waypoints` (used by `closed_loop_follower`) does not strip comments, unlike `ekf_slam.load_path`. |
 | `hw4_tmux.sh` | **New**, modeled on `hw2_tmux.sh`: `./hw4_tmux.sh safety` or `./hw4_tmux.sh time`, same 4-pane camera/apriltag/motor/follower layout, logs to `~/hw4_runs/logs/`. |
-| Robot runs | **Not done yet.** Need one run per mode, each filmed, each measured against the planned goal with a tape. |
+| `hw4_bundle.sh` | **New**, modeled on `hw2_bundle.sh`/`hw3_bundle.sh`, not yet pushed/pulled onto the robot. Packs the newest `~/hw4_runs/logs/*/` folder plus the newest `~/hw2_runs/run_*.csv` (closed_loop_follower's CSV output path is unchanged from HW2) into `~/hw4_runs/bundle_<time>.tgz` and prints the `scp` command, same pattern as before. |
+| Robot runs | **First attempt failed.** `./hw4_tmux.sh safety` was run from the start X; the robot rotated in place and never drove, then the run stopped itself. See "Current blocker" below. |
 | Report (`report_hw4/`) | Figures directory created by `planners.py`; the report document itself is not started. |
 | Video / code zip | Not done. |
 
+## Current blocker: `./hw4_tmux.sh safety` rotated in place and stopped without driving
+This is almost certainly `closed_loop_follower`'s own `search()`/`NoTagError` path, not a crash:
+`go_to()` only drives after a tag fix; with none at the start it calls `search()`, which turns
+toward each map-predicted tag and then sweeps a full 360° in `SEARCH_STEP` (40°) pieces, re-looking
+after each turn. "Kept rotating and the run stopped" matches a **full sweep finding no usable tag**,
+which raises `NoTagError` and halts the motors — see `robot_control/closed_loop_follower.py`
+`search()`/`NoNoTagError` and the final `except NoTagError` block in `run()`.
+
+Geometrically the two nearest tags (0 at (12in,0in) facing N, 7 at (0in,12in) facing E) **should**
+both be inside the robot's detection cone from the (16in,16in) start — range ~0.43 m (above the
+0.30 m minimum) and within the required ~60° view-angle of each tag's face, by hand calculation
+against `localization.tag_view_turns`'s formula. So a full sweep finding nothing points at one of:
+1. **`/detections` not actually publishing** — check the apriltag pane's own console output in
+   the bundle (`follower.log`'s "Camera X fps, apriltag Y fps" line logged right after start; if
+   apriltag fps is ~0, the node isn't processing frames or crashed after the config edit).
+2. **`apriltag_ros` not rebuilt** after the `git pull` — `tags_36h11.yaml` changed (ids 8-11
+   added); if only `robot_control` was rebuilt, re-check this actually ran:
+   `colcon build --packages-select apriltag_ros robot_control` on the robot before launching.
+3. **Every sighting is being gated out as "rejected"** rather than there being no sighting at all
+   — look for `tag 0 (... frames): rejected (...)` / `tag 7 (...): rejected (...)` lines in
+   `follower.log`; a rejection (as opposed to silence) would point at a bad `landmarks_hw4.txt`
+   entry or the robot not actually being on/facing the marked start X, not a camera/config issue.
+4. Camera/mounting: tags 0-7 moved much closer to their walls' corners than HW3's quarter-points:
+   confirm they're still at the same lens height and not tilted/occluded by the new corner mounts.
+
 **Next steps for the new session**
-1. Place the obstacle, tape tags 8-11 to its faces, remeasure all 12 positions into `landmarks_hw4.txt`, rerun `tools/planners.py` with the real obstacle rectangle/start/goal if they differ from the plan's.
-2. Pull + `colcon build --packages-select apriltag_ros robot_control` on the robot, confirm tags 8-11 are detected.
-3. Run `./hw4_tmux.sh safety` then `./hw4_tmux.sh time` from the start X, filming each, measuring the true stop position.
+1. On the robot: `git pull` (to get `hw4_bundle.sh`, not yet present there), then
+   `~/ros2_ws/src/rubikpi_ros2/hw4_bundle.sh` right after the failed run (don't start a new run
+   first, or the "newest" log folder/CSV picked up will be the wrong one). Run the `scp` command
+   it prints to pull the bundle into `runs/` on the Mac, then open `follower.log` from it — that
+   log alone should say whether tags were seen-and-rejected vs. never seen, and the apriltag fps.
+2. Fix whatever the log points to (likely one of the 4 hypotheses above), confirm tags 8-11 (and
+   ideally all 12) detect cleanly with `ros2 topic echo /detections` before re-attempting a run.
+3. Re-run `./hw4_tmux.sh safety` then `./hw4_tmux.sh time` from the start X, filming each, measuring
+   the true stop position with a tape.
 4. Plot each run's CSV with `tools/plot_trajectory.py --waypoints waypoints_hw4_<mode>.txt --landmarks landmarks_hw4.txt`.
-5. Write the report (architecture, both representations/algorithms with motivation, the 4 figures, measured error, video links) and build the code zip (same recipe as HW2/HW3).
+5. Write the report (architecture, both representations/algorithms with motivation, the 4 figures,
+   measured error, video links) and build the code zip (same recipe as HW2/HW3).
 
 ## HW3 (reference; its own deadline already passed 13 Nov 2026)
 
